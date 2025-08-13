@@ -134,10 +134,10 @@ def process_inbox():
             )
             policy_id = cursor.lastrowid
 
-            # 4. Update request_queue with all IDs
+            # 4. Update request_queue (corrected - removed risk_type column)
             cursor.execute(
-                "INSERT INTO request_queue (filename, status, risk_type) VALUES (%s, %s, %s)",
-                (filename, 'processed', risk)
+                "INSERT INTO request_queue (filename, status) VALUES (%s, %s)",
+                (filename, 'processed')
             )
             
             conn.commit()
