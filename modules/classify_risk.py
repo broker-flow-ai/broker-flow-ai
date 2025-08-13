@@ -1,7 +1,8 @@
 import openai
 from config import OPENAI_API_KEY
 
-openai.api_key = OPENAI_API_KEY
+# Inizializza il client OpenAI
+client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 def classify_risk(text):
     prompt = f"""
@@ -18,8 +19,8 @@ def classify_risk(text):
     Respond with just the category.
     """
 
-    response = openai.Completion.create(
-        engine="gpt-3.5-turbo-instruct",
+    response = client.completions.create(
+        model="gpt-3.5-turbo-instruct",
         prompt=prompt,
         max_tokens=50
     )
