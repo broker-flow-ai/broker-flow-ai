@@ -1,0 +1,62 @@
+# BrokerFlow AI - docker-compose.yml
+
+version: '3.8'
+
+services:
+  # Main application
+  brokerflow:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=brokerflow
+      - MYSQL_PASSWORD=brokerflow123
+      - MYSQL_DATABASE=brokerflow_ai
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./inbox:/app/inbox
+      - ./output:/app/output
+      - ./templates:/app/templates
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # Database
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_USER=brokerflow
+      - MYSQL_PASSWORD=brokerflow123
+      - MYSQL_DATABASE=brokerflow_ai
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+
+  # Database management tool
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root123
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # Redis cache (for future use)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  db_data:

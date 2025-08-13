@@ -1,0 +1,271 @@
+# BrokerFlow AI - Configuration File
+
+# This file contains the main configuration settings for BrokerFlow AI
+# Copy this file to 'config.yaml' and modify as needed
+
+# System Settings
+system:
+  # Application name
+  name: "BrokerFlow AI"
+  
+  # Application version
+  version: "1.0.0"
+  
+  # Debug mode
+  debug: false
+  
+  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  log_level: "INFO"
+  
+  # Log file path
+  log_file: "logs/brokerflow.log"
+  
+  # Maximum file size for PDF processing (in MB)
+  max_file_size: 50
+
+# PDF Processing Settings
+pdf:
+  # OCR settings
+  ocr:
+    # Enable OCR for scanned PDFs
+    enabled: true
+    
+    # OCR language (3-letter code)
+    language: "ita"
+    
+    # OCR DPI for image conversion
+    dpi: 300
+    
+    # OCR timeout (in seconds)
+    timeout: 300
+  
+  # Text extraction settings
+  text_extraction:
+    # Minimum confidence for text extraction
+    min_confidence: 0.8
+    
+    # Enable table extraction
+    extract_tables: true
+    
+    # Enable image extraction
+    extract_images: false
+
+# AI Settings
+ai:
+  # OpenAI settings
+  openai:
+    # Model to use
+    model: "gpt-4"
+    
+    # Temperature for responses (0.0 to 1.0)
+    temperature: 0.7
+    
+    # Maximum tokens in response
+    max_tokens: 1000
+    
+    # Timeout for API calls (in seconds)
+    timeout: 60
+  
+  # Risk classification settings
+  classification:
+    # Minimum confidence for classification
+    min_confidence: 0.8
+    
+    # Enable fallback to manual classification
+    enable_fallback: true
+
+# Database Settings
+database:
+  # Database type (mysql, postgresql, sqlite)
+  type: "mysql"
+  
+  # Connection settings
+  connection:
+    host: "localhost"
+    port: 3306
+    username: "brokerflow"
+    password: "brokerflow123"
+    database: "brokerflow_ai"
+  
+  # Connection pool settings
+  pool:
+    min_connections: 5
+    max_connections: 20
+    timeout: 30
+
+# Email Settings
+email:
+  # SMTP settings
+  smtp:
+    host: "smtp.gmail.com"
+    port: 587
+    username: "your_email@gmail.com"
+    password: "your_app_password"
+    use_tls: true
+  
+  # Default email settings
+  defaults:
+    from_address: "no-reply@brokerflow.ai"
+    from_name: "BrokerFlow AI"
+  
+  # Email templates
+  templates:
+    quote: "templates/email_quote.html"
+    renewal: "templates/email_renewal.html"
+    error: "templates/email_error.html"
+
+# File Paths
+paths:
+  # Input directory for PDF files
+  inbox: "inbox/"
+  
+  # Output directory for processed files
+  output: "output/"
+  
+  # Templates directory
+  templates: "templates/"
+  
+  # Temporary directory
+  temp: "tmp/"
+  
+  # Archive directory
+  archive: "archive/"
+
+# Processing Settings
+processing:
+  # Maximum number of concurrent processes
+  max_concurrent: 5
+  
+  # Timeout for processing operations (in seconds)
+  timeout: 300
+  
+  # Retry settings
+  retry:
+    max_attempts: 3
+    delay: 5
+    backoff: 2
+
+# Web Interface Settings
+web:
+  # Server settings
+  server:
+    host: "0.0.0.0"
+    port: 8000
+  
+  # Security settings
+  security:
+    # Secret key for sessions
+    secret_key: "your_secret_key_here"
+    
+    # Session timeout (in minutes)
+    session_timeout: 60
+    
+    # Enable CSRF protection
+    csrf_protection: true
+
+# API Settings
+api:
+  # API version
+  version: "v1"
+  
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+  
+  # Authentication
+  authentication:
+    # JWT settings
+    jwt:
+      secret_key: "your_jwt_secret_key_here"
+      expiration_days: 30
+
+# Notification Settings
+notifications:
+  # Enable email notifications
+  email_enabled: true
+  
+  # Enable webhook notifications
+  webhook_enabled: true
+  
+  # Retry settings for notifications
+  retry:
+    max_attempts: 3
+    delay: 30
+
+# Backup Settings
+backup:
+  # Enable automatic backups
+  enabled: true
+  
+  # Backup schedule (cron format)
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  
+  # Backup retention (in days)
+  retention_days: 30
+  
+  # Backup directory
+  directory: "backups/"
+
+# Monitoring Settings
+monitoring:
+  # Enable performance monitoring
+  enabled: true
+  
+  # Metrics collection interval (in seconds)
+  metrics_interval: 60
+  
+  # Enable health checks
+  health_checks:
+    enabled: true
+    interval: 300
+
+# Compliance Settings
+compliance:
+  # GDPR settings
+  gdpr:
+    # Enable GDPR compliance features
+    enabled: true
+    
+    # Data retention period (in days)
+    data_retention_days: 365
+    
+    # Enable data anonymization
+    anonymize_data: true
+
+# Internationalization Settings
+i18n:
+  # Default language
+  default_language: "it"
+  
+  # Supported languages
+  supported_languages:
+    - "it"  # Italian
+    - "en"  # English
+    - "fr"  # French
+    - "de"  # German
+    - "es"  # Spanish
+
+# Performance Settings
+performance:
+  # Enable caching
+  caching:
+    enabled: true
+    backend: "redis"
+    ttl: 3600  # 1 hour
+  
+  # Enable compression
+  compression:
+    enabled: true
+    level: 6
+
+# Development Settings
+development:
+  # Enable development mode
+  enabled: false
+  
+  # Debug toolbar
+  debug_toolbar: false
+  
+  # Profiling
+  profiling: false

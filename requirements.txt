@@ -1,0 +1,9 @@
+openai
+pdfplumber
+PyMuPDF
+pdf2image
+pytesseract
+PyPDF2
+fpdf
+mysql-connector-python
+python-dotenv
