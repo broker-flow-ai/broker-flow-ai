@@ -24,9 +24,17 @@ def process_inbox():
             risk = classify_risk(text)
             print(f"Risk classified as: {risk}")
 
-            # Compile form (example)
+            # Prepare form data with actual extracted information
+            form_data = {
+                "risk_type": risk,
+                "extracted_text": text[:500],  # First 500 characters of extracted text
+                "filename": filename,
+                "full_text": text
+            }
+
+            # Compile form with actual data
             output_name = f"compiled_{filename}"
-            compiled_path = compile_form({}, "template.pdf", output_name)
+            compiled_path = compile_form(form_data, "template.pdf", output_name)
             print(f"Form compiled at {compiled_path}")
 
             # Generate email
@@ -37,8 +45,8 @@ def process_inbox():
             conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO request_queue (filename, status) VALUES (%s, %s)",
-                (filename, 'processed')
+                "INSERT INTO request_queue (filename, status, risk_type) VALUES (%s, %s, %s)",
+                (filename, 'processed', risk)
             )
             conn.commit()
             conn.close()
