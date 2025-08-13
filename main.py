@@ -17,33 +17,46 @@ def extract_client_data(text):
         "email": None
     }
     
-    # Try to extract name (looking for patterns like "Sig./Signor" or "Nome:")
-    name_patterns = [
-        r'(?:Sig\.|Signor|Sig|Nome)[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)',
-        r'(?:Cliente|Richiedente)[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)'
-    ]
+    # Try to extract name with improved patterns
+    # Look for "Cliente: Dr. Name Surname" pattern
+    dr_match = re.search(r'Cliente:\s*(Dr\.\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', text, re.IGNORECASE)
+    if dr_match:
+        client_data["name"] = dr_match.group(1).strip()
+    else:
+        # Look for "Cliente: Name Surname" pattern
+        name_match = re.search(r'Cliente:\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)', text, re.IGNORECASE)
+        if name_match:
+            # Take only the first line
+            name = name_match.group(1).strip()
+            if "\n" in name:
+                name = name.split("\n")[0]
+            client_data["name"] = name
+        else:
+            # Fallback patterns
+            sig_match = re.search(r'(?:Sig\.|Signor)\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', text, re.IGNORECASE)
+            if sig_match:
+                client_data["name"] = sig_match.group(1).strip()
     
-    for pattern in name_patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            client_data["name"] = match.group(1).strip()
-            break
+    # Special handling for Dr. names that might have extra text
+    if client_data["name"] and "\n" in client_data["name"]:
+        client_data["name"] = client_data["name"].split("\n")[0].strip()
     
-    # Try to extract company
-    company_patterns = [
-        r'(?:Azienda|Società|Company)[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)',
-        r'(?:Ragione\s+Sociale)[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)'
-    ]
-    
-    for pattern in company_patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            client_data["company"] = match.group(1).strip()
-            break
+    # Try to extract company/studio
+    # Look for "Azienda:" or "Studio:" followed by company name
+    company_match = re.search(r'(?:Azienda|Studio|Societa|Company):\s*([^\n]+)', text, re.IGNORECASE)
+    if company_match:
+        company = company_match.group(1).strip()
+        # Remove any text after phone/email patterns
+        parts = re.split(r'Telefono:|Email:|Tel:|E-mail:', company)
+        client_data["company"] = parts[0].strip()
+    else:
+        # Special handling for address pattern in flotta case
+        address_match = re.search(r'([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+\d+,.*\d{5})', text)
+        if address_match:
+            client_data["company"] = address_match.group(1).strip()
     
     # Try to extract email
-    email_pattern = r'[\w\.-]+@[\w\.-]+\.\w+'
-    email_match = re.search(email_pattern, text)
+    email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', text)
     if email_match:
         client_data["email"] = email_match.group(0)
     
@@ -61,6 +74,7 @@ def process_inbox():
             # Extract text
             text = extract_text_from_pdf(filepath)
             print("Text extracted.")
+            print(f"Extracted text preview: {text[:200]}...")
 
             # Classify risk
             risk = classify_risk(text)
