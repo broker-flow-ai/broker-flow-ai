@@ -32,15 +32,16 @@ RUN pip install --no-cache-dir -r requirements-dev.txt
 COPY . .
 
 # Create directories
-RUN mkdir -p inbox output templates
+RUN mkdir -p inbox output templates logs
 
-# Expose port for API
-EXPOSE 8000
+# Expose ports for API and Streamlit frontend
+EXPOSE 8000  # API
+EXPOSE 8501  # Streamlit frontend
 
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
 RUN chown -R appuser:appuser /app
 USER appuser
 
-# Run the application
+# Default command - can be overridden
 CMD ["python", "main.py"]

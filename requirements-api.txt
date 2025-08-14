@@ -1,0 +1,5 @@
+# BrokerFlow AI - Dipendenze API B2B2B
+
+fastapi
+uvicorn
+pydantic

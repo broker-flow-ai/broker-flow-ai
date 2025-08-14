@@ -7,3 +7,10 @@ PyPDF2
 fpdf
 mysql-connector-python
 python-dotenv
+fastapi
+uvicorn
+pydantic
+streamlit
+plotly
+pandas
+requests

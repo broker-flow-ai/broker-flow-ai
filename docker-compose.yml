@@ -3,8 +3,8 @@
 version: '3.8'
 
 services:
-  # Main application
-  brokerflow:
+  # API Service
+  api:
     build: .
     ports:
       - "8000:8000"
@@ -22,6 +22,48 @@ services:
     depends_on:
       - db
     restart: unless-stopped
+    command: uvicorn api_b2b:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend Dashboard Service
+  frontend:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./inbox:/app/inbox
+      - ./output:/app/output
+      - ./templates:/app/templates
+      - ./logs:/app/logs
+    depends_on:
+      - db
+      - api
+    restart: unless-stopped
+    command: streamlit run frontend/dashboard.py --server.port 8501
+
+  # Document Processing Service
+  processor:
+    build: .
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./inbox:/app/inbox
+      - ./output:/app/output
+      - ./templates:/app/templates
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    restart: unless-stopped
+    command: python main.py
 
   # Database
   db:

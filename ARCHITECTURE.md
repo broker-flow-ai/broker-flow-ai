@@ -2,21 +2,41 @@
 
 ## 🏗️ Overview
 
-This document describes the technical architecture of BrokerFlow AI, an intelligent system for automating insurance quote processing. The architecture is designed to be modular, scalable, and maintainable.
+This document describes the technical architecture of BrokerFlow AI, an intelligent B2B2B platform for automating the entire insurance lifecycle. The architecture is designed to be modular, scalable, maintainable, and enterprise-ready.
 
 ## 📐 High-Level Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Presentation Layer                       │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │                   Web Dashboard                         ││
+│  │  Streamlit Frontend with Interactive Analytics          ││
+│  └─────────────────────────────────────────────────────────┘│
 ├─────────────────────────────────────────────────────────────┤
 │                    Application Layer                        │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │                     API Gateway                         ││
+│  │  FastAPI RESTful Services with JWT Authentication       ││
+│  └─────────────────────────────────────────────────────────┘│
 ├─────────────────────────────────────────────────────────────┤
 │                    Processing Layer                         │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │                AI Processing Engines                    ││
+│  │  Risk Analysis, Pricing, Underwriting, Prediction       ││
+│  └─────────────────────────────────────────────────────────┘│
 ├─────────────────────────────────────────────────────────────┤
 │                    Integration Layer                        │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │              Enterprise Integrations                    ││
+│  │  SGA Systems, Broker Portals, Payment Gateways          ││
+│  └─────────────────────────────────────────────────────────┘│
 ├─────────────────────────────────────────────────────────────┤
 │                    Data Layer                               │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │                 Database & Storage                      ││
+│  │  MySQL, File Storage, Compliance Archives               ││
+│  └─────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -24,310 +44,370 @@ This document describes the technical architecture of BrokerFlow AI, an intellig
 
 ### 1. Presentation Layer
 
-#### Web Interface
-- **Technology**: React.js with Material-UI
-- **Purpose**: User dashboard and configuration
+#### Web Dashboard
+- **Technology**: Streamlit with Plotly
+- **Purpose**: Comprehensive analytics and management interface
 - **Features**:
-  - PDF upload and management
-  - Processing status monitoring
-  - Report generation and viewing
-  - User management
-  - Template configuration
+  - Executive dashboards for insurance companies
+  - Risk analysis visualization
+  - Portfolio performance metrics
+  - Compliance report generation
+  - Broker performance tracking
+  - Discount program management
 
 #### Mobile Interface
 - **Technology**: React Native (future)
-- **Purpose**: Mobile access for brokers
+- **Purpose**: Mobile access for field brokers
 - **Features**:
-  - Quick quote status checks
+  - Quick risk assessments
+  - Policy status checks
   - Client communication
-  - Basic reporting
+  - Offline capability
 
 ### 2. Application Layer
 
 #### API Gateway
-- **Technology**: FastAPI
-- **Purpose**: Entry point for all external requests
+- **Technology**: FastAPI with Uvicorn
+- **Purpose**: Enterprise-grade RESTful API
 - **Features**:
-  - Request routing
-  - Authentication and authorization
-  - Rate limiting
+  - JWT token authentication
+  - Role-based access control
+  - Rate limiting and throttling
   - Request/response logging
+  - Webhook support
+  - Health monitoring endpoints
 
-#### Business Logic
-- **Technology**: Python modules
-- **Purpose**: Core application functionality
+#### Business Logic Modules
+- **Technology**: Python modules with OpenAI integration
+- **Purpose**: Core insurance business functionality
 - **Components**:
-  - `orchestrator.py`: Workflow coordination
-  - `validator.py`: Data validation
-  - `scheduler.py`: Task scheduling
-  - `notifier.py`: Notification management
+  - `risk_analyzer.py`: Advanced risk assessment
+  - `dashboard_analytics.py`: Portfolio analytics
+  - `compliance_reporting.py`: Automated compliance
+  - `ai_underwriting.py`: AI-powered underwriting
+  - `b2b_integrations.py`: Enterprise system connectors
+  - `discount_program.py`: Loyalty and discount management
 
 ### 3. Processing Layer
 
-#### PDF Processing Engine
+#### AI Processing Engines
+- **Technology**: OpenAI GPT-4 with custom prompt engineering
+- **Purpose**: Intelligent insurance processing
+- **Components**:
+  - **Risk Analysis Engine**: Scores and classifies insurance risks
+  - **Pricing Engine**: AI-based premium suggestions
+  - **Underwriting Engine**: Automated policy evaluation
+  - **Prediction Engine**: Claims forecasting models
+  - **Compliance Engine**: Regulatory report generation
+
+#### Document Processing Engine
 - **Technology**: PyMuPDF, PyPDF2, pdf2image, pytesseract
-- **Purpose**: Extract data from PDF documents
+- **Purpose**: Intelligent document handling
 - **Components**:
   - `pdf_reader.py`: Digital PDF processing
   - `ocr_processor.py`: Scanned PDF processing
-  - `text_extractor.py`: Text analysis and cleaning
-
-#### AI Classification Engine
-- **Technology**: OpenAI GPT API
-- **Purpose**: Classify insurance risks and extract structured data
-- **Components**:
-  - `risk_classifier.py`: Risk type identification
-  - `data_extractor.py`: Structured data extraction
-  - `confidence_analyzer.py`: Classification confidence scoring
-
-#### Document Generation Engine
-- **Technology**: PyPDF2, ReportLab
-- **Purpose**: Generate compiled documents and emails
-- **Components**:
-  - `form_compiler.py`: PDF form filling
-  - `email_generator.py`: Email content creation
-  - `document_validator.py`: Output validation
+  - `text_extractor.py`: Structured data extraction
+  - `form_compiler.py`: Dynamic document generation
 
 ### 4. Integration Layer
 
-#### CRM Integration
-- **Technology**: REST API clients
-- **Purpose**: Sync data with CRM systems
+#### Insurance System Integrations
+- **Technology**: REST API clients with OAuth 2.0
+- **Purpose**: Seamless connection with insurance ecosystem
 - **Supported Systems**:
-  - HubSpot
-  - Salesforce
-  - Zoho CRM
-  - Custom APIs
+  - SGA (Sistemi Gestionali Assicurativi)
+  - Broker portals (Sicav, Unipol, etc.)
+  - Claims management systems
+  - Payment gateways
+  - Regulatory reporting systems
 
-#### Email Integration
-- **Technology**: SMTP libraries, Gmail API, Outlook API
-- **Purpose**: Send emails and process inbound messages
+#### Communication Integrations
+- **Technology**: SMTP, Gmail API, Outlook API
+- **Purpose**: Automated client and broker communication
 - **Features**:
-  - Email template management
+  - Template-based email generation
   - Attachment handling
-  - Inbox monitoring
   - Delivery tracking
+  - Two-way communication processing
 
 #### Database Integration
-- **Technology**: MySQL connector, SQLAlchemy
-- **Purpose**: Data persistence and retrieval
+- **Technology**: MySQL connector with connection pooling
+- **Purpose**: Reliable data persistence
 - **Features**:
-  - Connection pooling
-  - Transaction management
+  - ACID transaction support
+  - Connection pooling for performance
   - Query optimization
-  - Backup and recovery
+  - Automated backup and recovery
 
 ### 5. Data Layer
 
 #### Primary Database
-- **Technology**: MySQL 5.7+
-- **Purpose**: Store application data
+- **Technology**: MySQL 5.7+ with InnoDB
+- **Purpose**: Central data repository
 - **Schema**:
-  - `requests`: Processing requests
-  - `clients`: Client information
-  - `policies`: Policy details
-  - `templates`: Document templates
-  - `users`: User accounts
-  - `logs`: System logs
+  - `clients`: Client and broker information
+  - `risks`: Risk assessments and classifications
+  - `policies`: Policy details and status
+  - `claims`: Claims processing and tracking
+  - `premiums`: Premium payments and tracking
+  - `risk_analysis`: AI-generated risk assessments
+  - `compliance_reports`: Automated regulatory reports
+  - `discounts`: Loyalty and discount programs
+  - `request_queue`: Document processing queue
+  - `audit_log`: Compliance audit trail
 
 #### File Storage
 - **Technology**: Local filesystem with optional cloud storage
-- **Purpose**: Store PDF documents and generated files
+- **Purpose**: Document and report storage
 - **Structure**:
-  - `inbox/`: Incoming PDFs
-  - `processing/`: Temporary files
-  - `output/`: Generated documents
-  - `archive/`: Processed files
-  - `templates/`: PDF templates
+  - `inbox/`: Incoming documents
+  - `processing/`: Temporary working files
+  - `output/`: Generated policies and reports
+  - `archive/`: Historical document storage
+  - `templates/`: Policy and report templates
+  - `compliance/`: Regulatory report archives
 
 #### Cache Layer
-- **Technology**: Redis (future)
-- **Purpose**: Improve performance for frequent operations
+- **Technology**: Redis (future implementation)
+- **Purpose**: Performance optimization
 - **Usage**:
+  - Dashboard data caching
   - Template caching
   - Session storage
-  - Recent processing results
+  - API response caching
 
 ## 🔌 Data Flow
 
-### 1. PDF Processing Flow
+### 1. Complete Insurance Lifecycle Flow
 ```
-1. User uploads PDF → 
-2. File stored in inbox/ → 
-3. Processing request created → 
-4. PDF analyzed (digital/scan) → 
-5. Text extracted → 
-6. Risk classified → 
-7. Data structured → 
-8. Forms compiled → 
-9. Email generated → 
-10. Results stored → 
-11. User notified
-```
-
-### 2. Renewal Tracking Flow
-```
-1. Policy expiration extracted → 
-2. Renewal entry created → 
-3. Reminder scheduled → 
-4. Notification sent → 
-5. Renewal status updated → 
-6. Follow-up actions triggered
+1. Broker uploads client request → 
+2. Document processed and text extracted → 
+3. Risk classified and analyzed with AI → 
+4. Pricing and underwriting suggestions generated → 
+5. Policy document compiled → 
+6. Integrated with SGA and broker portal → 
+7. Payment processed → 
+8. Client notified → 
+9. Data stored and analytics updated → 
+10. Compliance reports generated → 
+11. Broker performance tracked
 ```
 
-### 3. Reporting Flow
+### 2. Risk Analysis & Underwriting Flow
 ```
-1. Data queried from database → 
-2. Aggregated and processed → 
-3. Charts and tables generated → 
-4. Report cached → 
-5. User accesses report → 
-6. Data served from cache
+1. Client profile retrieved → 
+2. Historical data analyzed → 
+3. AI risk assessment performed → 
+4. Sector comparison executed → 
+5. Pricing recommendations generated → 
+6. Underwriting decision made → 
+7. Analysis stored for compliance → 
+8. Results delivered to dashboard
+```
+
+### 3. Compliance Reporting Flow
+```
+1. Reporting period defined → 
+2. Relevant data extracted → 
+3. AI analysis performed → 
+4. Report content generated → 
+5. Compliance officer review (optional) → 
+6. Digital signature applied → 
+7. Report archived and delivered
+```
+
+### 4. Broker Loyalty Program Flow
+```
+1. Broker activity tracked → 
+2. Performance metrics calculated → 
+3. Tier level determined → 
+4. Applicable discounts identified → 
+5. Discount applied to new policies → 
+6. Broker notified of benefits
 ```
 
 ## 🏗️ Deployment Architecture
 
-### Single Server Deployment
+### Enterprise Deployment
 ```
-┌─────────────────────────────────────────────┐
-│              Load Balancer                  │
-└─────────────────────────────────────────────┘
-                    │
-┌─────────────────────────────────────────────┐
-│              Web Server                     │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐       │
-│  │  API    │ │  Web UI │ │ Mobile  │       │
-│  └─────────┘ └─────────┘ └─────────┘       │
-└─────────────────────────────────────────────┘
-                    │
-┌─────────────────────────────────────────────┐
-│              Application Server             │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐       │
-│  │Process. │ │  AI     │ │Document │       │
-│  │Engine   │ │Engine   │ │Engine   │       │
-│  └─────────┘ └─────────┘ └─────────┘       │
-└─────────────────────────────────────────────┘
-                    │
-┌─────────────────────────────────────────────┐
-│              Database Server                │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐       │
-│  │ MySQL   │ │  Redis  │ │ Files   │       │
-│  └─────────┘ └─────────┘ └─────────┘       │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Load Balancer                            │
+│                    (HAProxy/Nginx)                          │
+└─────────────────────────────────────────────────────────────┘
+                                   │
+┌─────────────────────────────────────────────────────────────┐
+│                    Web Tier                                 │
+│  ┌─────────────────┐    ┌─────────────────┐                 │
+│  │   Dashboard     │    │     API         │                 │
+│  │  (Streamlit)    │    │  (FastAPI)      │                 │
+│  └─────────────────┘    └─────────────────┘                 │
+└─────────────────────────────────────────────────────────────┘
+                                   │
+┌─────────────────────────────────────────────────────────────┐
+│                    Application Tier                         │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
+│  │ Risk Analysis   │ │ Pricing Engine  │ │Underwriting AI ││
+│  │    Engine       │ │    Engine       │ │    Engine       ││
+│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
+│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
+│  │Prediction Engine│ │Compliance Engine│ │ Document Proc.  ││
+│  │    Engine       │ │    Engine       │ │    Engine       ││
+│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
+└─────────────────────────────────────────────────────────────┘
+                                   │
+┌─────────────────────────────────────────────────────────────┐
+│                    Integration Tier                         │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
+│  │ SGA Connectors  │ │Portal Connectors│ │Payment Gateways││
+│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
+└─────────────────────────────────────────────────────────────┘
+                                   │
+┌─────────────────────────────────────────────────────────────┐
+│                    Data Tier                                │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐│
+│  │    MySQL        │ │   Redis         │ │ File Storage    ││
+│  │  (Primary DB)   │ │  (Caching)      │ │  (Documents)    ││
+│  └─────────────────┘ └─────────────────┘ └─────────────────┘│
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ### Microservices Deployment (Future)
 ```
-┌─────────────────────────────────────────────┐
-│              API Gateway                    │
-└─────────────────────────────────────────────┘
-         │              │              │
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│  PDF Service    │ │  AI Service     │ │ Document Service│
-└─────────────────┘ └─────────────────┘ └─────────────────┘
-         │              │              │
-┌───────────────────────────────────────────────────────────┐
-│                    Shared Services                        │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐ │
-│  │Database │    │  Cache  │    │ Storage │    │ Logging │ │
-│  └─────────┘    └─────────┘    └─────────┘    └─────────┘ │
-└───────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    API Gateway                              │
+│                   (Kong/Istio)                              │
+└─────────────────────────────────────────────────────────────┘
+         │              │              │              │
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│  Document       │ │ Risk Analysis   │ │ Pricing &       │ │ Compliance      │
+│  Service        │ │  Service        │ │ Underwriting    │ │  Service        │
+│                 │ │                 │ │  Service        │ │                 │
+└─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘
+         │              │              │              │
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                    Shared Services                                            │
+│  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐     │
+│  │Database │    │  Cache  │    │ Storage │    │ Logging │    │ Metrics │     │
+│  └─────────┘    └─────────┘    └─────────┘    └─────────┘    └─────────┘     │
+└───────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🔒 Security Architecture
 
-### Authentication
-- **JWT Tokens**: For API authentication
-- **OAuth 2.0**: For third-party integrations
-- **Session Management**: For web interface
-
-### Authorization
+### Authentication & Authorization
+- **JWT Tokens**: For API and dashboard authentication
+- **OAuth 2.0**: For third-party system integrations
 - **Role-Based Access Control (RBAC)**:
   - Admin: Full system access
-  - Broker: Client and quote management
-  - Viewer: Read-only access
-- **Resource-Level Permissions**: Fine-grained access control
+  - Insurance Company: Portfolio analytics, compliance
+  - Broker: Client management, policy processing
+  - Underwriter: Risk assessment, policy approval
+  - Compliance Officer: Report generation, audit
+- **Multi-Factor Authentication**: For sensitive roles
 
 ### Data Protection
 - **Encryption**:
   - AES-256 for data at rest
   - TLS 1.3 for data in transit
-- **Data Masking**: For sensitive information in logs
+  - Field-level encryption for sensitive PII
+- **Data Masking**: For non-production environments
 - **Secure File Handling**: Temporary file cleanup
+- **Audit Trail**: Comprehensive logging of all actions
 
-### Compliance
-- **GDPR**: Data protection and privacy
-- **SOX**: Financial data integrity
+### Compliance & Regulatory
+- **GDPR**: Data protection and privacy controls
+- **SOX**: Financial data integrity and audit trails
+- **IVASS**: Italian insurance regulatory compliance
 - **ISO 27001**: Information security management
+- **HIPAA**: Health information protection (if applicable)
 
 ## 📈 Scalability Design
 
 ### Horizontal Scaling
 - **Stateless Services**: Enable load balancing
-- **Database Sharding**: Distribute data across nodes
-- **Caching**: Reduce database load
-- **CDN**: Serve static assets efficiently
+- **Database Read Replicas**: Distribute read load
+- **Caching Layers**: Reduce database load
+- **CDN**: Serve static dashboard assets
+- **Message Queues**: Asynchronous processing (future)
 
 ### Vertical Scaling
-- **Resource Monitoring**: CPU, memory, disk usage
+- **Resource Monitoring**: Real-time CPU, memory, disk usage
 - **Auto-scaling**: Based on load metrics
 - **Database Optimization**: Indexing and query optimization
+- **Connection Pooling**: Efficient database connections
 
 ### Load Management
 - **Queue Systems**: Handle processing peaks
 - **Rate Limiting**: Prevent system overload
 - **Priority Processing**: Critical tasks first
+- **Batch Processing**: Non-urgent operations scheduled
 
 ## 🧪 Monitoring and Observability
 
 ### Logging
 - **Structured Logging**: JSON format for easy parsing
 - **Log Levels**: DEBUG, INFO, WARNING, ERROR, CRITICAL
-- **Centralized Logging**: ELK stack integration (future)
+- **Centralized Logging**: ELK stack integration
+- **Compliance Logging**: Audit trail for regulatory requirements
 
 ### Metrics
 - **Application Metrics**: Processing times, success rates
 - **System Metrics**: CPU, memory, disk, network
-- **Business Metrics**: Revenue, client satisfaction
+- **Business Metrics**: Revenue, client satisfaction, risk scores
+- **Compliance Metrics**: Report generation, audit trail completeness
 
 ### Tracing
 - **Request Tracing**: Follow requests through the system
 - **Performance Profiling**: Identify bottlenecks
 - **Error Tracking**: Capture and analyze exceptions
+- **User Journey Tracking**: Monitor broker and client interactions
 
 ### Alerting
 - **Threshold-Based Alerts**: System health monitoring
-- **Anomaly Detection**: Unusual patterns
-- **Notification Channels**: Email, SMS, Slack
+- **Anomaly Detection**: Unusual patterns in data
+- **Business Alerts**: Policy issuance rates, claim spikes
+- **Compliance Alerts**: Report deadlines, audit requirements
+- **Notification Channels**: Email, SMS, Slack, PagerDuty
 
 ## 🔄 Backup and Disaster Recovery
 
 ### Data Backup
-- **Automated Backups**: Daily database dumps
+- **Automated Backups**: Daily database dumps with incremental
 - **File Versioning**: Keep multiple versions of documents
 - **Offsite Storage**: Cloud storage for critical data
 - **Backup Validation**: Regular restore testing
+- **Point-in-Time Recovery**: Transaction log backups
 
 ### Disaster Recovery
-- **Recovery Point Objective (RPO)**: < 24 hours
-- **Recovery Time Objective (RTO)**: < 4 hours
-- **Redundancy**: Multiple server instances
+- **Recovery Point Objective (RPO)**: < 1 hour
+- **Recovery Time Objective (RTO)**: < 2 hours
+- **Redundancy**: Multiple server instances across zones
 - **Failover**: Automatic system switching
+- **Geographic Distribution**: Multi-region deployment
 
 ## 🛠 Development Architecture
 
 ### Code Structure
 ```
 brokerflow_ai/
-├── api/                 # API endpoints
-├── web/                 # Web interface
-├── processing/          # Core processing modules
-├── integration/         # External system integrations
-├── data/                # Data models and access
-├── utils/               # Utility functions
-├── tests/               # Unit and integration tests
-├── docs/                # Documentation
-└── deployments/         # Deployment configurations
+├── api_b2b.py              # Main API application
+├── frontend/               # Dashboard frontend
+│   └── dashboard.py        # Streamlit dashboard
+├── modules/                # Business logic modules
+│   ├── risk_analyzer.py
+│   ├── dashboard_analytics.py
+│   ├── compliance_reporting.py
+│   ├── ai_underwriting.py
+│   ├── b2b_integrations.py
+│   ├── discount_program.py
+│   └── extract_data.py     # Legacy document processing
+├── processing/             # Core processing modules
+├── integration/            # External system integrations
+├── data/                   # Data models and access
+├── utils/                  # Utility functions
+├── tests/                  # Unit and integration tests
+├── docs/                   # Documentation
+└── deployments/            # Deployment configurations
 ```
 
 ### Development Practices
@@ -335,12 +415,16 @@ brokerflow_ai/
 - **Continuous Integration**: Automated testing on every commit
 - **Branching Strategy**: GitFlow workflow
 - **Versioning**: Semantic versioning
+- **Documentation**: Inline code docs + external documentation
+- **Security Scanning**: Automated vulnerability detection
 
 ### Testing Strategy
 - **Unit Tests**: Test individual functions and classes
 - **Integration Tests**: Test component interactions
 - **End-to-End Tests**: Test complete user workflows
 - **Performance Tests**: Test system under load
+- **Security Tests**: Penetration testing and vulnerability scans
+- **Compliance Tests**: Regulatory requirement validation
 
 ## 🌐 Network Architecture
 
@@ -348,44 +432,49 @@ brokerflow_ai/
 - **REST APIs**: For service-to-service communication
 - **Message Queues**: For asynchronous processing (future)
 - **Event Streaming**: For real-time updates (future)
+- **Internal Load Balancing**: Service distribution
 
 ### External Communication
 - **Public API**: HTTPS endpoints for external integrations
 - **Webhooks**: Push notifications to external systems
 - **File Transfer**: SFTP/FTP for large document exchange
+- **Third-Party APIs**: Connection to insurance systems
 
 ### Network Security
 - **Firewall Rules**: Restrict access to necessary ports
 - **VPN Access**: Secure remote administration
 - **DDoS Protection**: Cloud-based protection services
 - **Intrusion Detection**: Monitor for suspicious activity
+- **Network Segmentation**: Isolate sensitive data flows
 
 ## 📦 Technology Stack Summary
 
 ### Backend
 - **Language**: Python 3.8+
-- **Framework**: FastAPI
+- **Framework**: FastAPI, Streamlit
 - **Database**: MySQL 5.7+
-- **AI**: OpenAI GPT API
+- **AI**: OpenAI GPT-4 API
 - **PDF Processing**: PyMuPDF, PyPDF2, pdf2image, pytesseract
+- **Web Server**: Uvicorn, Nginx
 
 ### Frontend
-- **Web**: React.js with Material-UI
+- **Dashboard**: Streamlit with Plotly
 - **Mobile**: React Native (future)
-- **Build Tools**: Webpack, Babel
+- **API Testing**: Postman, curl
 
 ### Infrastructure
 - **Containerization**: Docker
 - **Orchestration**: Kubernetes (future)
 - **CI/CD**: GitHub Actions
 - **Monitoring**: Prometheus, Grafana (future)
+- **Logging**: ELK Stack (future)
 
 ### Security
 - **Authentication**: JWT, OAuth 2.0
 - **Encryption**: TLS, AES-256
-- **Compliance**: GDPR, ISO 27001
+- **Compliance**: GDPR, SOX, IVASS, ISO 27001
 
 ---
 
-*Last updated: August 13, 2025*
-*Version: 1.0*
+*Last updated: August 14, 2025*
+*Version: 2.0*
