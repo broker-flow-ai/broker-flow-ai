@@ -1,6 +1,0 @@
-# BrokerFlow AI - Dipendenze Aggiuntive per Frontend
-
-streamlit
-plotly
-pandas
-requests

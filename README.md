@@ -55,18 +55,14 @@ brokerflow_ai/
 ├── modules/               # Moduli core del sistema
 ├── frontend/              # Interfaccia web dashboard
 ├── api_b2b.py            # API REST enterprise
-├── DOCUMENTAZIONE.md      # Documentazione tecnica completa
-├── MODULES.md            # Dettaglio moduli implementati
-├── GUIDA_UTENTE.md        # Istruzioni per l'utente
-├── SVILUPPO.md            # Guida per sviluppatori
-├── INSTALLAZIONE.md       # Guida all'installazione
-├── CHANGELOG.md           # Registro modifiche
-├── requirements.txt       # Dipendenze Python
-├── schema.sql            # Schema database esteso
-├── Dockerfile            # Configurazione Docker
-├── docker-compose.yml    # Orchestrazione Docker
-├── .env.example          # Esempio configurazione
-└── ...                   # Altri file di configurazione
+├── TESTING_ESSENTIAL.md  # Guida essenziale al testing
+├── CHANGELOG.md          # Registro modifiche
+├── requirements.txt      # Dipendenze Python
+├── schema.sql           # Schema database esteso
+├── Dockerfile           # Configurazione Docker
+├── docker-compose.yml   # Orchestrazione Docker
+├── .env.example         # Esempio configurazione
+└── ...                  # Altri file di configurazione
 ```
 
 ## 🐳 Come Iniziare con Docker (Consigliato)
@@ -95,70 +91,13 @@ docker-compose up -d
 # phpMyAdmin: http://localhost:8080
 ```
 
-## 💻 Installazione Manuale (Alternative)
-
-### Requisiti
-- Python 3.8+
-- MySQL 5.7+
-- Tesseract OCR (opzionale, per PDF scansionati)
-- OpenAI API Key (per funzionalità AI)
-
-### Installazione Veloce
-```bash
-# Clona il repository
-git clone https://github.com/tuonome/broker-flow-ai.git
-cd broker-flow-ai
-
-# Crea ambiente virtuale
-python -m venv brokerflow-env
-source brokerflow-env/bin/activate  # Su Windows: brokerflow-env\Scripts\activate
-
-# Installa dipendenze
-pip install -r requirements.txt
-
-# Configura le variabili d'ambiente
-cp .env.example .env
-# Modifica .env con le tue credenziali
-
-# Aggiorna schema database
-mysql -u tuo_utente -p < schema.sql
-
-# Avvia il server API
-uvicorn api_b2b:app --reload
-
-# In un altro terminale, avvia il frontend
-streamlit run frontend/dashboard.py
-```
-
 ## 🧪 Testing dell'Ambiente
 
-### Con Docker
+### Testing Rapido - Segui TESTING_ESSENTIAL.md
 ```bash
-# Verifica che tutti i servizi siano attivi
-docker-compose ps
-
-# Esegui il testing completo
-docker-compose exec api python -m pytest
-
-# Oppure segui la guida DOCKER_TESTING.md per test manuali
+# Per un testing completo e guidato, consulta:
+# TESTING_ESSENTIAL.md
 ```
-
-### Manuale
-```bash
-# Segui la guida TESTING_GUIDE.md per test completi
-```
-
-## 📖 Documentazione Completa
-
-- 📚 **[DOCUMENTAZIONE TECNICA](DOCUMENTAZIONE.md)** - Dettagli tecnici dell'implementazione
-- 🧩 **[MODULES.md](MODULES.md)** - Descrizione moduli implementati
-- 👤 **[GUIDA UTENTE](GUIDA_UTENTE.md)** - Istruzioni per l'uso quotidiano
-- 💻 **[GUIDA SVILUPPO](SVILUPPO.md)** - Estendere e modificare il sistema
-- ⚙️ **[INSTALLAZIONE.md](INSTALLAZIONE.md)** - Setup completo del sistema
-- 🐳 **[DOCKER_USAGE.md](DOCKER_USAGE.md)** - Uso dell'ambiente Docker
-- 🧪 **[DOCKER_TESTING.md](DOCKER_TESTING.md)** - Testing con Docker
-- 🧪 **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Testing manuale
-- 📋 **[CHANGELOG](CHANGELOG.md)** - Storico delle versioni
 
 ## 🎯 Casi d'Uso
 
@@ -176,12 +115,6 @@ docker-compose exec api python -m pytest
 - **Programmi Fedeltà**: Sconti performance basati su AI
 - **Report Cliente**: Dashboard personalizzate per clienti
 
-### Consulenti Assicurativi
-- **Standardizzazione**: Processi uniformi per tutti i clienti
-- **Analisi Settoriale**: Benchmark per settori economici
-- **Documentazione**: Tracciamento completo delle attività
-- **Collaborazione**: Strumenti di condivisione con clienti
-
 ## 🔧 Requisiti di Sistema
 
 ### Con Docker (Consigliato)
@@ -189,18 +122,6 @@ docker-compose exec api python -m pytest
 - Docker Compose 1.29+
 - 4GB RAM minimo (8GB consigliati)
 - 2GB spazio su disco
-
-### Manuale
-- CPU: Dual core 2GHz
-- RAM: 4GB
-- Storage: 2GB disponibile
-- Sistema: Windows 10+, macOS 10.14+, Linux
-- Database: MySQL 5.7+
-
-### Consigliati per Tutti gli Ambienti
-- GPU: Consigliata per funzionalità AI avanzate
-- SSD: Per migliori performance I/O
-- Connessione Internet: Per API OpenAI e aggiornamenti
 
 ## 🔒 Sicurezza
 
@@ -220,14 +141,6 @@ docker-compose exec api python -m pytest
 | **Scalabilità** | Gestione fino a 10.000 polizze/giorno |
 | **Compliance** | 100% report normativi automatizzati |
 | **Decision Making** | KPI real-time per decisioni informate |
-
-## 🤝 Contribuire
-
-1. Forka il progetto
-2. Crea un branch per la tua feature (`git checkout -b feature/AmazingFeature`)
-3. Committa le modifiche (`git commit -m 'Add some AmazingFeature'`)
-4. Pusha il branch (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
 
 ## 📄 Licenza
 
