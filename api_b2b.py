@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date, datetime
 import json
+from fastapi.encoders import jsonable_encoder
 
 from modules.db import get_db_connection
 from modules.risk_analyzer import analyze_risk_sustainability, get_client_profile, save_risk_analysis
@@ -62,11 +63,14 @@ async def api_risk_analysis(request: RiskAnalysisRequest):
         # Salva analisi nel database
         analysis_id = save_risk_analysis(request.client_id, analysis)
         
-        return {
+        # Convert datetime objects to strings for JSON serialization
+        response = {
             "analysis_id": analysis_id,
             "client_id": request.client_id,
             "analysis": analysis
         }
+        
+        return jsonable_encoder(response)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -76,7 +80,7 @@ async def api_portfolio_analytics(company_id: Optional[int] = None):
     """Analisi aggregata del portafoglio assicurativo"""
     try:
         analytics = get_portfolio_analytics(company_id)
-        return analytics
+        return jsonable_encoder(analytics)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -117,7 +121,7 @@ async def api_get_compliance_reports(report_type: Optional[str] = None):
     """Recupero report di compliance"""
     try:
         reports = get_compliance_reports(report_type)
-        return {"reports": reports}
+        return jsonable_encoder({"reports": reports})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -252,7 +256,9 @@ async def system_metrics():
     
     conn.close()
     
-    return {
+    response = {
         "database_metrics": metrics,
         "timestamp": datetime.now().isoformat()
     }
+    
+    return jsonable_encoder(response)

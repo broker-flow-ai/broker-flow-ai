@@ -63,101 +63,111 @@ def extract_client_data(text):
     return client_data
 
 def process_inbox():
-    if not os.path.exists(OUTPUT_PATH):
-        os.makedirs(OUTPUT_PATH)
+    try:
+        if not os.path.exists(OUTPUT_PATH):
+            os.makedirs(OUTPUT_PATH)
 
-    for filename in os.listdir(INBOX_PATH):
-        if filename.endswith(".pdf"):
-            print(f"Processing {filename}...")
-            filepath = os.path.join(INBOX_PATH, filename)
-            
-            # Extract text
-            text = extract_text_from_pdf(filepath)
-            print("Text extracted.")
-            print(f"Extracted text preview: {text[:200]}...")
+        for filename in os.listdir(INBOX_PATH):
+            if filename.endswith(".pdf"):
+                print(f"Processing {filename}...")
+                filepath = os.path.join(INBOX_PATH, filename)
+                
+                # Extract text
+                text = extract_text_from_pdf(filepath)
+                print("Text extracted.")
+                print(f"Extracted text preview: {text[:200]}...")
 
-            # Classify risk
-            risk = classify_risk(text)
-            print(f"Risk classified as: {risk}")
+                # Classify risk
+                risk = classify_risk(text)
+                print(f"Risk classified as: {risk}")
 
-            # Extract client data
-            client_data = extract_client_data(text)
-            print(f"Client data extracted: {client_data}")
+                # Extract client data
+                client_data = extract_client_data(text)
+                print(f"Client data extracted: {client_data}")
 
-            # Prepare form data with actual extracted information
-            form_data = {
-                "risk_type": risk,
-                "extracted_text": text[:500],  # First 500 characters of extracted text
-                "filename": filename,
-                "full_text": text,
-                "client_data": client_data
-            }
+                # Prepare form data with actual extracted information
+                form_data = {
+                    "risk_type": risk,
+                    "extracted_text": text[:500],  # First 500 characters of extracted text
+                    "filename": filename,
+                    "full_text": text,
+                    "client_data": client_data
+                }
 
-            # Compile form with actual data
-            output_name = f"compiled_{filename}"
-            compiled_path = compile_form(form_data, "template.pdf", output_name)
-            print(f"Form compiled at {compiled_path}")
+                # Compile form with actual data
+                output_name = f"compiled_{filename}"
+                compiled_path = compile_form(form_data, "template.pdf", output_name)
+                print(f"Form compiled at {compiled_path}")
 
-            # Generate email
-            subject, body = generate_email("Cliente", [compiled_path])
-            print("Email generated.")
+                # Generate email
+                subject, body = generate_email("Cliente", [compiled_path])
+                print("Email generated.")
 
-            # Save to DB - Complete workflow
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            
-            # 1. Insert client data if not exists
-            client_id = None
-            if client_data["email"]:
-                cursor.execute(
-                    "SELECT id FROM clients WHERE email = %s", 
-                    (client_data["email"],)
-                )
-                result = cursor.fetchone()
-                if result:
-                    client_id = result[0]
+                # Save to DB - Complete workflow
+                conn = get_db_connection()
+                cursor = conn.cursor()
+                
+                # 1. Insert client data if not exists
+                client_id = None
+                if client_data["email"]:
+                    cursor.execute(
+                        "SELECT id FROM clients WHERE email = %s", 
+                        (client_data["email"],)
+                    )
+                    result = cursor.fetchone()
+                    if result:
+                        client_id = result[0]
+                    else:
+                        cursor.execute(
+                            "INSERT INTO clients (name, company, email) VALUES (%s, %s, %s)",
+                            (client_data["name"], client_data["company"], client_data["email"])
+                        )
+                        client_id = cursor.lastrowid
                 else:
+                    # Insert with placeholder data if no email found
                     cursor.execute(
                         "INSERT INTO clients (name, company, email) VALUES (%s, %s, %s)",
-                        (client_data["name"], client_data["company"], client_data["email"])
+                        (client_data["name"] or "Unknown", client_data["company"] or "Unknown", "unknown@example.com")
                     )
                     client_id = cursor.lastrowid
-            else:
-                # Insert with placeholder data if no email found
+
+                # 2. Insert risk data
+                risk_details = {
+                    "extracted_text": text[:200],  # First 200 chars for details
+                    "classification_confidence": "high"  # Simplified for demo
+                }
                 cursor.execute(
-                    "INSERT INTO clients (name, company, email) VALUES (%s, %s, %s)",
-                    (client_data["name"] or "Unknown", client_data["company"] or "Unknown", "unknown@example.com")
+                    "INSERT INTO risks (client_id, risk_type, details) VALUES (%s, %s, %s)",
+                    (client_id, risk, json.dumps(risk_details))
                 )
-                client_id = cursor.lastrowid
+                risk_id = cursor.lastrowid
 
-            # 2. Insert risk data
-            risk_details = {
-                "extracted_text": text[:200],  # First 200 chars for details
-                "classification_confidence": "high"  # Simplified for demo
-            }
-            cursor.execute(
-                "INSERT INTO risks (client_id, risk_type, details) VALUES (%s, %s, %s)",
-                (client_id, risk, json.dumps(risk_details))
-            )
-            risk_id = cursor.lastrowid
+                # 3. Insert policy data
+                cursor.execute(
+                    "INSERT INTO policies (risk_id, company, policy_pdf_path) VALUES (%s, %s, %s)",
+                    (risk_id, "BrokerFlow AI", compiled_path)
+                )
+                policy_id = cursor.lastrowid
 
-            # 3. Insert policy data
-            cursor.execute(
-                "INSERT INTO policies (risk_id, company, policy_pdf_path) VALUES (%s, %s, %s)",
-                (risk_id, "BrokerFlow AI", compiled_path)
-            )
-            policy_id = cursor.lastrowid
+                # 4. Update request_queue (corrected - removed risk_type column)
+                cursor.execute(
+                    "INSERT INTO request_queue (filename, status) VALUES (%s, %s)",
+                    (filename, 'processed')
+                )
+                
+                conn.commit()
+                conn.close()
 
-            # 4. Update request_queue (corrected - removed risk_type column)
-            cursor.execute(
-                "INSERT INTO request_queue (filename, status) VALUES (%s, %s)",
-                (filename, 'processed')
-            )
-            
-            conn.commit()
-            conn.close()
-
-            print(f"Request saved to DB. Client ID: {client_id}, Risk ID: {risk_id}, Policy ID: {policy_id}")
+                print(f"Request saved to DB. Client ID: {client_id}, Risk ID: {risk_id}, Policy ID: {policy_id}")
+    except Exception as e:
+        print(f"Error processing inbox: {str(e)}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
-    process_inbox()
+    try:
+        process_inbox()
+    except Exception as e:
+        print(f"Error in main process: {str(e)}")
+        import traceback
+        traceback.print_exc()

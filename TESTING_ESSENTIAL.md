@@ -31,7 +31,7 @@ curl http://localhost:8000/api/v1/health
 #### Analisi Rischio
 ```bash
 # Crea cliente di test
-docker compose exec db mysql -u brokerflow -p brokerflow123 brokerflow_ai -e "INSERT INTO clients (name, company, email) VALUES ('Test Client', 'Test Company', 'test@example.com');"
+docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "INSERT INTO clients (name, company, email) VALUES ('Test Client', 'Test Company', 'test@example.com');"
 
 # Analizza rischio
 curl -X POST http://localhost:8000/api/v1/insurance/risk-analysis \

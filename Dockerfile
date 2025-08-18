@@ -35,8 +35,8 @@ COPY . .
 RUN mkdir -p inbox output templates logs
 
 # Expose ports for API and Streamlit frontend
-EXPOSE 8000  # API
-EXPOSE 8501  # Streamlit frontend
+EXPOSE 8000
+EXPOSE 8501
 
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
