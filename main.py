@@ -67,8 +67,23 @@ def process_inbox():
         if not os.path.exists(OUTPUT_PATH):
             os.makedirs(OUTPUT_PATH)
 
+        # Connect to DB to check already processed files
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Get list of already processed files
+        cursor.execute("SELECT filename FROM request_queue WHERE status = 'processed'")
+        processed_files = set(row[0] for row in cursor.fetchall())
+        
+        conn.close()
+
         for filename in os.listdir(INBOX_PATH):
             if filename.endswith(".pdf"):
+                # Skip already processed files
+                if filename in processed_files:
+                    print(f"Skipping {filename} - already processed")
+                    continue
+                    
                 print(f"Processing {filename}...")
                 filepath = os.path.join(INBOX_PATH, filename)
                 
@@ -166,7 +181,12 @@ def process_inbox():
 
 if __name__ == "__main__":
     try:
-        process_inbox()
+        while True:
+            process_inbox()
+            # Wait for 30 seconds before checking for new files
+            import time
+            print("Waiting for new files...")
+            time.sleep(30)
     except Exception as e:
         print(f"Error in main process: {str(e)}")
         import traceback

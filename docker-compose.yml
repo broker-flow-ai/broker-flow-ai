@@ -35,11 +35,13 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - API_BASE_URL=http://api:8000/api/v1
     volumes:
       - ./inbox:/app/inbox
       - ./output:/app/output
       - ./templates:/app/templates
       - ./logs:/app/logs
+      - ./streamlit_config.toml:/root/.streamlit/config.toml
     depends_on:
       - db
       - api

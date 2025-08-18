@@ -4,6 +4,7 @@ import json
 import pandas as pd
 import plotly.express as px
 from datetime import datetime, date
+import os
 
 # Configurazione della pagina
 st.set_page_config(
@@ -12,8 +13,8 @@ st.set_page_config(
     layout="wide"
 )
 
-# URL base dell'API
-API_BASE_URL = "http://api:8000/api/v1"
+# URL base dell'API - può essere sovrascritto da variabile d'ambiente
+API_BASE_URL = os.getenv("API_BASE_URL", "http://api:8000/api/v1")
 
 # Funzioni di utilità per chiamate API
 def api_get(endpoint):
