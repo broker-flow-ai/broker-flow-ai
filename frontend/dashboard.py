@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 # URL base dell'API
-API_BASE_URL = "http://localhost:8000/api/v1"
+API_BASE_URL = "http://api:8000/api/v1"
 
 # Funzioni di utilità per chiamate API
 def api_get(endpoint):
