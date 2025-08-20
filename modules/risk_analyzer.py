@@ -89,6 +89,15 @@ def get_client_profile(client_id):
     
     conn.close()
     
+    # Converti i datetime in stringhe per evitare problemi di serializzazione
+    for claim in claims:
+        if 'claim_date' in claim and claim['claim_date']:
+            claim['claim_date'] = claim['claim_date'].isoformat()
+    
+    # Converti i datetime nel client_info
+    if client and 'created_at' in client and client['created_at']:
+        client['created_at'] = client['created_at'].isoformat()
+    
     return {
         "client_info": client,
         "claim_history": claims

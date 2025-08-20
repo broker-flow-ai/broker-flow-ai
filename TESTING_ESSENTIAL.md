@@ -164,3 +164,30 @@ docker compose up
 
   Dopo la pulizia, quando esegui docker compose up -d, Docker ricostruirà tutte le immagini dal Dockerfile, quindi le tue
   nuove modifiche saranno incluse.
+
+
+
+
+  ✦ Hai ragione di dubitare. In alcuni casi, specialmente quando si modificano file Python che vengono importati da altri
+  moduli o quando ci sono cache di compilazione, potrebbe essere necessario ricostruire le immagini Docker.
+
+  Per essere sicuri al 100%, ti consiglio di eseguire:
+
+   1 docker compose down
+   2 docker compose build --no-cache
+   3 docker compose up -d
+
+  Questo comando:
+   1. docker compose down - ferma e rimuove i container
+   2. docker compose build --no-cache - ricostruisce le immagini Docker senza utilizzare la cache, assicurando che tutte le
+      modifiche al codice vengano incorporate
+   3. docker compose up -d - avvia i container con le nuove immagini
+
+  In alternativa, se vuoi essere ancora più sicuro, puoi eseguire una pulizia completa e ricostruire tutto:
+
+   1 docker compose down
+   2 docker system prune -a
+   3 docker compose up -d --build
+
+  Ma per il tuo caso specifico, il primo approccio con --no-cache dovrebbe essere sufficiente per assicurarti che tutte le
+  modifiche al codice vengano incorporate correttamente nelle immagini Docker.

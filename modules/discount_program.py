@@ -49,6 +49,15 @@ def get_active_discounts(company_id=None, broker_id=None):
     discounts = cursor.fetchall()
     conn.close()
     
+    # Converti i datetime in stringhe per evitare problemi di serializzazione
+    for discount in discounts:
+        if 'start_date' in discount and discount['start_date']:
+            discount['start_date'] = discount['start_date'].isoformat()
+        if 'end_date' in discount and discount['end_date']:
+            discount['end_date'] = discount['end_date'].isoformat()
+        if 'created_at' in discount and discount['created_at']:
+            discount['created_at'] = discount['created_at'].isoformat()
+    
     return discounts
 
 def calculate_discounted_premium(base_premium, company_id, broker_id):
