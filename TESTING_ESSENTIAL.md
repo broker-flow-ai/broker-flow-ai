@@ -118,3 +118,49 @@ docker compose down -v
 docker volume prune -f
 docker compose up
 ```
+
+
+
+
+
+ Certo! Ecco i comandi per fare una pulizia completa di Docker nel tuo ambiente WSL:
+
+    1 # 1. Ferma tutti i container in esecuzione
+    2 docker compose down
+    3
+    4 # 2. Rimuovi tutti i container
+    5 docker rm $(docker ps -aq)
+    6
+    7 # 3. Rimuovi tutte le immagini
+    8 docker rmi $(docker images -q)
+    9
+   10 # 4. Rimuovi tutti i volumi
+   11 docker volume rm $(docker volume ls -q)
+   12
+   13 # 5. Rimuovi tutte le reti
+   14 docker network rm $(docker network ls -q)
+   15
+   16 # 6. Pulizia generale (container, immagini, volumi, reti non utilizzati)
+   17 docker system prune -a --volumes
+   18
+   19 # 7. Se vuoi essere ancora più radicale, puoi anche resettare Docker (opzionale)
+   20 # Questo comando rimuove TUTTO, usalo con cautela:
+   21 # docker system prune -a --volumes --force
+
+  Dopo aver eseguito questi comandi, puoi ricostruire l'ambiente con:
+
+   1 # Ricostruisci l'ambiente
+   2 docker compose up -d
+
+  Questo processo:
+
+   1. Fermerà tutti i container in esecuzione
+   2. Rimuoverà tutti i container, immagini, volumi e reti Docker
+   3. Pulirà completamente l'ambiente Docker
+   4. Ti permetterà di ricostruire tutto da zero con le nuove modifiche
+
+  Nota importante: Questo rimuoverà TUTTI i dati Docker nel tuo sistema, non solo quelli di questo progetto. Se hai altri
+  progetti Docker in esecuzione, dovrai riavviarli separatamente.
+
+  Dopo la pulizia, quando esegui docker compose up -d, Docker ricostruirà tutte le immagini dal Dockerfile, quindi le tue
+  nuove modifiche saranno incluse.

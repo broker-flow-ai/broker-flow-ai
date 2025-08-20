@@ -101,3 +101,12 @@ CREATE TABLE discounts (
     FOREIGN KEY (company_id) REFERENCES clients(id),
     FOREIGN KEY (broker_id) REFERENCES clients(id)
 );
+
+CREATE TABLE audit_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(100),
+    action VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INT,
+    details JSON
+);

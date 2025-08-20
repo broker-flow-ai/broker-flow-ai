@@ -105,6 +105,14 @@ def get_company_performance(company_id):
     
     kpi_data = cursor.fetchone()
     
+    # Gestisci valori None
+    if kpi_data["total_premium"] is None:
+        kpi_data["total_premium"] = 0
+    if kpi_data["total_policies"] is None or kpi_data["total_policies"] == 0:
+        kpi_data["total_policies"] = 1  # Evita divisione per zero
+    if kpi_data["loss_ratio"] is None:
+        kpi_data["loss_ratio"] = 0
+    
     # Confronto con benchmark di mercato (simulato)
     benchmark = {
         "market_avg_loss_ratio": 65.5,
@@ -118,7 +126,7 @@ def get_company_performance(company_id):
         "benchmark": benchmark,
         "market_position": {
             "loss_ratio_vs_market": kpi_data["loss_ratio"] - benchmark["market_avg_loss_ratio"],
-            "premium_vs_market": float(kpi_data["total_premium"] / kpi_data["total_policies"] if kpi_data["total_policies"] > 0 else 0) - benchmark["market_avg_premium"]
+            "premium_vs_market": float(kpi_data["total_premium"] / kpi_data["total_policies"]) - benchmark["market_avg_premium"]
         }
     }
     

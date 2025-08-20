@@ -163,4 +163,13 @@ def get_compliance_reports(report_type=None):
     reports = cursor.fetchall()
     conn.close()
     
+    # Converti gli oggetti datetime in stringhe
+    for report in reports:
+        if 'generated_at' in report and report['generated_at']:
+            report['generated_at'] = report['generated_at'].isoformat()
+        if 'period_start' in report and report['period_start']:
+            report['period_start'] = report['period_start'].isoformat()
+        if 'period_end' in report and report['period_end']:
+            report['period_end'] = report['period_end'].isoformat()
+    
     return reports
