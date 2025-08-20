@@ -24,8 +24,13 @@ RUN apt-get update \
 # Copy requirements files
 COPY requirements.txt ./
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip first
+RUN pip install --upgrade pip
+
+# Try primary PyPI first, then fallback to alternative mirrors
+RUN pip install --no-cache-dir --timeout 1000 --retries 3 -i https://pypi.org/simple/ -r requirements.txt || \
+    pip install --no-cache-dir --timeout 1000 --retries 3 -i https://pypi.douban.com/simple/ -r requirements.txt || \
+    pip install --no-cache-dir --timeout 1000 --retries 3 --index-url https://pypi.tuna.tsinghua.edu.cn/simple/ -r requirements.txt
 
 # Copy project files
 COPY . .
