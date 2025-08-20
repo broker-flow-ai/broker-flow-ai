@@ -253,13 +253,15 @@ def broker_metrics_page():
                 vol = metrics['volume_metrics']
                 cols = st.columns(2)
                 cols[0].metric("Polizze Emesse", vol['policies_count'])
-                cols[1].metric("Premi Totali", f"€{vol['total_premium']:,.2f}")
+                premium_value = vol['total_premium'] if vol['total_premium'] is not None else 0
+                cols[1].metric("Premi Totali", f"€{premium_value:,.2f}")
                 
                 st.subheader("Metriche Sinistri")
                 claims = metrics['claims_metrics']
                 cols = st.columns(2)
                 cols[0].metric("Sinistri Registrati", claims['claims_count'])
-                cols[1].metric("Importo Sinistri", f"€{claims['total_claims']:,.2f}")
+                claims_value = claims['total_claims'] if claims['total_claims'] is not None else 0
+                cols[1].metric("Importo Sinistri", f"€{claims_value:,.2f}")
 
 # Menu di navigazione
 def main():

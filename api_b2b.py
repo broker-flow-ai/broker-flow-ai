@@ -89,7 +89,7 @@ async def api_company_performance(company_id: int):
     """Performance specifica di una compagnia assicurativa"""
     try:
         performance = get_company_performance(company_id)
-        return performance
+        return jsonable_encoder(performance)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -98,7 +98,7 @@ async def api_broker_performance(broker_id: int):
     """Performance di un broker partner"""
     try:
         performance = get_broker_performance(broker_id)
-        return performance
+        return jsonable_encoder(performance)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -112,7 +112,7 @@ async def api_generate_compliance_report(request: ComplianceReportRequest):
             request.period_start,
             request.period_end
         )
-        return report
+        return jsonable_encoder(report)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -135,7 +135,7 @@ async def api_pricing_suggestion(request: PricingRequest):
             request.risk_analysis,
             request.market_data
         )
-        return pricing
+        return jsonable_encoder(pricing)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -144,7 +144,7 @@ async def api_claims_prediction(client_profile: dict, historical_data: dict):
     """Predizione sinistri futuri"""
     try:
         prediction = predict_claims(client_profile, historical_data)
-        return prediction
+        return jsonable_encoder(prediction)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -153,7 +153,7 @@ async def api_automated_underwriting(risk_data: dict):
     """Processo di underwriting automatizzato"""
     try:
         underwriting = automated_underwriting(risk_data)
-        return underwriting
+        return jsonable_encoder(underwriting)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -170,7 +170,7 @@ async def api_create_discount(request: DiscountCreateRequest):
             request.start_date,
             request.end_date
         )
-        return {"discount_id": discount_id, "message": "Sconto creato con successo"}
+        return jsonable_encoder({"discount_id": discount_id, "message": "Sconto creato con successo"})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -179,7 +179,7 @@ async def api_get_discounts(company_id: Optional[int] = None, broker_id: Optiona
     """Recupera sconti attivi"""
     try:
         discounts = get_active_discounts(company_id, broker_id)
-        return {"discounts": discounts}
+        return jsonable_encoder({"discounts": discounts})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -188,11 +188,11 @@ async def api_calculate_discounted_premium(base_premium: float, company_id: int,
     """Calcola premio scontato"""
     try:
         discounted_premium, discount_percentage = calculate_discounted_premium(base_premium, company_id, broker_id)
-        return {
+        return jsonable_encoder({
             "base_premium": base_premium,
             "discounted_premium": discounted_premium,
             "discount_percentage": discount_percentage
-        }
+        })
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -201,7 +201,7 @@ async def api_broker_metrics(broker_id: int):
     """Recupera metriche performance broker"""
     try:
         metrics = get_broker_performance_metrics(broker_id)
-        return metrics
+        return jsonable_encoder(metrics)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -220,11 +220,11 @@ async def api_policy_issuance(request: PolicyIssuanceRequest):
         # 5. Sincronizzazione con portale broker
         # 6. Processamento pagamento
         
-        return {
+        return jsonable_encoder({
             "policy_id": "POL20250001",
             "status": "issued",
             "message": "Polizza emessa con successo"
-        }
+        })
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
