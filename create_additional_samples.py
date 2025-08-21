@@ -371,7 +371,6 @@ create_sample_pdf(
     [
         "Note: Richiesta polizza RC Professionale con copertura danni animali incluso."
     ]
-
 )
 
 print("15 additional sample PDF files created in inbox/")
