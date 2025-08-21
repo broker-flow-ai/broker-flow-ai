@@ -36,14 +36,24 @@ def suggest_pricing(client_profile, risk_analysis, market_data):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Sei un underwriter esperto nel settore assicurativo"},
+                {"role": "system", "content": "Sei un underwriter esperto nel settore assicurativo. Rispondi in formato JSON valido."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.3,
-            response_format={ "type": "json_object" }
+            temperature=0.3
         )
         
-        pricing = json.loads(response.choices[0].message.content)
+        # Estrai e pulisci il contenuto JSON
+        content = response.choices[0].message.content.strip()
+        # Rimuovi eventuali marcatori di codice
+        if content.startswith("```json"):
+            content = content[7:]
+        if content.startswith("```"):
+            content = content[3:]
+        if content.endswith("```"):
+            content = content[:-3]
+        content = content.strip()
+        
+        pricing = json.loads(content)
         return pricing
     except Exception as e:
         return {
@@ -81,14 +91,24 @@ def predict_claims(client_profile, historical_data):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Sei un analista predittivo nel settore assicurativo"},
+                {"role": "system", "content": "Sei un analista predittivo nel settore assicurativo. Rispondi in formato JSON valido."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.3,
-            response_format={ "type": "json_object" }
+            temperature=0.3
         )
         
-        prediction = json.loads(response.choices[0].message.content)
+        # Estrai e pulisci il contenuto JSON
+        content = response.choices[0].message.content.strip()
+        # Rimuovi eventuali marcatori di codice
+        if content.startswith("```json"):
+            content = content[7:]
+        if content.startswith("```"):
+            content = content[3:]
+        if content.endswith("```"):
+            content = content[:-3]
+        content = content.strip()
+        
+        prediction = json.loads(content)
         return prediction
     except Exception as e:
         return {
@@ -124,14 +144,24 @@ def automated_underwriting(risk_data):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Sei un underwriter capo con 20 anni di esperienza"},
+                {"role": "system", "content": "Sei un underwriter capo con 20 anni di esperienza. Rispondi in formato JSON valido."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.3,
-            response_format={ "type": "json_object" }
+            temperature=0.3
         )
         
-        underwriting = json.loads(response.choices[0].message.content)
+        # Estrai e pulisci il contenuto JSON
+        content = response.choices[0].message.content.strip()
+        # Rimuovi eventuali marcatori di codice
+        if content.startswith("```json"):
+            content = content[7:]
+        if content.startswith("```"):
+            content = content[3:]
+        if content.endswith("```"):
+            content = content[:-3]
+        content = content.strip()
+        
+        underwriting = json.loads(content)
         return underwriting
     except Exception as e:
         return {

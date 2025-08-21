@@ -40,7 +40,7 @@ def get_portfolio_analytics(company_id=None):
         SELECT 
             DATE_FORMAT(p.created_at, '%Y-%m') as month,
             COUNT(p.id) as policies_issued,
-            SUM(pr.amount) as premium_collected
+            COALESCE(SUM(pr.amount), 0) as premium_collected
         FROM policies p
         LEFT JOIN premiums pr ON p.id = pr.policy_id
     """
@@ -52,6 +52,11 @@ def get_portfolio_analytics(company_id=None):
     
     cursor.execute(trend_query, params)
     trend_data = cursor.fetchall()
+    
+    # Gestisci valori None nei dati del trend
+    for item in trend_data:
+        if item['premium_collected'] is None:
+            item['premium_collected'] = 0
     
     # Analisi per settore
     sector_query = """
@@ -93,10 +98,13 @@ def get_company_performance(company_id):
         SELECT 
             COUNT(p.id) as total_policies,
             SUM(CASE WHEN p.status = 'active' THEN 1 ELSE 0 END) as active_policies,
-            SUM(pr.amount) as total_premium,
+            COALESCE(SUM(pr.amount), 0) as total_premium,
             COUNT(c.id) as total_claims,
-            SUM(c.amount) as total_claim_amount,
-            (SUM(c.amount) / SUM(pr.amount) * 100) as loss_ratio
+            COALESCE(SUM(c.amount), 0) as total_claim_amount,
+            CASE 
+                WHEN SUM(pr.amount) > 0 THEN (SUM(c.amount) / SUM(pr.amount) * 100)
+                ELSE 0
+            END as loss_ratio
         FROM policies p
         LEFT JOIN premiums pr ON p.id = pr.policy_id
         LEFT JOIN claims c ON p.id = c.policy_id
@@ -108,10 +116,20 @@ def get_company_performance(company_id):
     # Gestisci valori None
     if kpi_data["total_premium"] is None:
         kpi_data["total_premium"] = 0
-    if kpi_data["total_policies"] is None or kpi_data["total_policies"] == 0:
-        kpi_data["total_policies"] = 1  # Evita divisione per zero
+    if kpi_data["total_policies"] is None:
+        kpi_data["total_policies"] = 0
+    if kpi_data["total_claims"] is None:
+        kpi_data["total_claims"] = 0
+    if kpi_data["total_claim_amount"] is None:
+        kpi_data["total_claim_amount"] = 0
     if kpi_data["loss_ratio"] is None:
         kpi_data["loss_ratio"] = 0
+    
+    # Evita divisione per zero
+    if kpi_data["total_policies"] == 0:
+        avg_premium = 0
+    else:
+        avg_premium = float(kpi_data["total_premium"] / kpi_data["total_policies"])
     
     # Confronto con benchmark di mercato (simulato)
     benchmark = {
@@ -126,7 +144,7 @@ def get_company_performance(company_id):
         "benchmark": benchmark,
         "market_position": {
             "loss_ratio_vs_market": kpi_data["loss_ratio"] - benchmark["market_avg_loss_ratio"],
-            "premium_vs_market": float(kpi_data["total_premium"] / kpi_data["total_policies"]) - benchmark["market_avg_premium"]
+            "premium_vs_market": avg_premium - benchmark["market_avg_premium"]
         }
     }
     

@@ -37,14 +37,24 @@ def analyze_risk_sustainability(client_profile, historical_data):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Sei un analista assicurativo esperto"},
+                {"role": "system", "content": "Sei un analista assicurativo esperto. Rispondi in formato JSON valido con i seguenti campi: risk_score, sector_analysis, pricing_recommendation, recommendation_level, underwriting_notes"},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.3,
-            response_format={ "type": "json_object" }
+            temperature=0.3
         )
         
-        analysis = json.loads(response.choices[0].message.content)
+        # Estrai e pulisci il contenuto JSON
+        content = response.choices[0].message.content.strip()
+        # Rimuovi eventuali marcatori di codice
+        if content.startswith("```json"):
+            content = content[7:]
+        if content.startswith("```"):
+            content = content[3:]
+        if content.endswith("```"):
+            content = content[:-3]
+        content = content.strip()
+        
+        analysis = json.loads(content)
         return analysis
     except Exception as e:
         return {

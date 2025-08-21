@@ -104,14 +104,24 @@ def generate_compliance_report(report_type, period_start, period_end):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Sei un esperto di compliance normativa nel settore assicurativo"},
+                {"role": "system", "content": "Sei un esperto di compliance normativa nel settore assicurativo. Rispondi in formato JSON valido con i seguenti campi: title, executive_summary, technical_details, conclusions, signature"},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.3,
-            response_format={ "type": "json_object" }
+            temperature=0.3
         )
         
-        report = json.loads(response.choices[0].message.content)
+        # Estrai e pulisci il contenuto JSON
+        content = response.choices[0].message.content.strip()
+        # Rimuovi eventuali marcatori di codice
+        if content.startswith("```json"):
+            content = content[7:]
+        if content.startswith("```"):
+            content = content[3:]
+        if content.endswith("```"):
+            content = content[:-3]
+        content = content.strip()
+        
+        report = json.loads(content)
         
         # Salva il report nel database
         save_compliance_report(report_type, period_start, period_end, report)

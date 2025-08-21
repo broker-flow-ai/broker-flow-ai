@@ -72,7 +72,10 @@ async def api_risk_analysis(request: RiskAnalysisRequest):
         
         return jsonable_encoder(response)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        error_details = f"Error in risk analysis: {str(e)}\nTraceback: {traceback.format_exc()}"
+        print(error_details)  # Log per debugging
+        raise HTTPException(status_code=500, detail=error_details)
 
 # Endpoint per dashboard analytics
 @app.get("/api/v1/insurance/portfolio-analytics")
