@@ -20,31 +20,31 @@ def extract_client_data(text):
     
     # Try to extract name with improved patterns
     # Look for "Cliente: Dr. Name Surname" pattern
-    dr_match = re.search(r'Cliente:\\s*(Dr\\.\\s*[A-Z][a-z]+(?:\\s+[A-Z][a-z]+)*)', text, re.IGNORECASE)
+    dr_match = re.search(r'Cliente:\s*(Dr\.\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', text, re.IGNORECASE)
     if dr_match:
         client_data["name"] = dr_match.group(1).strip()
     else:
         # Look for "Cliente: Name Surname" pattern
-        name_match = re.search(r'Cliente:\\s*([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)+)', text, re.IGNORECASE)
+        name_match = re.search(r'Cliente:\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)', text, re.IGNORECASE)
         if name_match:
             # Take only the first line
             name = name_match.group(1).strip()
-            if "\\n" in name:
-                name = name.split("\\n")[0]
+            if "\n" in name:
+                name = name.split("\n")[0]
             client_data["name"] = name
         else:
             # Fallback patterns
-            sig_match = re.search(r'(?:Sig\\.|Signor)\\s*([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)*)', text, re.IGNORECASE)
+            sig_match = re.search(r'(?:Sig\.|Signor)\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', text, re.IGNORECASE)
             if sig_match:
                 client_data["name"] = sig_match.group(1).strip()
     
     # Special handling for Dr. names that might have extra text
-    if client_data["name"] and "\\n" in client_data["name"]:
-        client_data["name"] = client_data["name"].split("\\n")[0].strip()
+    if client_data["name"] and "\n" in client_data["name"]:
+        client_data["name"] = client_data["name"].split("\n")[0].strip()
     
     # Try to extract company/studio
     # Look for "Azienda:" or "Studio:" followed by company name
-    company_match = re.search(r'(?:Azienda|Studio|Societa|Company):\\s*([^\\n]+)', text, re.IGNORECASE)
+    company_match = re.search(r'(?:Azienda|Studio|Societa|Company):\s*([^\n]+)', text, re.IGNORECASE)
     if company_match:
         company = company_match.group(1).strip()
         # Remove any text after phone/email patterns
@@ -52,17 +52,17 @@ def extract_client_data(text):
         client_data["company"] = parts[0].strip()
     else:
         # Special handling for address pattern in flotta case
-        address_match = re.search(r'([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)*\\s+\\d+,.*\\d{5})', text)
+        address_match = re.search(r'([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+\d+,.*\d{5})', text)
         if address_match:
             client_data["company"] = address_match.group(1).strip()
     
     # Try to extract email
-    email_match = re.search(r'[\\w\\.-]+@[\\w\\.-]+\\.\\w+', text)
+    email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', text)
     if email_match:
         client_data["email"] = email_match.group(0)
     
     # Try to extract sector
-    sector_match = re.search(r'Settore:\\s*([^\\n]+)', text, re.IGNORECASE)
+    sector_match = re.search(r'Settore:\s*([^\n]+)', text, re.IGNORECASE)
     if sector_match:
         client_data["sector"] = sector_match.group(1).strip()
     
