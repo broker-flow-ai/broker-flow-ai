@@ -21,6 +21,7 @@ services:
       - ./logs:/app/logs
     depends_on:
       - db
+      - init-db
     restart: unless-stopped
     command: uvicorn api_b2b:app --host 0.0.0.0 --port 8000 --reload
 
@@ -45,6 +46,7 @@ services:
     depends_on:
       - db
       - api
+      - init-db
     restart: unless-stopped
     command: streamlit run frontend/dashboard.py --server.port 8501
 
@@ -64,6 +66,7 @@ services:
       - ./logs:/app/logs
     depends_on:
       - db
+      - init-db
     restart: unless-stopped
     command: python main.py
 
@@ -82,6 +85,34 @@ services:
       - "3306:3306"
     restart: unless-stopped
 
+  # Database initialization service
+  init-db:
+    build: .
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    volumes:
+      - ./inbox:/app/inbox
+      - ./output:/app/output
+      - ./templates:/app/templates
+      - ./logs:/app/logs
+      - ./populate_realistic_data.py:/app/populate_realistic_data.py
+      - ./populate_audit_log.py:/app/populate_audit_log.py
+    depends_on:
+      - db
+    command: >
+      bash -c "
+        echo 'Attendo che il database sia pronto...' &&
+        sleep 20 &&
+        echo 'Popolazione dei dati realistici...' &&
+        python populate_realistic_data.py &&
+        echo 'Popolazione dell''audit log...' &&
+        python populate_audit_log.py &&
+        echo 'Inizializzazione completata!'
+      "
+
   # Database management tool
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -93,6 +124,7 @@ services:
       - "8080:80"
     depends_on:
       - db
+      - init-db
     restart: unless-stopped
 
   # Redis cache (for future use)
