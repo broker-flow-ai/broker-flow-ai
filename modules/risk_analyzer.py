@@ -126,31 +126,53 @@ def save_risk_analysis(client_id, analysis):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # Converti i valori Decimal in float per evitare errori di serializzazione
-    clean_analysis = {}
-    for key, value in analysis.items():
-        if isinstance(value, decimal.Decimal):
-            clean_analysis[key] = float(value)
+    try:
+        # Converti l'analisi in JSON serializzabile
+        clean_analysis = {}
+        for key, value in analysis.items():
+            try:
+                # Prova a serializzare il valore
+                json.dumps(value)
+                clean_analysis[key] = value
+            except (TypeError, ValueError):
+                # Se non si può serializzare, convertilo in stringa
+                clean_analysis[key] = str(value)
+        
+        # Estrai i valori specifici con valori di default
+        risk_score = clean_analysis.get('risk_score', 50)
+        if isinstance(risk_score, (int, float, decimal.Decimal)):
+            risk_score = float(risk_score)
         else:
-            clean_analysis[key] = value
-    
-    cursor.execute("""
-        INSERT INTO risk_analysis (client_id, risk_score, sector_analysis, 
-                                 pricing_recommendation, recommendation_level, 
-                                 underwriting_notes, full_analysis)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (
-        client_id,
-        float(clean_analysis.get('risk_score', 50)),
-        clean_analysis.get('sector_analysis', ''),
-        clean_analysis.get('pricing_recommendation', ''),
-        clean_analysis.get('recommendation_level', 'Medio'),
-        clean_analysis.get('underwriting_notes', ''),
-        json.dumps(clean_analysis)
-    ))
-    
-    analysis_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    
-    return analysis_id
+            risk_score = 50.0
+            
+        sector_analysis = str(clean_analysis.get('sector_analysis', ''))
+        pricing_recommendation = str(clean_analysis.get('pricing_recommendation', ''))
+        recommendation_level = str(clean_analysis.get('recommendation_level', 'Medio'))
+        underwriting_notes = str(clean_analysis.get('underwriting_notes', ''))
+        
+        # Serializza l'intera analisi come JSON
+        full_analysis_json = json.dumps(clean_analysis, default=str)
+        
+        cursor.execute("""
+            INSERT INTO risk_analysis (client_id, risk_score, sector_analysis, 
+                                     pricing_recommendation, recommendation_level, 
+                                     underwriting_notes, full_analysis)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (
+            client_id,
+            risk_score,
+            sector_analysis,
+            pricing_recommendation,
+            recommendation_level,
+            underwriting_notes,
+            full_analysis_json
+        ))
+        
+        analysis_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        
+        return analysis_id
+    except Exception as e:
+        conn.close()
+        raise Exception(f"Error saving risk analysis: {str(e)}")
