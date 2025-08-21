@@ -44,16 +44,14 @@ create_sample_pdf(
 create_sample_pdf(
     "inbox/sample_rc_architetto.pdf",
     "Richiesta Preventivo Assicurativo - RC Professionale",
-        content = [
-        "Richiesta Preventivo Assicurativo - RC Professionale",
-        "",
+    [
         "Cliente: Ing. Laura Bianchi",
         "Professione: Architetto",
         "Settore: Edilizia",
         "Studio: Corso Italia 15, 10122 Torino (TO)",
         "Telefono: 0119876543",
         "Email: l.bianchi@archstudio.to"
-    ],,
+    ],
     [
         "Dati Attivita':",
         "- Superficie Studio: 120 mq",
@@ -73,6 +71,7 @@ create_sample_pdf(
     [
         "Cliente: Dott. Roberto Ferretti",
         "Professione: Commercialista",
+        "Settore: Servizi finanziari",
         "Studio: Piazza Garibaldi 8, 50123 Firenze (FI)",
         "Telefono: 0551122334",
         "Email: r.ferretti@studiofi.it"
@@ -96,6 +95,7 @@ create_sample_pdf(
     [
         "Cliente: Stefano Romano",
         "Azienda: Roma Taxi Service SRL",
+        "Settore: Trasporti",
         "Indirizzo: Via Appia 500, 00184 Roma (RM)",
         "Telefono: 065556677",
         "Email: info@romataxi.it"
@@ -119,6 +119,7 @@ create_sample_pdf(
     [
         "Cliente: Avv. Giulia Martini",
         "Professione: Avvocato",
+        "Settore: Legalità",
         "Studio: Via Montenapoleone 12, 20121 Milano (MI)",
         "Telefono: 028889900",
         "Email: g.martini@studiolegalemi.it"
@@ -142,6 +143,7 @@ create_sample_pdf(
     [
         "Cliente: Luca Esposito",
         "Azienda: Esposito Trasporti SRL",
+        "Settore: Logistica",
         "Indirizzo: Via Salara 33, 45100 Rovigo (RO)",
         "Telefono: 0425123456",
         "Email: l.esposito@espositotrasporti.it"
@@ -164,6 +166,7 @@ create_sample_pdf(
     [
         "Cliente: Ing. Marco De Luca",
         "Professione: Ingegnere Civile",
+        "Settore: Ingegneria",
         "Studio: Via dei Mille 45, 80134 Napoli (NA)",
         "Telefono: 0813334445",
         "Email: m.deluca@ingegneriassociati.na"
@@ -187,6 +190,7 @@ create_sample_pdf(
     [
         "Cliente: Giuseppe Ferrari",
         "Azienda: Ferrari Motori SRL",
+        "Settore: Commercio",
         "Indirizzo: Via Emilia 1000, 41124 Modena (MO)",
         "Telefono: 0599876543",
         "Email: g.ferrari@ferrarimotori.it"
@@ -210,6 +214,7 @@ create_sample_pdf(
     [
         "Cliente: Dr. Alessandro Ricci",
         "Professione: Medico Specialista - Cardiologia",
+        "Settore: Sanità",
         "Studio: Via Veneto 30, 00187 Roma (RM)",
         "Telefono: 0677788899",
         "Email: a.ricci@cardioclinic.rm"
@@ -233,6 +238,7 @@ create_sample_pdf(
     [
         "Cliente: Paolo Moretti",
         "Azienda: Moretti Traslochi SRL",
+        "Settore: Logistica",
         "Indirizzo: Via Tiburtina 800, 00131 Roma (RM)",
         "Telefono: 0644455566",
         "Email: info@morettitraslochi.it"
@@ -255,6 +261,7 @@ create_sample_pdf(
     [
         "Cliente: Dott. Marco Colombo",
         "Professione: Notaio",
+        "Settore: Legalità",
         "Studio: Piazza Castello 15, 20121 Milano (MI)",
         "Telefono: 0255566777",
         "Email: m.colombo@notaiassociati.mi"
@@ -278,6 +285,7 @@ create_sample_pdf(
     [
         "Cliente: Andrea Conti",
         "Azienda: Conti Distribuzione SRL",
+        "Settore: Commercio",
         "Indirizzo: Via Dante 200, 25121 Brescia (BS)",
         "Telefono: 0301234567",
         "Email: a.conti@contidistribuzione.it"
@@ -300,6 +308,7 @@ create_sample_pdf(
     [
         "Cliente: Dott.ssa Elena Rossi",
         "Professione: Psicologo",
+        "Settore: Sanità",
         "Studio: Via Manzoni 55, 16121 Genova (GE)",
         "Telefono: 0109998877",
         "Email: e.rossi@psicologogenova.it"
@@ -323,6 +332,7 @@ create_sample_pdf(
     [
         "Cliente: Roberto Marchetti",
         "Azienda: Marchetti Rent SRL",
+        "Settore: Noleggio",
         "Indirizzo: Via Bologna 400, 20100 Milano (MI)",
         "Telefono: 0233344555",
         "Email: r.marchetti@marchettirent.it"
@@ -346,6 +356,7 @@ create_sample_pdf(
     [
         "Cliente: Dr. Matteo Fontana",
         "Professione: Veterinario",
+        "Settore: Sanità",
         "Clinica: Via Parini 25, 35129 Padova (PD)",
         "Telefono: 0498887766",
         "Email: m.fontana@veterinariopadova.it"
