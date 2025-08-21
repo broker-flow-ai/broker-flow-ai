@@ -21,13 +21,16 @@ def create_sample_pdf(filename, title, client_info, details, notes):
 create_sample_pdf(
     "inbox/sample_flotta_tp.pdf",
     "Richiesta Preventivo Assicurativo - Flotta Auto",
-    [
+        content = [
+        "Richiesta Preventivo Assicurativo - Flotta Auto",
+        "",
         "Cliente: Marco Verdi",
         "Azienda: Verdi Autobus SRL",
+        "Settore: Trasporti",
         "Indirizzo: Via Napoli 25, 80135 Napoli (NA)",
         "Telefono: 0811234567",
         "Email: m.verdi@verdiautobus.it"
-    ],
+    ],,
     [
         "Dettaglio Veicoli:",
         "- Targa: NA123NA, Tipo: Autobus, Uso: Trasporto pubblico, Anno: 2019, Valore: 120.000 EUR",
@@ -43,13 +46,16 @@ create_sample_pdf(
 create_sample_pdf(
     "inbox/sample_rc_architetto.pdf",
     "Richiesta Preventivo Assicurativo - RC Professionale",
-    [
+        content = [
+        "Richiesta Preventivo Assicurativo - RC Professionale",
+        "",
         "Cliente: Ing. Laura Bianchi",
         "Professione: Architetto",
+        "Settore: Edilizia",
         "Studio: Corso Italia 15, 10122 Torino (TO)",
         "Telefono: 0119876543",
         "Email: l.bianchi@archstudio.to"
-    ],
+    ],,
     [
         "Dati Attivita':",
         "- Superficie Studio: 120 mq",

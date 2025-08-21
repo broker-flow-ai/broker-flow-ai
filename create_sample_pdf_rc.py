@@ -11,6 +11,7 @@ def create_sample_pdf_rc_professionale(filename):
         "",
         "Cliente: Dr. Alessandro Bianchi",
         "Professione: Medico Chirurgo",
+        "Settore: Sanità",
         "Studio: Via Roma 50, 00184 Roma (RM)",
         "Telefono: 0688888888",
         "Email: dr.bianchi@studio-medico.it",

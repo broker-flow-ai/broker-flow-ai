@@ -12,6 +12,7 @@ def create_sample_pdf_flotta(filename):
         "",
         "Cliente: Mario Rossi",
         "Azienda: Rossi Trasporti SRL",
+        "Settore: Trasporti",
         "Indirizzo: Via Milano 10, 20100 Milano (MI)",
         "Telefono: 0212345678",
         "Email: mario@rossitrasporti.it",
