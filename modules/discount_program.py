@@ -1,3 +1,4 @@
+import decimal
 from modules.db import get_db_connection
 from datetime import datetime, timedelta
 
@@ -114,11 +115,18 @@ def get_broker_performance_metrics(broker_id):
     
     claims_data = cursor.fetchone()
     
+    # Converti i valori Decimal in float
+    for data in [volume_data, claims_data]:
+        if data:
+            for key, value in data.items():
+                if isinstance(value, decimal.Decimal):
+                    data[key] = float(value)
+    
     # Calcola punteggio performance
-    policies_count = volume_data['policies_count'] or 0
-    total_premium = volume_data['total_premium'] or 0
-    claims_count = claims_data['claims_count'] or 0
-    total_claims = claims_data['total_claims'] or 0
+    policies_count = volume_data['policies_count'] if volume_data['policies_count'] is not None else 0
+    total_premium = volume_data['total_premium'] if volume_data['total_premium'] is not None else 0
+    claims_count = claims_data['claims_count'] if claims_data['claims_count'] is not None else 0
+    total_claims = claims_data['total_claims'] if claims_data['total_claims'] is not None else 0
     
     # Punteggio base su volume
     volume_score = min(policies_count / 100, 10) * 5  # Max 50 punti

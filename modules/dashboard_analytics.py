@@ -1,4 +1,5 @@
 import json
+import decimal
 from modules.db import get_db_connection
 from datetime import datetime, timedelta
 
@@ -113,6 +114,11 @@ def get_company_performance(company_id):
     
     kpi_data = cursor.fetchone()
     
+    # Converti tutti i valori Decimal in float
+    for key, value in kpi_data.items():
+        if isinstance(value, decimal.Decimal):
+            kpi_data[key] = float(value)
+    
     # Gestisci valori None
     if kpi_data["total_premium"] is None:
         kpi_data["total_premium"] = 0
@@ -138,13 +144,13 @@ def get_company_performance(company_id):
         "market_avg_risk_score": 45.2
     }
     
-    # Calcola posizionamento rispetto al mercato
+    # Calcola posizionamento rispetto al mercato (converti tutto in float per evitare errori)
     performance = {
         "kpi": kpi_data,
         "benchmark": benchmark,
         "market_position": {
-            "loss_ratio_vs_market": kpi_data["loss_ratio"] - benchmark["market_avg_loss_ratio"],
-            "premium_vs_market": avg_premium - benchmark["market_avg_premium"]
+            "loss_ratio_vs_market": float(kpi_data["loss_ratio"]) - float(benchmark["market_avg_loss_ratio"]),
+            "premium_vs_market": avg_premium - float(benchmark["market_avg_premium"])
         }
     }
     

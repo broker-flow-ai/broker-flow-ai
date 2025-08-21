@@ -1,5 +1,6 @@
 import openai
 import json
+import decimal
 from config import OPENAI_API_KEY
 from modules.db import get_db_connection
 
@@ -99,14 +100,21 @@ def get_client_profile(client_id):
     
     conn.close()
     
-    # Converti i datetime in stringhe per evitare problemi di serializzazione
+    # Converti i datetime e i Decimal in tipi serializzabili
     for claim in claims:
         if 'claim_date' in claim and claim['claim_date']:
             claim['claim_date'] = claim['claim_date'].isoformat()
+        if 'amount' in claim and claim['amount']:
+            claim['amount'] = float(claim['amount'])
     
-    # Converti i datetime nel client_info
-    if client and 'created_at' in client and client['created_at']:
-        client['created_at'] = client['created_at'].isoformat()
+    # Converti i datetime e i Decimal nel client_info
+    if client:
+        if 'created_at' in client and client['created_at']:
+            client['created_at'] = client['created_at'].isoformat()
+        # Converti tutti i valori Decimal in float
+        for key, value in client.items():
+            if isinstance(value, decimal.Decimal):
+                client[key] = float(value)
     
     return {
         "client_info": client,
