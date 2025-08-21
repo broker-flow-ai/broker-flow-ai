@@ -126,6 +126,14 @@ def save_risk_analysis(client_id, analysis):
     conn = get_db_connection()
     cursor = conn.cursor()
     
+    # Converti i valori Decimal in float per evitare errori di serializzazione
+    clean_analysis = {}
+    for key, value in analysis.items():
+        if isinstance(value, decimal.Decimal):
+            clean_analysis[key] = float(value)
+        else:
+            clean_analysis[key] = value
+    
     cursor.execute("""
         INSERT INTO risk_analysis (client_id, risk_score, sector_analysis, 
                                  pricing_recommendation, recommendation_level, 
@@ -133,12 +141,12 @@ def save_risk_analysis(client_id, analysis):
         VALUES (%s, %s, %s, %s, %s, %s, %s)
     """, (
         client_id,
-        analysis.get('risk_score', 50),
-        analysis.get('sector_analysis', ''),
-        analysis.get('pricing_recommendation', ''),
-        analysis.get('recommendation_level', 'Medio'),
-        analysis.get('underwriting_notes', ''),
-        json.dumps(analysis)
+        float(clean_analysis.get('risk_score', 50)),
+        clean_analysis.get('sector_analysis', ''),
+        clean_analysis.get('pricing_recommendation', ''),
+        clean_analysis.get('recommendation_level', 'Medio'),
+        clean_analysis.get('underwriting_notes', ''),
+        json.dumps(clean_analysis)
     ))
     
     analysis_id = cursor.lastrowid
