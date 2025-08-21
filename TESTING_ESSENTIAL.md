@@ -119,7 +119,13 @@ docker volume prune -f
 docker compose up
 ```
 
-
+docker compose down
+docker rm $(docker ps -aq)
+docker rmi $(docker images -q)
+docker volume rm $(docker volume ls -q)
+docker network rm $(docker network ls -q)
+docker system prune -a --volumes
+docker compose up -d
 
 
 

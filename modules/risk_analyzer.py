@@ -147,8 +147,17 @@ def save_risk_analysis(client_id, analysis):
             
         sector_analysis = str(clean_analysis.get('sector_analysis', ''))
         pricing_recommendation = str(clean_analysis.get('pricing_recommendation', ''))
-        recommendation_level = str(clean_analysis.get('recommendation_level', 'Medio'))
         underwriting_notes = str(clean_analysis.get('underwriting_notes', ''))
+        
+        # Gestisci recommendation_level per assicurarsi che sia uno dei valori ENUM permessi
+        recommendation_level = str(clean_analysis.get('recommendation_level', 'Medio'))
+        # Normalizza il valore
+        if 'alto' in recommendation_level.lower():
+            recommendation_level = 'Alto'
+        elif 'basso' in recommendation_level.lower():
+            recommendation_level = 'Basso'
+        else:
+            recommendation_level = 'Medio'  # Valore di default
         
         # Serializza l'intera analisi come JSON
         full_analysis_json = json.dumps(clean_analysis, default=str)
