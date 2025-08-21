@@ -29,8 +29,8 @@ def extract_client_data(text):
         if name_match:
             # Take only the first line
             name = name_match.group(1).strip()
-            if "\n" in name:
-                name = name.split("\n")[0]
+            if "\\n" in name:
+                name = name.split("\\n")[0]
             client_data["name"] = name
         else:
             # Fallback patterns
@@ -39,8 +39,8 @@ def extract_client_data(text):
                 client_data["name"] = sig_match.group(1).strip()
     
     # Special handling for Dr. names that might have extra text
-    if client_data["name"] and "\n" in client_data["name"]:
-        client_data["name"] = client_data["name"].split("\n")[0].strip()
+    if client_data["name"] and "\\n" in client_data["name"]:
+        client_data["name"] = client_data["name"].split("\\n")[0].strip()
     
     # Try to extract company/studio
     # Look for "Azienda:" or "Studio:" followed by company name

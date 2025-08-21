@@ -128,44 +128,7 @@ docker system prune -a --volumes
 docker compose up -d
 
 
-✦ Ora ricostruiamo l'ambiente Docker per applicare tutte le modifiche:
 
-   1 docker compose down
-   2 docker compose up -d
-
-  Dopo che i container sono avviati, esegui i seguenti passaggi:
-
-   1. Popola i dati realistici:
-
-   1 python populate_realistic_data.py
-
-   2. Popola l'audit log:
-
-   1 python populate_audit_log.py
-
-   3. Verifica i dati:
-
-    1 # Controlla i clienti con settore
-    2 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT id, name, company, sector
-      FROM clients LIMIT 10;"
-    3
-    4 # Controlla le polizze
-    5 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT COUNT(*) as policies_count
-      FROM policies;"
-    6
-    7 # Controlla i sinistri
-    8 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT COUNT(*) as claims_count
-      FROM claims;"
-    9
-   10 # Controlla l'audit log
-   11 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT COUNT(*) as audit_entries
-      FROM audit_log;"
-
-  Questi miglioramenti dovrebbero rendere l'analisi molto più completa e realistica, con:
-   - Settori specifici per ogni cliente
-   - Dati storici di polizze, premi e sinistri
-   - Attività di audit log per i report di compliance
-   - Informazioni più dettagliate per l'AI nell'analisi del rischio
 
 
 
