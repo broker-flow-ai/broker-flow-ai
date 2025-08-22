@@ -129,28 +129,28 @@ def process_inbox():
                 cursor = conn.cursor()
                 
                 # 1. Insert client data if not exists
-            client_id = None
-            if client_data["email"]:
-                cursor.execute(
-                    "SELECT id FROM clients WHERE email = %s", 
-                    (client_data["email"],)
-                )
-                result = cursor.fetchone()
-                if result:
-                    client_id = result[0]
+                client_id = None
+                if client_data["email"]:
+                    cursor.execute(
+                        "SELECT id FROM clients WHERE email = %s", 
+                        (client_data["email"],)
+                    )
+                    result = cursor.fetchone()
+                    if result:
+                        client_id = result[0]
+                    else:
+                        cursor.execute(
+                            "INSERT INTO clients (name, company, email, sector) VALUES (%s, %s, %s, %s)",
+                            (client_data["name"], client_data["company"], client_data["email"], client_data["sector"])
+                        )
+                        client_id = cursor.lastrowid
                 else:
+                    # Insert with placeholder data if no email found
                     cursor.execute(
                         "INSERT INTO clients (name, company, email, sector) VALUES (%s, %s, %s, %s)",
-                        (client_data["name"], client_data["company"], client_data["email"], client_data["sector"])
+                        (client_data["name"] or "Unknown", client_data["company"] or "Unknown", "unknown@example.com", client_data["sector"] or "Unknown")
                     )
                     client_id = cursor.lastrowid
-            else:
-                # Insert with placeholder data if no email found
-                cursor.execute(
-                    "INSERT INTO clients (name, company, email, sector) VALUES (%s, %s, %s, %s)",
-                    (client_data["name"] or "Unknown", client_data["company"] or "Unknown", "unknown@example.com", client_data["sector"] or "Unknown")
-                )
-                client_id = cursor.lastrowid
 
                 # 2. Insert risk data
                 risk_details = {
