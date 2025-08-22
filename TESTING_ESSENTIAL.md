@@ -126,9 +126,84 @@ docker volume rm $(docker volume ls -q)
 docker network rm $(docker network ls -q)
 docker system prune -a --volumes
 docker compose up -d
+docker compose exec init-db python populate_dashboard_data.py
 
+Ora eseguiamo lo script per popolare i dati della dashboard:
 
+   1 # Eseguiamo lo script per popolare i dati della dashboard
+   2 docker compose exec init-db python populate_dashboard_data.py
 
+  Dopo aver eseguito lo script, verifichiamo che i dati siano stati popolati correttamente:
+
+    1 # Verifichiamo le compagnie assicurative create
+    2 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT id, name, company, sector
+      FROM clients WHERE sector = 'Assicurativo';"
+    3
+    4 # Verifichiamo che le policy siano state associate alle compagnie
+    5 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT COUNT(*) as
+      policies_with_company FROM policies WHERE company_id IS NOT NULL;"
+    6
+    7 # Verifichiamo che ci siano premi e sinistri
+    8 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT COUNT(*) as premiums_count
+      FROM premiums;"
+    9 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "SELECT COUNT(*) as claims_count
+      FROM claims;"
+   10
+   11 # Verifichiamo i dati aggregati per la dashboard
+   12 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "
+   13 SELECT
+   14     c.company as insurance_company,
+   15     COUNT(DISTINCT p.id) as total_policies,
+   16     COUNT(DISTINCT CASE WHEN p.status = 'active' THEN p.id END) as active_policies,
+   17     SUM(pr.amount) as total_premiums,
+   18     COUNT(cl.id) as total_claims,
+   19     SUM(cl.amount) as total_claims_amount,
+   20     CASE
+   21         WHEN SUM(pr.amount) > 0 THEN (SUM(cl.amount) / SUM(pr.amount) * 100)
+   22         ELSE 0
+   23     END as claims_ratio
+   24 FROM clients c
+   25 JOIN policies p ON c.id = p.company_id
+   26 LEFT JOIN premiums pr ON p.id = pr.policy_id AND pr.payment_status = 'paid'
+   27 LEFT JOIN claims cl ON p.id = cl.policy_id
+   28 WHERE c.sector = 'Assicurativo'
+   29 GROUP BY c.id, c.company
+   30 ORDER BY total_policies DESC;
+   31 "
+
+  Se tutto è andato bene, ora le dashboard dovrebbero mostrare dati realistici. Se necessario, possiamo anche aggiungere
+  dati specifici per i broker:
+
+    1 # Verifichiamo i broker con dati aggregati
+    2 docker compose exec db mysql -u brokerflow -pbrokerflow123 brokerflow_ai -e "
+    3 SELECT
+    4     c.id as broker_id,
+    5     c.name as broker_name,
+    6     c.company as broker_company,
+    7     COUNT(DISTINCT p.id) as policies_issued,
+    8     SUM(pr.amount) as total_premiums,
+    9     COUNT(cl.id) as claims_count,
+   10     SUM(cl.amount) as total_claims_amount
+   11 FROM clients c
+   12 JOIN risks r ON c.id = r.client_id
+   13 JOIN policies p ON r.id = p.risk_id
+   14 LEFT JOIN premiums pr ON p.id = pr.policy_id AND pr.payment_status = 'paid'
+   15 LEFT JOIN claims cl ON p.id = cl.policy_id
+   16 WHERE c.sector IN ('Trasporti', 'Sanità', 'Edilizia', 'Legalità', 'Ingegneria', 'Commercio', 'Logistica',
+      'Noleggio')
+   17 GROUP BY c.id, c.name, c.company
+   18 ORDER BY policies_issued DESC
+   19 LIMIT 10;
+   20 "
+
+  Questi dati dovrebbero ora popolare correttamente le dashboard con informazioni realistiche per:
+   - Dashboard Compagnia Assicurativa: Con totale polizze, polizze attive, premi totali, ratio sinistri
+   - Metriche Performance Broker: Con punteggio performance, polizze emesse, premi totali, sinistri registrati
+
+  Se i dati non appaiono immediatamente nella dashboard web, potrebbe essere necessario:
+   1. Aggiornare la pagina del browser
+   2. Attendere che l'API rilegga i dati dal database
+   3. Verificare che non ci siano errori nell'API che impediscono la visualizzazione dei dati
 
 
 
