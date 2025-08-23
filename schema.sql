@@ -110,3 +110,26 @@ CREATE TABLE audit_log (
     user_id INT,
     details JSON
 );
+
+CREATE TABLE claim_documents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    claim_id INT,
+    document_name VARCHAR(255),
+    document_type VARCHAR(50),
+    file_path VARCHAR(500),
+    file_size INT,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (claim_id) REFERENCES claims(id) ON DELETE CASCADE
+);
+
+CREATE TABLE claim_communications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    claim_id INT,
+    sender VARCHAR(255),
+    recipient VARCHAR(255),
+    subject VARCHAR(255),
+    message TEXT,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('sent', 'delivered', 'read') DEFAULT 'sent',
+    FOREIGN KEY (claim_id) REFERENCES claims(id) ON DELETE CASCADE
+);

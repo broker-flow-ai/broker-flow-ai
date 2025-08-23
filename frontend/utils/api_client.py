@@ -144,6 +144,40 @@ class APIClient:
     def delete_claim(self, claim_id: int) -> Dict[str, Any]:
         """Elimina un sinistro"""
         return self._make_request("DELETE", f"/claims/{claim_id}")
+
+    # === METODI PER DOCUMENTI SINISTRI ===
+    
+    def get_claim_documents(self, claim_id: int) -> List[Dict[str, Any]]:
+        """Recupera i documenti associati a un sinistro"""
+        return self._make_request("GET", f"/claims/{claim_id}/documents")
+    
+    def create_claim_document(self, document_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea un nuovo documento per un sinistro"""
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(document_data, default=self._serialize_decimal))
+        return self._make_request("POST", "/claim-documents", json=serialized_data)
+    
+    def delete_claim_document(self, document_id: int) -> Dict[str, Any]:
+        """Elimina un documento di sinistro"""
+        return self._make_request("DELETE", f"/claim-documents/{document_id}")
+
+    # === METODI PER COMUNICAZIONI SINISTRI ===
+    
+    def get_claim_communications(self, claim_id: int) -> List[Dict[str, Any]]:
+        """Recupera le comunicazioni associate a un sinistro"""
+        return self._make_request("GET", f"/claims/{claim_id}/communications")
+    
+    def create_claim_communication(self, communication_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea una nuova comunicazione per un sinistro"""
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(communication_data, default=self._serialize_decimal))
+        return self._make_request("POST", "/claim-communications", json=serialized_data)
+    
+    def update_claim_communication(self, communication_id: int, communication_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Aggiorna una comunicazione di sinistro"""
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(communication_data, default=self._serialize_decimal))
+        return self._make_request("PUT", f"/claim-communications/{communication_id}", json=serialized_data)
     
     # === METODI PER ANALISI E DASHBOARD ===
     

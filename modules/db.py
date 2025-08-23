@@ -318,3 +318,109 @@ def delete_claim(claim_id: int) -> bool:
     conn.commit()
     conn.close()
     return cursor.rowcount > 0
+
+# Funzioni per documenti sinistri
+def get_claim_documents(claim_id: int) -> List[Dict[str, Any]]:
+    """Recupera i documenti associati a un sinistro"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM claim_documents WHERE claim_id = %s ORDER BY uploaded_at DESC", (claim_id,))
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def create_claim_document(document_data: Dict[str, Any]) -> int:
+    """Crea un nuovo documento per un sinistro e restituisce l'ID"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = """
+        INSERT INTO claim_documents (claim_id, document_name, document_type, file_path, file_size, uploaded_at)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    params = (
+        document_data['claim_id'],
+        document_data['document_name'],
+        document_data['document_type'],
+        document_data['file_path'],
+        document_data['file_size'],
+        datetime.now()
+    )
+    
+    cursor.execute(query, params)
+    document_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return document_id
+
+def delete_claim_document(document_id: int) -> bool:
+    """Elimina un documento di sinistro"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM claim_documents WHERE id = %s", (document_id,))
+    conn.commit()
+    conn.close()
+    return cursor.rowcount > 0
+
+# Funzioni per comunicazioni sinistri
+def get_claim_communications(claim_id: int) -> List[Dict[str, Any]]:
+    """Recupera le comunicazioni associate a un sinistro"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM claim_communications WHERE claim_id = %s ORDER BY sent_at DESC", (claim_id,))
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def create_claim_communication(communication_data: Dict[str, Any]) -> int:
+    """Crea una nuova comunicazione per un sinistro e restituisce l'ID"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = """
+        INSERT INTO claim_communications (claim_id, sender, recipient, subject, message, sent_at, status)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """
+    params = (
+        communication_data['claim_id'],
+        communication_data['sender'],
+        communication_data['recipient'],
+        communication_data['subject'],
+        communication_data['message'],
+        datetime.now(),
+        communication_data.get('status', 'sent')
+    )
+    
+    cursor.execute(query, params)
+    communication_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return communication_id
+
+def update_claim_communication(communication_id: int, communication_data: Dict[str, Any]) -> bool:
+    """Aggiorna una comunicazione di sinistro"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Costruiamo la query dinamicamente solo con i campi forniti
+    set_parts = []
+    params = []
+    
+    for field in ['sender', 'recipient', 'subject', 'message', 'status']:
+        if field in communication_data and communication_data[field] is not None:
+            set_parts.append(f"{field} = %s")
+            params.append(communication_data[field])
+    
+    if not set_parts:
+        return False
+    
+    query = f"UPDATE claim_communications SET {', '.join(set_parts)} WHERE id = %s"
+    params.append(communication_id)
+    
+    cursor.execute(query, params)
+    conn.commit()
+    conn.close()
+    return cursor.rowcount > 0

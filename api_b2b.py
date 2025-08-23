@@ -12,7 +12,11 @@ from modules.db import (
     # Funzioni per polizze
     get_policies, get_policy, create_policy, update_policy, delete_policy,
     # Funzioni per sinistri
-    get_claims, get_claim, create_claim, update_claim, delete_claim
+    get_claims, get_claim, create_claim, update_claim, delete_claim,
+    # Funzioni per documenti sinistri
+    get_claim_documents, create_claim_document, delete_claim_document,
+    # Funzioni per comunicazioni sinistri
+    get_claim_communications, create_claim_communication, update_claim_communication
 )
 from modules.risk_analyzer import analyze_risk_sustainability, get_client_profile, save_risk_analysis
 from modules.dashboard_analytics import get_portfolio_analytics, get_company_performance, get_broker_performance
@@ -94,6 +98,28 @@ class ClaimUpdateRequest(BaseModel):
     claim_date: Optional[date] = None
     amount: Optional[float] = None
     description: Optional[str] = None
+    status: Optional[str] = None
+
+class ClaimDocumentCreateRequest(BaseModel):
+    claim_id: int
+    document_name: str
+    document_type: str
+    file_path: str
+    file_size: int
+
+class ClaimCommunicationCreateRequest(BaseModel):
+    claim_id: int
+    sender: str
+    recipient: str
+    subject: str
+    message: str
+    status: str = "sent"
+
+class ClaimCommunicationUpdateRequest(BaseModel):
+    sender: Optional[str] = None
+    recipient: Optional[str] = None
+    subject: Optional[str] = None
+    message: Optional[str] = None
     status: Optional[str] = None
 
 # Endpoint per analisi rischio
@@ -492,6 +518,78 @@ async def api_delete_claim(claim_id: int):
             raise HTTPException(status_code=404, detail="Sinistro non trovato")
         
         return jsonable_encoder({"claim_id": claim_id, "message": "Sinistro eliminato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per documenti sinistri
+@app.get("/api/v1/claims/{claim_id}/documents")
+async def api_get_claim_documents(claim_id: int):
+    """Recupera i documenti associati a un sinistro"""
+    try:
+        documents = get_claim_documents(claim_id)
+        return jsonable_encoder(documents)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/claim-documents")
+async def api_create_claim_document(request: ClaimDocumentCreateRequest):
+    """Crea un nuovo documento per un sinistro"""
+    try:
+        document_data = request.dict()
+        document_id = create_claim_document(document_data)
+        return jsonable_encoder({"document_id": document_id, "message": "Documento creato con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/claim-documents/{document_id}")
+async def api_delete_claim_document(document_id: int):
+    """Elimina un documento di sinistro"""
+    try:
+        success = delete_claim_document(document_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Documento non trovato")
+        
+        return jsonable_encoder({"document_id": document_id, "message": "Documento eliminato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per comunicazioni sinistri
+@app.get("/api/v1/claims/{claim_id}/communications")
+async def api_get_claim_communications(claim_id: int):
+    """Recupera le comunicazioni associate a un sinistro"""
+    try:
+        communications = get_claim_communications(claim_id)
+        return jsonable_encoder(communications)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/claim-communications")
+async def api_create_claim_communication(request: ClaimCommunicationCreateRequest):
+    """Crea una nuova comunicazione per un sinistro"""
+    try:
+        communication_data = request.dict()
+        communication_id = create_claim_communication(communication_data)
+        return jsonable_encoder({"communication_id": communication_id, "message": "Comunicazione creata con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/claim-communications/{communication_id}")
+async def api_update_claim_communication(communication_id: int, request: ClaimCommunicationUpdateRequest):
+    """Aggiorna una comunicazione di sinistro"""
+    try:
+        communication_data = request.dict(exclude_unset=True)
+        if not communication_data:
+            raise HTTPException(status_code=400, detail="Nessun dato fornito per l'aggiornamento")
+        
+        success = update_claim_communication(communication_id, communication_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Comunicazione non trovata")
+        
+        return jsonable_encoder({"communication_id": communication_id, "message": "Comunicazione aggiornata con successo"})
     except HTTPException:
         raise
     except Exception as e:
