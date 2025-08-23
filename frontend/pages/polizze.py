@@ -60,8 +60,6 @@ def render_policies_list():
             df['start_date_formatted'] = df['start_date'].apply(DataFormatter.format_date)
         if 'end_date' in df.columns:
             df['end_date_formatted'] = df['end_date'].apply(DataFormatter.format_date)
-        if 'amount' in df.columns:
-            df['amount_formatted'] = df['amount'].apply(DataFormatter.format_currency)
         
         # Visualizza le polizze come cards
         st.subheader(f"Polizze ({len(df)} trovate)")
@@ -200,17 +198,17 @@ def render_policies_analysis():
         
         df = pd.DataFrame(policies_data)
         
-        # Analisi per tipo rischio
-        if 'risk_type' in df.columns:
-            risk_counts = df['risk_type'].value_counts()
+        # Analisi per compagnia
+        if 'company' in df.columns:
+            company_counts = df['company'].value_counts()
             
-            st.subheader("Distribuzione Polizze per Tipo Rischio")
-            fig_risk = px.pie(
-                values=risk_counts.values,
-                names=risk_counts.index,
-                title="Polizze per Tipo Rischio"
+            st.subheader("Distribuzione Polizze per Compagnia")
+            fig_company = px.pie(
+                values=company_counts.values,
+                names=company_counts.index,
+                title="Polizze per Compagnia"
             )
-            st.plotly_chart(fig_risk, use_container_width=True)
+            st.plotly_chart(fig_company, use_container_width=True)
         
         # Analisi per stato
         if 'status' in df.columns:
@@ -257,9 +255,9 @@ def render_policies_analysis():
         col1, col2, col3, col4 = st.columns(4)
         
         col1.metric("Totale Polizze", len(df))
-        col2.metric("Tipi Rischio Unici", df['risk_type'].nunique() if 'risk_type' in df.columns else 0)
-        col3.metric("Compagnie Uniche", df['company'].nunique() if 'company' in df.columns else 0)
-        col4.metric("Polizze Attive", len(df[df['status'] == 'active']) if 'status' in df.columns else 0)
+        col2.metric("Compagnie Uniche", df['company'].nunique() if 'company' in df.columns else 0)
+        col3.metric("Polizze Attive", len(df[df['status'] == 'active']) if 'status' in df.columns else 0)
+        col4.metric("ID Rischio Min", df['risk_id'].min() if 'risk_id' in df.columns else 0)
         
     except Exception as e:
         st.error(f"Errore nell'analisi delle polizze: {str(e)}")

@@ -161,7 +161,7 @@ class Validators:
         errors = []
         
         # Validate required fields
-        required_fields = ["risk_type", "company", "policy_number"]
+        required_fields = ["risk_id", "company_id", "company", "policy_number"]
         for field in required_fields:
             if not policy_data.get(field):
                 errors.append(f"Il campo '{field}' è obbligatorio")
@@ -179,13 +179,6 @@ class Validators:
             is_valid, error_msg = Validators.validate_date(end_date)
             if not is_valid:
                 errors.append(f"Data fine: {error_msg}")
-        
-        # Validate amount if provided
-        amount = policy_data.get("amount")
-        if amount is not None:
-            is_valid, error_msg = Validators.validate_amount(float(amount) if not isinstance(amount, float) else amount)
-            if not is_valid:
-                errors.append(f"Importo: {error_msg}")
         
         # Validate policy number format (basic check)
         policy_number = policy_data.get("policy_number")

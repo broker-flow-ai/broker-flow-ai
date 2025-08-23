@@ -97,14 +97,11 @@ def render_policy_filters() -> Dict[str, Any]:
         
         # Ritorna i filtri selezionati
         filters = {
-            'risk_type': risk_type_filter,
             'company': company_filter,
             'policy_number': policy_number_filter,
             'status': status_filter,
             'validity_from': validity_from,
             'validity_to': validity_to,
-            'premium_min': premium_min,
-            'premium_max': premium_max,
             'apply': apply_filters,
             'clear': clear_filters
         }
