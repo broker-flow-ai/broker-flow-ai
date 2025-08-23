@@ -103,7 +103,12 @@ def main_dashboard():
             with port_col1:
                 st.markdown("### Distribuzione Tipi di Rischio")
                 # Tabella riepilogativa
-                st.dataframe(df[['risk_type', 'policy_count', 'total_premium']].rename(columns={
+                # Verifichiamo quali colonne sono disponibili
+                available_columns = ['risk_type', 'policy_count']
+                if 'total_premium' in df.columns:
+                    available_columns.append('total_premium')
+                
+                st.dataframe(df[available_columns].rename(columns={
                     'risk_type': 'Tipo Rischio',
                     'policy_count': 'N. Polizze',
                     'total_premium': 'Premi Totali'
@@ -138,7 +143,12 @@ def main_dashboard():
                 
             # Tabella trend
             df_trend = pd.DataFrame(portfolio_data["trend_analysis"])
-            st.dataframe(df_trend[['month', 'policies_issued', 'total_premium']].rename(columns={
+            # Verifichiamo quali colonne sono effettivamente disponibili
+            available_columns = ['month', 'policies_issued']
+            if 'total_premium' in df_trend.columns:
+                available_columns.append('total_premium')
+            
+            st.dataframe(df_trend[available_columns].rename(columns={
                 'month': 'Mese',
                 'policies_issued': 'Polizze Emesse',
                 'total_premium': 'Premi Totali'
