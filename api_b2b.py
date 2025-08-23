@@ -5,7 +5,15 @@ from datetime import date, datetime
 import json
 from fastapi.encoders import jsonable_encoder
 
-from modules.db import get_db_connection
+from modules.db import (
+    get_db_connection,
+    # Funzioni per clienti
+    get_clients, get_client, create_client, update_client, delete_client,
+    # Funzioni per polizze
+    get_policies, get_policy, create_policy, update_policy, delete_policy,
+    # Funzioni per sinistri
+    get_claims, get_claim, create_claim, update_claim, delete_claim
+)
 from modules.risk_analyzer import analyze_risk_sustainability, get_client_profile, save_risk_analysis
 from modules.dashboard_analytics import get_portfolio_analytics, get_company_performance, get_broker_performance
 from modules.compliance_reporting import generate_compliance_report, get_compliance_reports
@@ -42,6 +50,51 @@ class PolicyIssuanceRequest(BaseModel):
     risk_data: dict
     premium_data: dict
     company_id: int
+
+# Modelli per clienti, polizze e sinistri
+class ClientCreateRequest(BaseModel):
+    name: str
+    company: str
+    email: Optional[str] = None
+    sector: Optional[str] = None
+
+class ClientUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    company: Optional[str] = None
+    email: Optional[str] = None
+    sector: Optional[str] = None
+
+class PolicyCreateRequest(BaseModel):
+    risk_id: int
+    company_id: int
+    company: str
+    policy_number: str
+    start_date: date
+    end_date: date
+    status: str = "active"
+
+class PolicyUpdateRequest(BaseModel):
+    risk_id: Optional[int] = None
+    company_id: Optional[int] = None
+    company: Optional[str] = None
+    policy_number: Optional[str] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
+    status: Optional[str] = None
+
+class ClaimCreateRequest(BaseModel):
+    policy_id: int
+    claim_date: date
+    amount: float
+    description: str
+    status: str = "open"
+
+class ClaimUpdateRequest(BaseModel):
+    policy_id: Optional[int] = None
+    claim_date: Optional[date] = None
+    amount: Optional[float] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
 
 # Endpoint per analisi rischio
 @app.post("/api/v1/insurance/risk-analysis")
@@ -205,6 +258,242 @@ async def api_broker_metrics(broker_id: int):
     try:
         metrics = get_broker_performance_metrics(broker_id)
         return jsonable_encoder(metrics)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per gestione clienti
+@app.get("/api/v1/clients")
+async def api_get_clients(
+    name: Optional[str] = None,
+    company: Optional[str] = None,
+    sector: Optional[str] = None,
+    email: Optional[str] = None
+):
+    """Recupera la lista dei clienti con filtri opzionali"""
+    try:
+        filters = {}
+        if name: filters['name'] = name
+        if company: filters['company'] = company
+        if sector: filters['sector'] = sector
+        if email: filters['email'] = email
+        
+        clients = get_clients(filters)
+        return jsonable_encoder(clients)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/clients/{client_id}")
+async def api_get_client(client_id: int):
+    """Recupera un cliente specifico per ID"""
+    try:
+        client = get_client(client_id)
+        if not client:
+            raise HTTPException(status_code=404, detail="Cliente non trovato")
+        return jsonable_encoder(client)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/clients")
+async def api_create_client(request: ClientCreateRequest):
+    """Crea un nuovo cliente"""
+    try:
+        client_data = request.dict()
+        client_id = create_client(client_data)
+        return jsonable_encoder({"client_id": client_id, "message": "Cliente creato con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/clients/{client_id}")
+async def api_update_client(client_id: int, request: ClientUpdateRequest):
+    """Aggiorna un cliente esistente"""
+    try:
+        client_data = request.dict(exclude_unset=True)
+        if not client_data:
+            raise HTTPException(status_code=400, detail="Nessun dato fornito per l'aggiornamento")
+        
+        success = update_client(client_id, client_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Cliente non trovato")
+        
+        return jsonable_encoder({"client_id": client_id, "message": "Cliente aggiornato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/clients/{client_id}")
+async def api_delete_client(client_id: int):
+    """Elimina un cliente"""
+    try:
+        success = delete_client(client_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Cliente non trovato")
+        
+        return jsonable_encoder({"client_id": client_id, "message": "Cliente eliminato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per gestione polizze
+@app.get("/api/v1/policies")
+async def api_get_policies(
+    client_id: Optional[int] = None,
+    risk_type: Optional[str] = None,
+    company: Optional[str] = None,
+    policy_number: Optional[str] = None,
+    status: Optional[str] = None
+):
+    """Recupera la lista delle polizze con filtri opzionali"""
+    try:
+        filters = {}
+        if client_id: filters['client_id'] = client_id
+        if risk_type: filters['risk_type'] = risk_type
+        if company: filters['company'] = company
+        if policy_number: filters['policy_number'] = policy_number
+        if status: filters['status'] = status
+        
+        policies = get_policies(filters)
+        return jsonable_encoder(policies)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/policies/{policy_id}")
+async def api_get_policy(policy_id: int):
+    """Recupera una polizza specifica per ID"""
+    try:
+        policy = get_policy(policy_id)
+        if not policy:
+            raise HTTPException(status_code=404, detail="Polizza non trovata")
+        return jsonable_encoder(policy)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/policies")
+async def api_create_policy(request: PolicyCreateRequest):
+    """Crea una nuova polizza"""
+    try:
+        policy_data = request.dict()
+        policy_id = create_policy(policy_data)
+        return jsonable_encoder({"policy_id": policy_id, "message": "Polizza creata con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/policies/{policy_id}")
+async def api_update_policy(policy_id: int, request: PolicyUpdateRequest):
+    """Aggiorna una polizza esistente"""
+    try:
+        policy_data = request.dict(exclude_unset=True)
+        if not policy_data:
+            raise HTTPException(status_code=400, detail="Nessun dato fornito per l'aggiornamento")
+        
+        success = update_policy(policy_id, policy_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Polizza non trovata")
+        
+        return jsonable_encoder({"policy_id": policy_id, "message": "Polizza aggiornata con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/policies/{policy_id}")
+async def api_delete_policy(policy_id: int):
+    """Elimina una polizza"""
+    try:
+        success = delete_policy(policy_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Polizza non trovata")
+        
+        return jsonable_encoder({"policy_id": policy_id, "message": "Polizza eliminata con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per gestione sinistri
+@app.get("/api/v1/claims")
+async def api_get_claims(
+    policy_id: Optional[int] = None,
+    status: Optional[str] = None,
+    claim_date_from: Optional[date] = None,
+    claim_date_to: Optional[date] = None,
+    amount_min: Optional[float] = None,
+    amount_max: Optional[float] = None,
+    description: Optional[str] = None
+):
+    """Recupera la lista dei sinistri con filtri opzionali"""
+    try:
+        filters = {}
+        if policy_id: filters['policy_id'] = policy_id
+        if status: filters['status'] = status
+        if claim_date_from: filters['claim_date_from'] = claim_date_from
+        if claim_date_to: filters['claim_date_to'] = claim_date_to
+        if amount_min: filters['amount_min'] = amount_min
+        if amount_max: filters['amount_max'] = amount_max
+        if description: filters['description'] = description
+        
+        claims = get_claims(filters)
+        return jsonable_encoder(claims)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/claims/{claim_id}")
+async def api_get_claim(claim_id: int):
+    """Recupera un sinistro specifico per ID"""
+    try:
+        claim = get_claim(claim_id)
+        if not claim:
+            raise HTTPException(status_code=404, detail="Sinistro non trovato")
+        return jsonable_encoder(claim)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/claims")
+async def api_create_claim(request: ClaimCreateRequest):
+    """Crea un nuovo sinistro"""
+    try:
+        claim_data = request.dict()
+        claim_id = create_claim(claim_data)
+        return jsonable_encoder({"claim_id": claim_id, "message": "Sinistro creato con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/claims/{claim_id}")
+async def api_update_claim(claim_id: int, request: ClaimUpdateRequest):
+    """Aggiorna un sinistro esistente"""
+    try:
+        claim_data = request.dict(exclude_unset=True)
+        if not claim_data:
+            raise HTTPException(status_code=400, detail="Nessun dato fornito per l'aggiornamento")
+        
+        success = update_claim(claim_id, claim_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Sinistro non trovato")
+        
+        return jsonable_encoder({"claim_id": claim_id, "message": "Sinistro aggiornato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/claims/{claim_id}")
+async def api_delete_claim(claim_id: int):
+    """Elimina un sinistro"""
+    try:
+        success = delete_claim(claim_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Sinistro non trovato")
+        
+        return jsonable_encoder({"claim_id": claim_id, "message": "Sinistro eliminato con successo"})
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

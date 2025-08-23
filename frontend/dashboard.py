@@ -5,6 +5,15 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime, date
 import os
+import sys
+
+# Aggiungi il path del frontend per gli import
+sys.path.append(os.path.join(os.path.dirname(__file__)))
+
+# Import delle nuove pagine
+from pages.clienti import clients_page
+from pages.polizze import policies_page
+from pages.sinistri import claims_page
 
 # Configurazione della pagina
 st.set_page_config(
@@ -268,20 +277,51 @@ def main():
     st.sidebar.title(" BrokerFlow AI")
     st.sidebar.markdown("### Dashboard Assicurativa B2B2B")
     
-    pages = {
-        "Dashboard Principale": main_dashboard,
-        "Analisi Rischio": risk_analysis_page,
-        "Dashboard Compagnia": company_dashboard_page,
-        "Compliance": compliance_page,
-        "Programmi Sconto": discounts_page,
-        "Metriche Broker": broker_metrics_page
-    }
+    # Organizzazione delle pagine in sezioni
+    section = st.sidebar.selectbox(
+        "Seleziona Sezione",
+        ["Dashboard", "Gestione", "Analisi", "Compliance", "Configurazione"]
+    )
     
-    selection = st.sidebar.radio("Vai a", list(pages.keys()))
-    page = pages[selection]
+    if section == "Dashboard":
+        pages = {
+            "📊 Dashboard Principale": main_dashboard,
+            "🔬 Analisi Rischio": risk_analysis_page,
+            "🏢 Dashboard Compagnia": company_dashboard_page
+        }
+        selection = st.sidebar.radio("Vai a", list(pages.keys()))
+        page = pages[selection]
+        with st.spinner(f"Caricamento {selection}..."):
+            page()
     
-    with st.spinner(f"Caricamento {selection}..."):
-        page()
+    elif section == "Gestione":
+        pages = {
+            "👥 Clienti": clients_page,
+            "📜 Polizze": policies_page,
+            "🚨 Sinistri": claims_page
+        }
+        selection = st.sidebar.radio("Vai a", list(pages.keys()))
+        page = pages[selection]
+        with st.spinner(f"Caricamento {selection}..."):
+            page()
+    
+    elif section == "Analisi":
+        pages = {
+            "📋 Compliance": compliance_page,
+            "💰 Programmi Sconto": discounts_page,
+            "🏆 Metriche Broker": broker_metrics_page
+        }
+        selection = st.sidebar.radio("Vai a", list(pages.keys()))
+        page = pages[selection]
+        with st.spinner(f"Caricamento {selection}..."):
+            page()
+    
+    elif section == "Compliance":
+        compliance_page()
+    
+    elif section == "Configurazione":
+        st.title("⚙️ Configurazione Sistema")
+        st.info("Sezione configurazione in fase di sviluppo")
 
 if __name__ == "__main__":
     main()
