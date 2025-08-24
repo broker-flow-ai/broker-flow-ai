@@ -1,3 +1,63 @@
+# Roadmap di Sviluppo - Broker Flow AI
+
+Questo documento delinea la roadmap strategica per l'evoluzione della piattaforma Broker Flow AI. Le funzionalità sono raggruppate in milestone logiche per guidare lo sviluppo, partendo dalle fondamenta fino alle capacità più avanzate.
+
+---
+
+## Milestone 1: Consolidamento del Core e Gestione Essenziale
+
+**Obiettivo:** Solidificare le funzionalità di base per garantire una gestione completa del ciclo di vita del cliente e delle polizze.
+
+### 1.1. Modulo di Gestione Lead (CRM)
+*   **Descrizione:** Introdurre un sistema per tracciare e gestire i "lead" (potenziali clienti) prima della loro conversione a clienti effettivi. Questo include la registrazione delle interazioni e l'impostazione di follow-up.
+*   **Moduli Interessati:** `frontend/pages/`, `db.py`, `schema.sql`.
+*   **Obiettivo di Business:** Centralizzare e professionalizzare il processo di vendita, assicurando che nessuna opportunità venga persa.
+
+### 1.2. Gestione Sinistri (Backend & Frontend Completo)
+*   **Descrizione:** Sviluppare la logica di backend e la struttura dati necessaria per una gestione completa dei sinistri, di cui al momento esiste solo l'interfaccia frontend. Il modulo permetterà di tracciare l'intero ciclo di vita di un sinistro: apertura, caricamento documenti, aggiornamento di stato e chiusura.
+*   **Moduli Interessati:** `frontend/pages/sinistri.py`, `db.py`, `schema.sql`, nuovo modulo `modules/claims_handler.py`.
+*   **Obiettivo di Business:** Fornire una delle funzionalità più critiche per un broker, migliorando il servizio e la fidelizzazione del cliente finale.
+
+---
+
+## Milestone 2: Automazione del Flusso di Quotazione
+
+**Obiettivo:** Ridurre drasticamente il lavoro manuale e i tempi di attesa nel processo di quotazione, che rappresenta il maggior collo di bottiglia per un broker.
+
+### 2.1. Integrazione B2B con le Compagnie Assicurative
+*   **Descrizione:** Sviluppare i connettori API nel modulo `b2b_integrations.py` per inviare le richieste di quotazione direttamente ai portali delle compagnie assicurative, eliminando la necessità di inserimento manuale dei dati.
+*   **Moduli Interessati:** `modules/b2b_integrations.py`.
+*   **Obiettivo di Business:** Aumentare l'efficienza operativa del broker del 10x, permettendogli di gestire un volume maggiore di richieste in meno tempo.
+
+### 2.2. Dashboard Comparativa delle Quotazioni
+*   **Descrizione:** Creare un'interfaccia utente dedicata nel frontend dove il broker può visualizzare in tempo reale le offerte ricevute dalle varie compagnie, confrontandole in modo sinottico per premio, massimali e franchigie.
+*   **Moduli Interessati:** `frontend/dashboard.py`, `frontend/components/`.
+*   **Obiettivo di Business:** Fornire al broker uno strumento potente per prendere decisioni rapide e informate, e per consigliare al meglio il cliente.
+
+---
+
+## Milestone 3: Intelligenza Aumentata e User Experience di Livello Superiore
+
+**Obiettivo:** Sfruttare l'AI per andare oltre l'automazione, fornendo insight e modernizzando l'esperienza utente per broker e clienti finali.
+
+### 3.1. Generatore di Reportistica PDF
+*   **Descrizione:** Implementare una funzione che genera automaticamente un report comparativo in formato PDF, personalizzato con il logo del broker. Il report, destinato al cliente finale, presenterà in modo chiaro e professionale le migliori offerte.
+*   **Moduli Interessati:** `modules/dashboard_analytics.py`, nuovo modulo `modules/report_generator.py`.
+*   **Obiettivo di Business:** Migliorare la qualità della comunicazione con il cliente e rafforzare l'immagine professionale del broker.
+
+### 3.2. Integrazione con Servizi di Firma Elettronica
+*   **Descrizione:** Digitalizzare il processo di formalizzazione del contratto integrando la piattaforma con API di provider esterni di firma elettronica (es. DocuSign, Aruba Sign).
+*   **Moduli Interessati:** Nuovo modulo `modules/digital_signature.py`.
+*   **Obiettivo di Business:** Accelerare i tempi di emissione delle polizze, migliorare la comodità per il cliente e ridurre l'uso di carta.
+
+### 3.3. Motore di Suggerimenti (Cross-selling & Up-selling)
+*   **Descrizione:** Potenziare il modulo `risk_analyzer.py` per analizzare proattivamente il portafoglio di un cliente e suggerire al broker opportunità di cross-selling (vendita di nuove tipologie di polizze) o up-selling (miglioramento di polizze esistenti).
+*   **Moduli Interessati:** `modules/risk_analyzer.py`.
+*   **Obiettivo di Business:** Aumentare il fatturato per singolo cliente e garantirne una copertura assicurativa più completa, incrementando la retention.
+
+
+
+
 # 📋 BrokerFlow AI - Roadmap Sviluppo Frontend
 
 ## 🎯 **Overview**
