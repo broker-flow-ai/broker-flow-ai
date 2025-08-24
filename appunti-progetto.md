@@ -131,12 +131,6 @@ Vuoi che lo faccia ora?
 
 
 
-
-Perfetto, iniziamo subito.
-Ti preparo un progetto completo per **lanciare e vendere un agente AI per broker assicurativi specializzati**.
-
----
-
 ## ✅ Obiettivo
 
 Costruire un **AI Agent verticale per broker assicurativi** che:
