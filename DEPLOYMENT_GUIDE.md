@@ -64,6 +64,32 @@ docker compose exec processor python populate_coherent_data.py
 # phpMyAdmin: http://localhost:8080
 ```
 
+### Destroy deployment
+
+```bash
+# 1. Configurazione iniziale
+cp .env.example .env
+# Modifica .env con la tua API Key OpenAI (opzionale per demo)
+
+# 2. Avvio ambiente
+docker compose up -d
+docker compose exec processor python populate_coherent_data.py
+
+# 3. Verifica servizi attivi
+docker compose ps
+
+# 4. rimozione ambiente e riallocazione da zero (attenzione può rimuovere anche altri ambienti Docker)
+docker compose down
+docker rm $(docker ps -aq)
+docker rmi $(docker images -q)
+docker volume rm $(docker volume ls -q)
+docker network rm $(docker network ls -q)
+docker system prune -a --volumes
+# riallocazione da zero
+docker compose up -d
+docker compose exec processor python populate_coherent_data.py
+```
+
 ### **Environment Configuration**
 
 #### **Core Environment Variables**
