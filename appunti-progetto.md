@@ -1,3 +1,137 @@
+# Documento di Riferimento: Broker Flow AI
+
+Questo documento serve come riferimento rapido per la visione, l'architettura e le componenti chiave del progetto Broker Flow AI. Sostituisce le note sparse precedenti con una struttura chiara e organizzata.
+
+---
+
+## 1. Visione e Obiettivo del Progetto
+
+L'obiettivo di **Broker Flow AI** è fornire un agente AI verticale per broker assicurativi, specializzato nell'automazione dei processi di preventivazione e gestione delle polizze. La piattaforma è progettata per ridurre drasticamente il lavoro manuale, minimizzare gli errori e accelerare i tempi di risposta ai clienti.
+
+---
+
+## 2. Target di Mercato e Problema
+
+*   **Cliente Ideale:** Piccoli e medi broker assicurativi (5-30 persone) che operano in settori complessi (industria, professionisti, flotte, edilizia) e gestiscono un alto volume di preventivi.
+*   **Problema Risolto:** I broker ricevono richieste non standard (email, PDF), devono confrontare manualmente più compagnie, usano strumenti inefficienti (es. Excel) per i rinnovi e sono troppo lenti nel rispondere, rischiando di perdere clienti.
+
+---
+
+## 3. Architettura e Stack Tecnologico
+
+La piattaforma è costruita su un'architettura a microservizi/moduli in Python, orchestrata per eseguire un flusso di lavoro specifico.
+
+| Componente | Tecnologia Scelta |
+|---|
+| **Linguaggio** | Python 3.x |
+| **Backend/API** | FastAPI |
+| **Database** | MySQL / PostgreSQL |
+| **Intelligenza Artificiale** | OpenAI API (GPT-4o) |
+| **Lettura PDF (Testo)** | `PyMuPDF` (fitz), `pdfplumber` |
+| **Lettura PDF (Immagine)** | OCR con `Tesseract` (`pytesseract`) |
+| **Frontend** | Streamlit |
+| **Deployment** | Docker, docker-compose |
+
+---
+
+## 4. Flusso di Lavoro Principale (Core Workflow)
+
+Il processo automatizzato gestisce una richiesta di preventivo dall'inizio alla fine:
+
+1.  **Ingestione:** Una richiesta (email/PDF) viene ricevuta e salvata nella directory `inbox/`.
+2.  **Estrazione Dati:** Il modulo `extract_data.py` analizza il file, usa l'OCR se necessario, e con GPT-4o estrae le informazioni chiave in un formato JSON strutturato.
+3.  **Classificazione Rischio:** `classify_risk.py` interpreta i dati estratti per categorizzare il tipo di rischio assicurativo (es. "Flotta Autocarri").
+4.  **Matching Compagnie:** Il sistema interroga il database per trovare le compagnie adatte a coprire quel rischio specifico.
+5.  **Compilazione Moduli:** `compile_forms.py` usa i template PDF delle compagnie per pre-compilare i moduli di offerta.
+6.  **Generazione Comunicazione:** `generate_email.py` redige una bozza di email per il cliente, allegando i preventivi.
+7.  **Tracciamento:** Le scadenze e i dati della polizza vengono salvati nel database per futuri rinnovi.
+
+---
+
+## 5. Struttura dei Moduli Applicativi
+
+La struttura del progetto riflette il flusso di lavoro, con moduli dedicati per ogni responsabilità:
+
+*   `inbox/`: Directory di input per le richieste.
+*   `output/`: Directory di output per i PDF compilati.
+*   `templates/`: Contiene i moduli PDF vuoti delle compagnie.
+*   `extract_data.py`: Legge e interpreta i documenti di input.
+*   `classify_risk.py`: Categorizza il rischio.
+*   `b2b_integrations.py` (ex `match_companies.py`): Gestisce l'interazione con le compagnie.
+*   `compile_forms.py`: Compila i PDF.
+*   `generate_email.py`: Scrive le email per i clienti.
+*   `db.py`: Gestisce la connessione e le query al database.
+*   `schema.sql`: Definisce la struttura del database.
+*   `main.py`: Script principale che orchestra l'intero flusso.
+*   `frontend/`: Contiene l'applicazione Streamlit per l'interfaccia utente.
+
+---
+
+## 6. Note Tecniche e Snippet Utili
+
+### Rilevamento PDF Immagine vs. Testo
+
+È cruciale distinguere tra PDF scansionati (immagini) e PDF digitali (con testo selezionabile) per evitare di eseguire l'OCR inutilmente. La seguente logica può essere implementata in `extract_data.py`.
+
+```python
+import fitz  # PyMuPDF
+import pytesseract
+from pdf2image import convert_from_path
+
+def extract_text_from_pdf(pdf_path: str) -> str:
+    """Estrae il testo da un file PDF, decidendo autonomamente se usare l'OCR."""
+    try:
+        # Prova a estrarre testo direttamente
+        doc = fitz.open(pdf_path)
+        text_content = ""
+        is_text_found = False
+        for page in doc:
+            page_text = page.get_text().strip()
+            if page_text:
+                text_content += page_text + "\n"
+                is_text_found = True
+        
+        if is_text_found:
+            print(f"INFO: Estratto testo digitale da {pdf_path}")
+            return text_content
+
+        # Se non trova testo, procede con l'OCR
+        print(f"WARNING: Nessun testo digitale trovato in {pdf_path}. Avvio OCR...")
+        images = convert_from_path(pdf_path)
+        ocr_text = ""
+        for img in images:
+            ocr_text += pytesseract.image_to_string(img) + "\n"
+        
+        return ocr_text
+
+    except Exception as e:
+        print(f"ERROR: Impossibile processare il file {pdf_path}. Errore: {e}")
+        return ""
+
+```
+
+---
+
+## 🔍 In sintesi
+
+| Tipo PDF         | Metodo consigliato | Tool                       |
+| ---------------- | ------------------ | -------------------------- |
+| Digitale (testo) | Estrazione diretta | `PyMuPDF`, `pdfplumber`    |
+| Scansionato      | OCR su immagini    | `pytesseract`, `pdf2image` |
+
+---
+
+Se vuoi ti genero **un modulo Python completo `extract_data.py`** che implementa questa logica, già pronto da integrare.
+Vuoi che lo faccia ora?
+
+
+
+
+
+
+
+
+
 Perfetto, iniziamo subito.
 Ti preparo un progetto completo per **lanciare e vendere un agente AI per broker assicurativi specializzati**.
 
