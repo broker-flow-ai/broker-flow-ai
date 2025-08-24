@@ -27,23 +27,24 @@ def render_client_card(client_data: Dict[str, Any]):
     with st.container():
         st.markdown(f"""
         <div style="
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
-            background-color: white;
+            background-color: var(--background-color);
+            color: var(--text-color);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         ">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div>
-                    <h3 style="margin: 0 0 10px 0; color: #1f77b4;">{name}</h3>
+                    <h3 style="margin: 0 0 10px 0; color: var(--primary-color);">{name}</h3>
                     <p style="margin: 5px 0; font-weight: bold;">{company}</p>
-                    <p style="margin: 5px 0; color: #666;">📧 {email}</p>
-                    <p style="margin: 5px 0; color: #666;">🏢 Settore: {sector}</p>
+                    <p style="margin: 5px 0; color: var(--text-color);">📧 {email}</p>
+                    <p style="margin: 5px 0; color: var(--text-color);">🏢 Settore: {sector}</p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="margin: 0 0 5px 0; font-size: 0.9em; color: #888;">ID: {client_id}</p>
-                    <p style="margin: 0; font-size: 0.8em; color: #888;">Creato: {formatted_date}</p>
+                    <p style="margin: 0 0 5px 0; font-size: 0.9em; color: var(--text-color);">ID: {client_id}</p>
+                    <p style="margin: 0; font-size: 0.8em; color: var(--text-color);">Creato: {formatted_date}</p>
                 </div>
             </div>
         </div>

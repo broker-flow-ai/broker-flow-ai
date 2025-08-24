@@ -39,21 +39,22 @@ def render_policy_card(policy_data: Dict[str, Any]):
     with st.container():
         st.markdown(f"""
         <div style="
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
-            background-color: white;
+            background-color: var(--background-color);
+            color: var(--text-color);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         ">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div>
-                    <h3 style="margin: 0 0 10px 0; color: #1f77b4;">{company}</h3>
+                    <h3 style="margin: 0 0 10px 0; color: var(--primary-color);">{company}</h3>
                     <p style="margin: 5px 0; font-weight: bold;">N. Polizza: {policy_number}</p>
-                    <p style="margin: 5px 0; color: #666;">📅 Validità: {formatted_start} - {formatted_end}</p>
+                    <p style="margin: 5px 0; color: var(--text-color);">📅 Validità: {formatted_start} - {formatted_end}</p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="margin: 0 0 5px 0; font-size: 0.9em; color: #888;">ID: {policy_id}</p>
+                    <p style="margin: 0 0 5px 0; font-size: 0.9em; color: var(--text-color);">ID: {policy_id}</p>
                     <span style="
                         background-color: {status_color};
                         color: white;
