@@ -22,6 +22,30 @@ st.set_page_config(
     layout="wide"
 )
 
+# Aggiunta stili CSS personalizzati per supportare i temi
+st.markdown("""
+<style>
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #1f77b4;
+}
+
+/* Stili per il tema dark */
+[data-testid="stAppViewContainer"] {
+    --background-color: #0e1117;
+    --text-color: #fafafa;
+    --primary-color: #ff4b4b;
+}
+
+/* Applica i colori del testo alle card */
+.stMarkdown div [style*="background-color: var(--background-color)"] {
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # URL base dell'API - può essere sovrascritto da variabile d'ambiente
 API_BASE_URL = os.getenv("API_BASE_URL", "http://api:8000/api/v1")
 

@@ -69,26 +69,6 @@ def render_claim_card(claim_data: Dict[str, Any]):
                 </div>
             </div>
         </div>
-        <style>
-        :root {{
-            --background-color: #ffffff;
-            --text-color: #000000;
-            --primary-color: #1f77b4;
-        }}
-        
-        /* Stili per il tema dark */
-        [data-testid="stAppViewContainer"] {{
-            --background-color: #0e1117;
-            --text-color: #fafafa;
-            --primary-color: #ff4b4b;
-        }}
-        
-        /* Applica i colori del testo alle card */
-        .stMarkdown > div > div {{
-            background-color: var(--background-color) !important;
-            color: var(--text-color) !important;
-        }}
-        </style>
         """, unsafe_allow_html=True)
 
 def render_claim_details(claim_data: Dict[str, Any]):
