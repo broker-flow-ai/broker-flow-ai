@@ -51,6 +51,10 @@ class DiscountCreateRequest(BaseModel):
     start_date: date
     end_date: date
 
+class EmailRequest(BaseModel):
+    recipient_email: str
+    format_type: str = "pdf"
+
 class PolicyIssuanceRequest(BaseModel):
     client_data: dict
     risk_data: dict

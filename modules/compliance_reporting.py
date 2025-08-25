@@ -159,9 +159,17 @@ def generate_compliance_report(report_type, period_start, period_end):
         report_id = save_compliance_report(report_type, period_start, period_end, report)
         
         # Genera e salva i file in tutti i formati
-        pdf_path = generate_pdf_report(report_id, report_type, report)
-        excel_path = generate_excel_report(report_id, report_type, report, report_content)
-        word_path = generate_word_report(report_id, report_type, report)
+        # Convertiamo i valori del report in stringhe per evitare errori nei generatori di file
+        sanitized_report = {}
+        for key, value in report.items():
+            if isinstance(value, (dict, list)):
+                sanitized_report[key] = str(value)
+            else:
+                sanitized_report[key] = str(value) if value is not None else ""
+        
+        pdf_path = generate_pdf_report(report_id, report_type, sanitized_report)
+        excel_path = generate_excel_report(report_id, report_type, sanitized_report, report_content)
+        word_path = generate_word_report(report_id, report_type, sanitized_report)
         
         # Aggiorna i percorsi dei file nel database
         update_report_file_paths(report_id, pdf_path, excel_path, word_path)
@@ -256,141 +264,181 @@ def get_compliance_reports(report_type=None):
 
 def generate_pdf_report(report_id, report_type, report_content):
     """Genera un report PDF e salva il file"""
-    # Crea directory per i report se non esiste
-    reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
-    os.makedirs(reports_dir, exist_ok=True)
-    
-    # Genera nome file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{report_type}_report_{report_id}_{timestamp}.pdf"
-    file_path = os.path.join(reports_dir, filename)
-    
-    # Crea il documento PDF
-    doc = SimpleDocTemplate(file_path, pagesize=letter)
-    styles = getSampleStyleSheet()
-    story = []
-    
-    # Titolo
-    title = Paragraph(report_content.get("title", f"Report {report_type}"), styles['Title'])
-    story.append(title)
-    story.append(Spacer(1, 12))
-    
-    # Riepilogo esecutivo
-    exec_title = Paragraph("Riepilogo Esecutivo", styles['Heading2'])
-    story.append(exec_title)
-    exec_summary = Paragraph(report_content.get("executive_summary", ""), styles['Normal'])
-    story.append(exec_summary)
-    story.append(Spacer(1, 12))
-    
-    # Dettagli tecnici
-    tech_title = Paragraph("Dettagli Tecnici", styles['Heading2'])
-    story.append(tech_title)
-    tech_details = Paragraph(report_content.get("technical_details", ""), styles['Normal'])
-    story.append(tech_details)
-    story.append(Spacer(1, 12))
-    
-    # Conclusioni
-    concl_title = Paragraph("Conclusioni", styles['Heading2'])
-    story.append(concl_title)
-    conclusions = Paragraph(report_content.get("conclusions", ""), styles['Normal'])
-    story.append(conclusions)
-    story.append(Spacer(1, 12))
-    
-    # Firma
-    signature = Paragraph(f"<b>Firma:</b> {report_content.get('signature', 'Sistema BrokerFlow AI')}", styles['Normal'])
-    story.append(signature)
-    
-    # Costruisci il PDF
-    doc.build(story)
-    
-    return file_path
+    try:
+        # Crea directory per i report se non esiste
+        reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
+        os.makedirs(reports_dir, exist_ok=True)
+        
+        # Genera nome file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{report_type}_report_{report_id}_{timestamp}.pdf"
+        file_path = os.path.join(reports_dir, filename)
+        
+        # Crea il documento PDF
+        doc = SimpleDocTemplate(file_path, pagesize=letter)
+        styles = getSampleStyleSheet()
+        story = []
+        
+        # Titolo
+        title_content = report_content.get("title", f"Report {report_type}")
+        if isinstance(title_content, (dict, list)):
+            title_content = str(title_content)
+        title = Paragraph(title_content, styles['Title'])
+        story.append(title)
+        story.append(Spacer(1, 12))
+        
+        # Riepilogo esecutivo
+        exec_title = Paragraph("Riepilogo Esecutivo", styles['Heading2'])
+        story.append(exec_title)
+        exec_summary_content = report_content.get("executive_summary", "")
+        if isinstance(exec_summary_content, (dict, list)):
+            exec_summary_content = str(exec_summary_content)
+        exec_summary = Paragraph(exec_summary_content, styles['Normal'])
+        story.append(exec_summary)
+        story.append(Spacer(1, 12))
+        
+        # Dettagli tecnici
+        tech_title = Paragraph("Dettagli Tecnici", styles['Heading2'])
+        story.append(tech_title)
+        tech_details_content = report_content.get("technical_details", "")
+        # Converti in stringa se è un dizionario o lista
+        if isinstance(tech_details_content, (dict, list)):
+            tech_details_content = str(tech_details_content)
+        tech_details = Paragraph(tech_details_content, styles['Normal'])
+        story.append(tech_details)
+        story.append(Spacer(1, 12))
+        
+        # Conclusioni
+        concl_title = Paragraph("Conclusioni", styles['Heading2'])
+        story.append(concl_title)
+        conclusions_content = report_content.get("conclusions", "")
+        if isinstance(conclusions_content, (dict, list)):
+            conclusions_content = str(conclusions_content)
+        conclusions = Paragraph(conclusions_content, styles['Normal'])
+        story.append(conclusions)
+        story.append(Spacer(1, 12))
+        
+        # Firma
+        signature_content = report_content.get("signature", "Sistema BrokerFlow AI")
+        if isinstance(signature_content, (dict, list)):
+            signature_content = str(signature_content)
+        signature = Paragraph(f"<b>Firma:</b> {signature_content}", styles['Normal'])
+        story.append(signature)
+        
+        # Costruisci il PDF
+        doc.build(story)
+        
+        return file_path
+    except Exception as e:
+        print(f"Errore nella generazione del PDF: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise e
 
 def generate_excel_report(report_id, report_type, report_content, raw_data):
     """Genera un report Excel e salva il file"""
-    # Crea directory per i report se non esiste
-    reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
-    os.makedirs(reports_dir, exist_ok=True)
-    
-    # Genera nome file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{report_type}_report_{report_id}_{timestamp}.xlsx"
-    file_path = os.path.join(reports_dir, filename)
-    
-    # Crea un DataFrame pandas con i dati
-    with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
-        # Foglio 1: Riepilogo
-        summary_data = {
-            'Sezione': ['Titolo', 'Tipo Report', 'Periodo Inizio', 'Periodo Fine', 'Riepilogo Esecutivo', 'Conclusioni', 'Firma'],
-            'Contenuto': [
-                report_content.get("title", ""),
-                report_type,
-                report_content.get("period_start", ""),
-                report_content.get("period_end", ""),
-                report_content.get("executive_summary", ""),
-                report_content.get("conclusions", ""),
-                report_content.get("signature", "")
-            ]
-        }
-        summary_df = pd.DataFrame(summary_data)
-        summary_df.to_excel(writer, sheet_name='Riepilogo', index=False)
+    try:
+        # Crea directory per i report se non esiste
+        reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
+        os.makedirs(reports_dir, exist_ok=True)
         
-        # Foglio 2: Dettagli Tecnici
-        tech_data = {
-            'Dettagli': [report_content.get("technical_details", "")]
-        }
-        tech_df = pd.DataFrame(tech_data)
-        tech_df.to_excel(writer, sheet_name='Dettagli Tecnici', index=False)
+        # Genera nome file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{report_type}_report_{report_id}_{timestamp}.xlsx"
+        file_path = os.path.join(reports_dir, filename)
         
-        # Foglio 3: Dati Raw (se disponibili)
-        if report_type == "GDPR" and "data_processing_activities" in raw_data:
-            activities_df = pd.DataFrame(raw_data["data_processing_activities"])
-            activities_df.to_excel(writer, sheet_name='Attività di Processamento', index=False)
-        elif report_type == "SOX" and "financial_summary" in raw_data:
-            financial_df = pd.DataFrame([raw_data["financial_summary"]])
-            financial_df.to_excel(writer, sheet_name='Dati Finanziari', index=False)
-        elif report_type == "IVASS" and "portfolio_analysis" in raw_data:
-            portfolio_df = pd.DataFrame(raw_data["portfolio_analysis"])
-            portfolio_df.to_excel(writer, sheet_name='Analisi Portafoglio', index=False)
-    
-    return file_path
+        # Crea un DataFrame pandas con i dati
+        with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
+            # Foglio 1: Riepilogo
+            summary_data = {
+                'Sezione': ['Titolo', 'Tipo Report', 'Periodo Inizio', 'Periodo Fine', 'Riepilogo Esecutivo', 'Conclusioni', 'Firma'],
+                'Contenuto': [
+                    str(report_content.get("title", "")),
+                    report_type,
+                    str(report_content.get("period_start", "")),
+                    str(report_content.get("period_end", "")),
+                    str(report_content.get("executive_summary", "")),
+                    str(report_content.get("conclusions", "")),
+                    str(report_content.get("signature", ""))
+                ]
+            }
+            summary_df = pd.DataFrame(summary_data)
+            summary_df.to_excel(writer, sheet_name='Riepilogo', index=False)
+            
+            # Foglio 2: Dettagli Tecnici
+            tech_data = {
+                'Dettagli': [str(report_content.get("technical_details", ""))]
+            }
+            tech_df = pd.DataFrame(tech_data)
+            tech_df.to_excel(writer, sheet_name='Dettagli Tecnici', index=False)
+            
+            # Foglio 3: Dati Raw (se disponibili)
+            print(f"Tipo di report: {report_type}")
+            print(f"Dati raw disponibili: {list(raw_data.keys()) if raw_data else 'Nessun dato'}")
+            
+            if report_type == "GDPR" and "data_processing_activities" in raw_data:
+                print(f"Dati attività di processamento: {raw_data['data_processing_activities']}")
+                activities_df = pd.DataFrame(raw_data["data_processing_activities"])
+                activities_df.to_excel(writer, sheet_name='Attività di Processamento', index=False)
+            elif report_type == "SOX" and "financial_summary" in raw_data:
+                print(f"Dati finanziari: {raw_data['financial_summary']}")
+                financial_df = pd.DataFrame([raw_data["financial_summary"]])
+                financial_df.to_excel(writer, sheet_name='Dati Finanziari', index=False)
+            elif report_type == "IVASS" and "portfolio_analysis" in raw_data:
+                print(f"Analisi portafoglio: {raw_data['portfolio_analysis']}")
+                portfolio_df = pd.DataFrame(raw_data["portfolio_analysis"])
+                portfolio_df.to_excel(writer, sheet_name='Analisi Portafoglio', index=False)
+        
+        return file_path
+    except Exception as e:
+        print(f"Errore nella generazione dell'Excel: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise e
 
 def generate_word_report(report_id, report_type, report_content):
     """Genera un report Word e salva il file"""
-    # Crea directory per i report se non esiste
-    reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
-    os.makedirs(reports_dir, exist_ok=True)
-    
-    # Genera nome file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{report_type}_report_{report_id}_{timestamp}.docx"
-    file_path = os.path.join(reports_dir, filename)
-    
-    # Crea il documento Word
-    doc = Document()
-    
-    # Titolo
-    doc.add_heading(report_content.get("title", f"Report {report_type}"), 0)
-    
-    # Riepilogo esecutivo
-    doc.add_heading('Riepilogo Esecutivo', level=1)
-    doc.add_paragraph(report_content.get("executive_summary", ""))
-    
-    # Dettagli tecnici
-    doc.add_heading('Dettagli Tecnici', level=1)
-    doc.add_paragraph(report_content.get("technical_details", ""))
-    
-    # Conclusioni
-    doc.add_heading('Conclusioni', level=1)
-    doc.add_paragraph(report_content.get("conclusions", ""))
-    
-    # Firma
-    doc.add_heading('Firma', level=1)
-    doc.add_paragraph(report_content.get("signature", "Sistema BrokerFlow AI"))
-    
-    # Salva il documento
-    doc.save(file_path)
-    
-    return file_path
+    try:
+        # Crea directory per i report se non esiste
+        reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
+        os.makedirs(reports_dir, exist_ok=True)
+        
+        # Genera nome file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{report_type}_report_{report_id}_{timestamp}.docx"
+        file_path = os.path.join(reports_dir, filename)
+        
+        # Crea il documento Word
+        doc = Document()
+        
+        # Titolo
+        doc.add_heading(str(report_content.get("title", f"Report {report_type}")), 0)
+        
+        # Riepilogo esecutivo
+        doc.add_heading('Riepilogo Esecutivo', level=1)
+        doc.add_paragraph(str(report_content.get("executive_summary", "")))
+        
+        # Dettagli tecnici
+        doc.add_heading('Dettagli Tecnici', level=1)
+        doc.add_paragraph(str(report_content.get("technical_details", "")))
+        
+        # Conclusioni
+        doc.add_heading('Conclusioni', level=1)
+        doc.add_paragraph(str(report_content.get("conclusions", "")))
+        
+        # Firma
+        doc.add_heading('Firma', level=1)
+        doc.add_paragraph(str(report_content.get("signature", "Sistema BrokerFlow AI")))
+        
+        # Salva il documento
+        doc.save(file_path)
+        
+        return file_path
+    except Exception as e:
+        print(f"Errore nella generazione del Word: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise e
 
 def send_report_via_email(report_id, recipient_email, format_type="pdf"):
     """Invia un report via email"""
