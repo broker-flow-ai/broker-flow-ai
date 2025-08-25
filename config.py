@@ -16,3 +16,11 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "brokerflow_ai")
 INBOX_PATH = "inbox/"
 OUTPUT_PATH = "output/"
 TEMPLATE_PATH = "templates/"
+
+# Email Configuration
+EMAIL_CONFIG = {
+    'smtp_server': os.getenv("SMTP_SERVER", "smtp.gmail.com"),
+    'smtp_port': int(os.getenv("SMTP_PORT", "587")),
+    'sender_email': os.getenv("SENDER_EMAIL", ""),
+    'sender_password': os.getenv("SENDER_PASSWORD", "")
+}

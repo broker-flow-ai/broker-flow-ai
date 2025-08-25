@@ -1,7 +1,19 @@
 import openai
 import json
-from config import OPENAI_API_KEY
+import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+from config import OPENAI_API_KEY, EMAIL_CONFIG
 from modules.db import get_db_connection
+from datetime import datetime
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+import pandas as pd
+from docx import Document
 
 # Inizializza il client OpenAI
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
@@ -110,8 +122,26 @@ def generate_compliance_report(report_type, period_start, period_end):
             temperature=0.3
         )
         
+        # Debug: stampa il tipo e il contenuto della risposta
+        print(f"Tipo di response.choices[0].message.content: {type(response.choices[0].message.content)}")
+        print(f"Contenuto della risposta: {response.choices[0].message.content}")
+        
         # Estrai e pulisci il contenuto JSON
-        content = response.choices[0].message.content.strip()
+        # Gestisci sia il caso stringa che il caso dizionario
+        message_content = response.choices[0].message.content
+        if isinstance(message_content, dict):
+            # Se è un dizionario, cerca il contenuto testuale
+            if 'text' in message_content:
+                content = message_content['text'].strip()
+            else:
+                # Prova a convertire in stringa
+                content = str(message_content).strip()
+        else:
+            # Se è già una stringa
+            content = str(message_content).strip()
+        
+        print(f"Contenuto dopo la pulizia: {content}")
+        
         # Rimuovi eventuali marcatori di codice
         if content.startswith("```json"):
             content = content[7:]
@@ -121,13 +151,37 @@ def generate_compliance_report(report_type, period_start, period_end):
             content = content[:-3]
         content = content.strip()
         
+        print(f"Contenuto dopo la rimozione dei marcatori: {content}")
+        
         report = json.loads(content)
         
         # Salva il report nel database
-        save_compliance_report(report_type, period_start, period_end, report)
+        report_id = save_compliance_report(report_type, period_start, period_end, report)
+        
+        # Genera e salva i file in tutti i formati
+        pdf_path = generate_pdf_report(report_id, report_type, report)
+        excel_path = generate_excel_report(report_id, report_type, report, report_content)
+        word_path = generate_word_report(report_id, report_type, report)
+        
+        # Aggiorna i percorsi dei file nel database
+        update_report_file_paths(report_id, pdf_path, excel_path, word_path)
         
         return report
+    except json.JSONDecodeError as e:
+        print(f"Errore nel parsing JSON: {str(e)}")
+        print(f"Contenuto che ha causato l'errore: {content}")
+        return {
+            "error": f"Generazione report fallita: Errore nel parsing JSON - {str(e)}",
+            "title": f"Report {report_type} - Errore Generazione",
+            "executive_summary": "Impossibile generare il report automatico",
+            "technical_details": f"Errore nel parsing JSON: {str(e)}\nContenuto: {content}",
+            "conclusions": "Richiede generazione manuale",
+            "signature": "Sistema BrokerFlow AI"
+        }
     except Exception as e:
+        print(f"Errore generale: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return {
             "error": f"Generazione report fallita: {str(e)}",
             "title": f"Report {report_type} - Errore Generazione",
@@ -152,6 +206,22 @@ def save_compliance_report(report_type, period_start, period_end, content):
     conn.close()
     
     return report_id
+
+def update_report_file_paths(report_id, pdf_path, excel_path, word_path):
+    """Aggiorna i percorsi dei file nel database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        UPDATE compliance_reports 
+        SET file_path = %s,
+            excel_path = %s,
+            word_path = %s
+        WHERE id = %s
+    """, (pdf_path, excel_path, word_path, report_id))
+    
+    conn.commit()
+    conn.close()
 
 def get_compliance_reports(report_type=None):
     """Recupera i report di compliance"""
@@ -183,3 +253,232 @@ def get_compliance_reports(report_type=None):
             report['period_end'] = report['period_end'].isoformat()
     
     return reports
+
+def generate_pdf_report(report_id, report_type, report_content):
+    """Genera un report PDF e salva il file"""
+    # Crea directory per i report se non esiste
+    reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
+    os.makedirs(reports_dir, exist_ok=True)
+    
+    # Genera nome file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{report_type}_report_{report_id}_{timestamp}.pdf"
+    file_path = os.path.join(reports_dir, filename)
+    
+    # Crea il documento PDF
+    doc = SimpleDocTemplate(file_path, pagesize=letter)
+    styles = getSampleStyleSheet()
+    story = []
+    
+    # Titolo
+    title = Paragraph(report_content.get("title", f"Report {report_type}"), styles['Title'])
+    story.append(title)
+    story.append(Spacer(1, 12))
+    
+    # Riepilogo esecutivo
+    exec_title = Paragraph("Riepilogo Esecutivo", styles['Heading2'])
+    story.append(exec_title)
+    exec_summary = Paragraph(report_content.get("executive_summary", ""), styles['Normal'])
+    story.append(exec_summary)
+    story.append(Spacer(1, 12))
+    
+    # Dettagli tecnici
+    tech_title = Paragraph("Dettagli Tecnici", styles['Heading2'])
+    story.append(tech_title)
+    tech_details = Paragraph(report_content.get("technical_details", ""), styles['Normal'])
+    story.append(tech_details)
+    story.append(Spacer(1, 12))
+    
+    # Conclusioni
+    concl_title = Paragraph("Conclusioni", styles['Heading2'])
+    story.append(concl_title)
+    conclusions = Paragraph(report_content.get("conclusions", ""), styles['Normal'])
+    story.append(conclusions)
+    story.append(Spacer(1, 12))
+    
+    # Firma
+    signature = Paragraph(f"<b>Firma:</b> {report_content.get('signature', 'Sistema BrokerFlow AI')}", styles['Normal'])
+    story.append(signature)
+    
+    # Costruisci il PDF
+    doc.build(story)
+    
+    return file_path
+
+def generate_excel_report(report_id, report_type, report_content, raw_data):
+    """Genera un report Excel e salva il file"""
+    # Crea directory per i report se non esiste
+    reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
+    os.makedirs(reports_dir, exist_ok=True)
+    
+    # Genera nome file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{report_type}_report_{report_id}_{timestamp}.xlsx"
+    file_path = os.path.join(reports_dir, filename)
+    
+    # Crea un DataFrame pandas con i dati
+    with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
+        # Foglio 1: Riepilogo
+        summary_data = {
+            'Sezione': ['Titolo', 'Tipo Report', 'Periodo Inizio', 'Periodo Fine', 'Riepilogo Esecutivo', 'Conclusioni', 'Firma'],
+            'Contenuto': [
+                report_content.get("title", ""),
+                report_type,
+                report_content.get("period_start", ""),
+                report_content.get("period_end", ""),
+                report_content.get("executive_summary", ""),
+                report_content.get("conclusions", ""),
+                report_content.get("signature", "")
+            ]
+        }
+        summary_df = pd.DataFrame(summary_data)
+        summary_df.to_excel(writer, sheet_name='Riepilogo', index=False)
+        
+        # Foglio 2: Dettagli Tecnici
+        tech_data = {
+            'Dettagli': [report_content.get("technical_details", "")]
+        }
+        tech_df = pd.DataFrame(tech_data)
+        tech_df.to_excel(writer, sheet_name='Dettagli Tecnici', index=False)
+        
+        # Foglio 3: Dati Raw (se disponibili)
+        if report_type == "GDPR" and "data_processing_activities" in raw_data:
+            activities_df = pd.DataFrame(raw_data["data_processing_activities"])
+            activities_df.to_excel(writer, sheet_name='Attività di Processamento', index=False)
+        elif report_type == "SOX" and "financial_summary" in raw_data:
+            financial_df = pd.DataFrame([raw_data["financial_summary"]])
+            financial_df.to_excel(writer, sheet_name='Dati Finanziari', index=False)
+        elif report_type == "IVASS" and "portfolio_analysis" in raw_data:
+            portfolio_df = pd.DataFrame(raw_data["portfolio_analysis"])
+            portfolio_df.to_excel(writer, sheet_name='Analisi Portafoglio', index=False)
+    
+    return file_path
+
+def generate_word_report(report_id, report_type, report_content):
+    """Genera un report Word e salva il file"""
+    # Crea directory per i report se non esiste
+    reports_dir = os.path.join(os.getcwd(), "output", "compliance_reports")
+    os.makedirs(reports_dir, exist_ok=True)
+    
+    # Genera nome file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{report_type}_report_{report_id}_{timestamp}.docx"
+    file_path = os.path.join(reports_dir, filename)
+    
+    # Crea il documento Word
+    doc = Document()
+    
+    # Titolo
+    doc.add_heading(report_content.get("title", f"Report {report_type}"), 0)
+    
+    # Riepilogo esecutivo
+    doc.add_heading('Riepilogo Esecutivo', level=1)
+    doc.add_paragraph(report_content.get("executive_summary", ""))
+    
+    # Dettagli tecnici
+    doc.add_heading('Dettagli Tecnici', level=1)
+    doc.add_paragraph(report_content.get("technical_details", ""))
+    
+    # Conclusioni
+    doc.add_heading('Conclusioni', level=1)
+    doc.add_paragraph(report_content.get("conclusions", ""))
+    
+    # Firma
+    doc.add_heading('Firma', level=1)
+    doc.add_paragraph(report_content.get("signature", "Sistema BrokerFlow AI"))
+    
+    # Salva il documento
+    doc.save(file_path)
+    
+    return file_path
+
+def send_report_via_email(report_id, recipient_email, format_type="pdf"):
+    """Invia un report via email"""
+    try:
+        # Recupera il report dal database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("SELECT * FROM compliance_reports WHERE id = %s", (report_id,))
+        report = cursor.fetchone()
+        
+        conn.close()
+        
+        if not report:
+            return {"success": False, "error": "Report non trovato"}
+        
+        # Determina il percorso del file in base al formato
+        file_path = None
+        if format_type.lower() == "pdf":
+            file_path = report.get('file_path')
+            mime_type = 'application/pdf'
+        elif format_type.lower() == "excel":
+            file_path = report.get('excel_path')
+            mime_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        elif format_type.lower() == "word":
+            file_path = report.get('word_path')
+            mime_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        else:
+            return {"success": False, "error": "Formato non supportato"}
+        
+        if not file_path or not os.path.exists(file_path):
+            return {"success": False, "error": "File del report non trovato"}
+        
+        # Configura l'email
+        msg = MIMEMultipart()
+        msg['From'] = EMAIL_CONFIG['sender_email']
+        msg['To'] = recipient_email
+        msg['Subject'] = f"Report di Compliance - {report.get('report_type', 'N/A')}"
+        
+        # Corpo dell'email
+        body = f"""
+        Gentile destinatario,
+        
+        In allegato trova il report di compliance per il periodo {report.get('period_start', '')} - {report.get('period_end', '')}.
+        
+        Tipo report: {report.get('report_type', 'N/A')}
+        
+        Cordiali saluti,
+        Team BrokerFlow AI
+        """
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Allega il file
+        with open(file_path, "rb") as attachment:
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(attachment.read())
+        
+        encoders.encode_base64(part)
+        part.add_header(
+            'Content-Disposition',
+            f'attachment; filename= {os.path.basename(file_path)}'
+        )
+        msg.attach(part)
+        
+        # Invia l'email
+        server = smtplib.SMTP(EMAIL_CONFIG['smtp_server'], EMAIL_CONFIG['smtp_port'])
+        server.starttls()
+        server.login(EMAIL_CONFIG['sender_email'], EMAIL_CONFIG['sender_password'])
+        text = msg.as_string()
+        server.sendmail(EMAIL_CONFIG['sender_email'], recipient_email, text)
+        server.quit()
+        
+        # Salva il log dell'invio
+        save_email_log(report_id, recipient_email, format_type)
+        
+        return {"success": True, "message": "Email inviata con successo"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+def save_email_log(report_id, recipient_email, format_type):
+    """Salva il log dell'invio email"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        INSERT INTO email_logs (report_id, recipient_email, format_type, sent_at)
+        VALUES (%s, %s, %s, NOW())
+    """, (report_id, recipient_email, format_type))
+    
+    conn.commit()
+    conn.close()

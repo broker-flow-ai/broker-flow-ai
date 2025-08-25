@@ -1,0 +1,42 @@
+version: 2025.08.1
+rules:
+  - id: R001_PREMIO_NON_NEGATIVO
+    when: table == 'policy'
+    assert: premio_netto >= 0
+    severity: BLOCKING
+  - id: R002_PREMIO_LORDO_GE_NETTO
+    when: table == 'policy'
+    assert: premio_lordo >= premio_netto
+    severity: BLOCKING
+  - id: R014_SCOSTAMENTO_RISERVE
+    when: table == 'sinistro'
+    assert: abs(riserva - riserva_prev) / (riserva_prev if riserva_prev != 0 else 1) <= 0.15
+    severity: WARN
+    message: Variazione riserva >15% mese su mese
+  - id: R020_DECORRENZA_PRIMA_DI_SCADENZA
+    when: table == 'policy'
+    assert: decorrenza <= scadenza
+    severity: BLOCKING
+  - id: R032_ANTIRICICLAGGIO_IMPORTI
+    when: table == 'transazione'
+    assert: (importo <= 10000) or (flag_giustificativo == True)
+    severity: BLOCKING
+  - id: R040_VALUTA_EUR
+    when: table == 'transazione'
+    assert: valuta in ['EUR']
+    severity: WARN
+  - id: R050_MAPPATURA_RAMI
+    when: table == 'policy'
+    transform: ramo_normativo = {'AUTO':'10','RC_PROF':'13','INCENDIO':'08'}.get(ramo, '99')
+  - id: R060_POLICY_ID_PRESENTE_NEI_SINISTRI
+    when: table == 'sinistro'
+    assert: policy_id in context['policy_ids']
+    severity: BLOCKING
+  - id: R070_IMPORTI_NUMERICI
+    when: table in ['policy','sinistro','transazione']
+    assert: all(isinstance(v, (int, float)) for v in numeric_values)
+    severity: BLOCKING
+  - id: R080_DATA_FORMAT
+    when: table in ['policy','sinistro','transazione']
+    assert: all(len(d) == 10 and d.count('-') == 2 for d in date_values)
+    severity: WARN

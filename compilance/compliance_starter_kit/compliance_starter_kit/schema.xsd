@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="SegnalazionePeriodica">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Periodo" type="xs:string"/>
+        <xs:element name="Intermediario">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Codice" type="xs:string"/>
+              <xs:element name="Denominazione" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Aggregati">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Premi" type="xs:decimal"/>
+              <xs:element name="SinistriPagati" type="xs:decimal"/>
+              <xs:element name="RiservaFinale" type="xs:decimal"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

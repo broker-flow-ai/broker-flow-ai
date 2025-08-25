@@ -18,6 +18,19 @@ BrokerFlow AI è una **piattaforma intelligente B2B2B** progettata per **automat
 - **Classificazione Automatica**: Riconoscimento del tipo di rischio assicurativo
 - **Compilazione Moduli**: Generazione automatica di preventivi PDF
 - **Email Personalizzate**: Creazione e invio di email ai clienti
+
+## 🆕 Novità Recenti
+
+### Agosto 2025 - Miglioramenti alla Compliance
+- Implementata la generazione e il download di report di compliance in formato PDF, Excel e Word
+- Aggiunta struttura database per tracciamento file generati in tutti i formati
+- Creati endpoint API per download report in tutti i formati
+- Implementata funzionalità di invio email con allegati
+- Aggiunta tabella per tracciamento invii email
+- Aggiornato sistema di tracciamento avanzamento sviluppo
+- Implementata interfaccia utente per download ed invio report
+
+## 📋 Indice dei Contenuti
 - **Tracciamento Richieste**: Database integrato per monitorare le richieste
 - **Programmi Fedeltà**: Sconti volume e performance basati su AI
 

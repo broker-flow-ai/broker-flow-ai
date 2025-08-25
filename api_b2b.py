@@ -1,8 +1,10 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Response
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date, datetime
 import json
+import os
 from fastapi.encoders import jsonable_encoder
 
 from modules.db import (
@@ -652,3 +654,155 @@ async def system_metrics():
     }
     
     return jsonable_encoder(response)
+
+class EmailRequest(BaseModel):
+    recipient_email: str
+    format_type: str = "pdf"
+
+# Endpoint per download report compliance
+@app.get("/api/v1/compliance/reports/{report_id}/download/pdf")
+async def download_compliance_report_pdf(report_id: int):
+    """Download report di compliance in formato PDF"""
+    try:
+        # Recupera il report dal database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("SELECT * FROM compliance_reports WHERE id = %s", (report_id,))
+        report = cursor.fetchone()
+        
+        conn.close()
+        
+        if not report:
+            raise HTTPException(status_code=404, detail="Report non trovato")
+        
+        # Verifica che il file esista
+        file_path = report.get('file_path')
+        if not file_path or not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File del report non trovato")
+        
+        # Restituisce il file
+        return FileResponse(
+            path=file_path,
+            filename=os.path.basename(file_path),
+            media_type='application/pdf'
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/compliance/reports/{report_id}/download/excel")
+async def download_compliance_report_excel(report_id: int):
+    """Download report di compliance in formato Excel"""
+    try:
+        # Recupera il report dal database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("SELECT * FROM compliance_reports WHERE id = %s", (report_id,))
+        report = cursor.fetchone()
+        
+        conn.close()
+        
+        if not report:
+            raise HTTPException(status_code=404, detail="Report non trovato")
+        
+        # Verifica che il file esista
+        file_path = report.get('excel_path')
+        if not file_path or not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File del report non trovato")
+        
+        # Restituisce il file
+        return FileResponse(
+            path=file_path,
+            filename=os.path.basename(file_path),
+            media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/compliance/reports/{report_id}/download/word")
+async def download_compliance_report_word(report_id: int):
+    """Download report di compliance in formato Word"""
+    try:
+        # Recupera il report dal database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("SELECT * FROM compliance_reports WHERE id = %s", (report_id,))
+        report = cursor.fetchone()
+        
+        conn.close()
+        
+        if not report:
+            raise HTTPException(status_code=404, detail="Report non trovato")
+        
+        # Verifica che il file esista
+        file_path = report.get('word_path')
+        if not file_path or not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File del report non trovato")
+        
+        # Restituisce il file
+        return FileResponse(
+            path=file_path,
+            filename=os.path.basename(file_path),
+            media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/compliance/reports/{report_id}/send-email")
+async def send_compliance_report_email(report_id: int, request: EmailRequest):
+    """Invia un report di compliance via email"""
+    try:
+        # Import locale per evitare dipendenze circolari
+        from modules.compliance_reporting import send_report_via_email
+        
+        result = send_report_via_email(report_id, request.recipient_email, request.format_type)
+        
+        if result["success"]:
+            return jsonable_encoder({"message": "Email inviata con successo"})
+        else:
+            raise HTTPException(status_code=500, detail=result["error"])
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/compliance/reports/{report_id}")
+async def delete_compliance_report(report_id: int):
+    """Elimina un report di compliance"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Recupera i percorsi dei file prima dell'eliminazione
+        cursor.execute("SELECT file_path, excel_path, word_path FROM compliance_reports WHERE id = %s", (report_id,))
+        result = cursor.fetchone()
+        
+        if not result:
+            conn.close()
+            raise HTTPException(status_code=404, detail="Report non trovato")
+        
+        pdf_path, excel_path, word_path = result
+        
+        # Elimina il record dal database
+        cursor.execute("DELETE FROM compliance_reports WHERE id = %s", (report_id,))
+        conn.commit()
+        conn.close()
+        
+        # Elimina i file fisici se esistono
+        for file_path in [pdf_path, excel_path, word_path]:
+            if file_path and os.path.exists(file_path):
+                os.remove(file_path)
+        
+        return jsonable_encoder({"message": "Report eliminato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

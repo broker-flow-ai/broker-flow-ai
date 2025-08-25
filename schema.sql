@@ -86,6 +86,9 @@ CREATE TABLE compliance_reports (
     period_start DATE,
     period_end DATE,
     content JSON,
+    file_path VARCHAR(500),
+    excel_path VARCHAR(500),
+    word_path VARCHAR(500),
     generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -109,6 +112,15 @@ CREATE TABLE audit_log (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id INT,
     details JSON
+);
+
+CREATE TABLE email_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    report_id INT,
+    recipient_email VARCHAR(255),
+    format_type VARCHAR(50),
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (report_id) REFERENCES compliance_reports(id) ON DELETE CASCADE
 );
 
 CREATE TABLE claim_documents (

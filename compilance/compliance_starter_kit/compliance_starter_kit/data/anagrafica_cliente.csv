@@ -1,0 +1,4 @@
+id,tipo,settore,paese,pep_flag
+C001,AZIENDA,TRASPORTI,IT,false
+C002,AZIENDA,PROFESSIONI,IT,false
+C003,AZIENDA,MANIFATTURA,IT,false

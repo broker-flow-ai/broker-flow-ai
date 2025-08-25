@@ -598,13 +598,13 @@ def compliance_page():
                         export_col1, export_col2, export_col3 = st.columns(3)
                         with export_col1:
                             if st.button("💾 Salva PDF"):
-                                st.info("Esportazione PDF in corso...")
+                                st.markdown(f"[ Scarica PDF](http://localhost:8000/api/v1/compliance/reports/{result.get('report_id', 1)}/download/pdf)")
                         with export_col2:
                             if st.button("📊 Esporta Excel"):
-                                st.info("Esportazione Excel in corso...")
+                                st.markdown(f"[ Scarica Excel](http://localhost:8000/api/v1/compliance/reports/{result.get('report_id', 1)}/download/excel)")
                         with export_col3:
-                            if st.button("📧 Invia Email"):
-                                st.info("Invio email in corso...")
+                            if st.button("📝 Esporta Word"):
+                                st.markdown(f"[ Scarica Word](http://localhost:8000/api/v1/compliance/reports/{result.get('report_id', 1)}/download/word)")
                                 
                 except Exception as e:
                     st.error(f"❌ Errore nella generazione del report: {str(e)}")
@@ -642,13 +642,50 @@ def compliance_page():
                 action_col1, action_col2, action_col3 = st.columns(3)
                 with action_col1:
                     if st.button("📥 Scarica Selezionati"):
-                        st.info("Download in corso...")
+                        st.info("Seleziona un report dalla tabella e usa i pulsanti di download individuali")
                 with action_col2:
                     if st.button("🗑 Elimina Selezionati"):
-                        st.info("Eliminazione in corso...")
+                        st.info("Seleziona un report dalla tabella e usa i pulsanti di eliminazione individuali")
                 with action_col3:
                     if st.button("📧 Invia Selezionati"):
-                        st.info("Invio in corso...")
+                        st.info("Seleziona un report dalla tabella e usa i pulsanti di invio individuali")
+                
+                # Aggiungiamo pulsanti per ogni report
+                st.markdown("### Report Individuali")
+                for idx, report in df.iterrows():
+                    with st.expander(f"📄 Report {report['report_type']} - {report['generated_at'][:10]}"):
+                        st.write(f"**ID:** {report['id']}")
+                        st.write(f"**Periodo:** {report['period_start'][:10]} a {report['period_end'][:10]}")
+                        
+                        # Pulsanti per azioni individuali
+                        action_col1, action_col2, action_col3 = st.columns(3)
+                        with action_col1:
+                            st.markdown(f"[ PDF](http://localhost:8000/api/v1/compliance/reports/{report['id']}/download/pdf)")
+                        with action_col2:
+                            if st.button("🗑 Elimina", key=f"delete_{report['id']}"):
+                                try:
+                                    delete_response = requests.delete(f"{API_BASE_URL}/compliance/reports/{report['id']}")
+                                    delete_response.raise_for_status()
+                                    st.success("Report eliminato con successo!")
+                                    st.rerun()
+                                except Exception as e:
+                                    st.error(f"Errore nell'eliminazione del report: {str(e)}")
+                        with action_col3:
+                            with st.form(key=f"email_form_{report['id']}"):
+                                recipient_email = st.text_input("Email destinatario", key=f"email_{report['id']}")
+                                format_type = st.selectbox("Formato", ["pdf", "excel", "word"], key=f"format_{report['id']}")
+                                submit_email = st.form_submit_button("Invia")
+                                
+                                if submit_email and recipient_email:
+                                    try:
+                                        email_response = requests.post(
+                                            f"{API_BASE_URL}/compliance/reports/{report['id']}/send-email",
+                                            json={"recipient_email": recipient_email, "format_type": format_type}
+                                        )
+                                        email_response.raise_for_status()
+                                        st.success("Email inviata con successo!")
+                                    except Exception as e:
+                                        st.error(f"Errore nell'invio dell'email: {str(e)}")
             else:
                 st.info(" Nessun report disponibile. Genera il tuo primo report!")
         except Exception as e:

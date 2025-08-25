@@ -1,0 +1,4 @@
+id,policy_id,importo,tipo,valuta,data_valuta,flag_giustificativo
+T001,P001,1000.00,INCASSO,EUR,2025-01-10,true
+T002,P002,2500.00,INCASSO,EUR,2025-03-05,true
+T003,P003,700.00,INCASSO,EUR,2025-04-20,true
