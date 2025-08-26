@@ -504,8 +504,14 @@ def send_report_via_email(report_id, recipient_email, format_type="pdf"):
         msg.attach(part)
         
         # Invia l'email
-        server = smtplib.SMTP(EMAIL_CONFIG['smtp_server'], EMAIL_CONFIG['smtp_port'])
-        server.starttls()
+        if EMAIL_CONFIG['smtp_port'] == 465:
+            # Usa SMTP_SSL per la porta 465
+            server = smtplib.SMTP_SSL(EMAIL_CONFIG['smtp_server'], EMAIL_CONFIG['smtp_port'])
+        else:
+            # Usa SMTP con STARTTLS per altre porte
+            server = smtplib.SMTP(EMAIL_CONFIG['smtp_server'], EMAIL_CONFIG['smtp_port'])
+            server.starttls()
+        
         server.login(EMAIL_CONFIG['sender_email'], EMAIL_CONFIG['sender_password'])
         text = msg.as_string()
         server.sendmail(EMAIL_CONFIG['sender_email'], recipient_email, text)

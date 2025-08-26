@@ -21,6 +21,9 @@ docker rmi $(docker images -q)
 docker volume rm $(docker volume ls -q)
 docker network rm $(docker network ls -q)
 docker system prune -a --volumes
+cd ..
+rm -rf broker-flow-ai/
+# Copia incolla il progetto aggiornato
 # riallocazione da zero
 docker compose up -d
 docker compose exec processor python populate_coherent_data.py
