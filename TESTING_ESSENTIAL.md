@@ -25,6 +25,7 @@ cd ..
 rm -rf broker-flow-ai/
 # Copia incolla il progetto aggiornato
 # riallocazione da zero
+cd broker-flow-ai/
 docker compose up -d
 docker compose exec processor python populate_coherent_data.py
 
