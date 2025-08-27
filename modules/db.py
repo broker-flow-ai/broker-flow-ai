@@ -364,6 +364,165 @@ def delete_claim_document(document_id: int) -> bool:
     conn.close()
     return cursor.rowcount > 0
 
+# Funzioni per rischi
+def get_risks(filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+    """Recupera la lista dei rischi con filtri opzionali"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    # Query principale con join per ottenere informazioni sul cliente
+    query = """
+        SELECT r.*, c.name as client_name, c.company as client_company
+        FROM risks r
+        LEFT JOIN clients c ON r.client_id = c.id
+        WHERE 1=1
+    """
+    params = []
+    
+    if filters:
+        if filters.get('client_id'):
+            query += " AND r.client_id = %s"
+            params.append(filters['client_id'])
+        if filters.get('broker_id'):
+            query += " AND r.broker_id = %s"
+            params.append(filters['broker_id'])
+        if filters.get('risk_type'):
+            query += " AND r.risk_type = %s"
+            params.append(filters['risk_type'])
+    
+    query += " ORDER BY r.created_at DESC"
+    
+    cursor.execute(query, params)
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def get_risk(risk_id: int) -> Optional[Dict[str, Any]]:
+    """Recupera un rischio specifico per ID"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT r.*, c.name as client_name, c.company as client_company
+        FROM risks r
+        LEFT JOIN clients c ON r.client_id = c.id
+        WHERE r.id = %s
+    """, (risk_id,))
+    result = cursor.fetchone()
+    conn.close()
+    return result
+
+def create_risk(risk_data: Dict[str, Any]) -> int:
+    """Crea un nuovo rischio e restituisce l'ID"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = """
+        INSERT INTO risks (client_id, broker_id, risk_type, details, created_at)
+        VALUES (%s, %s, %s, %s, %s)
+    """
+    params = (
+        risk_data['client_id'],
+        risk_data.get('broker_id'),
+        risk_data['risk_type'],
+        json.dumps(risk_data.get('details', {})),
+        datetime.now()
+    )
+    
+    cursor.execute(query, params)
+    risk_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return risk_id
+
+def update_risk(risk_id: int, risk_data: Dict[str, Any]) -> bool:
+    """Aggiorna un rischio esistente"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Costruiamo la query dinamicamente solo con i campi forniti
+    set_parts = []
+    params = []
+    
+    for field in ['client_id', 'broker_id', 'risk_type', 'details']:
+        if field in risk_data and risk_data[field] is not None:
+            set_parts.append(f"{field} = %s")
+            if field == 'details':
+                params.append(json.dumps(risk_data[field]))
+            else:
+                params.append(risk_data[field])
+    
+    if not set_parts:
+        return False
+    
+    query = f"UPDATE risks SET {', '.join(set_parts)} WHERE id = %s"
+    params.append(risk_id)
+    
+    cursor.execute(query, params)
+    conn.commit()
+    conn.close()
+    return cursor.rowcount > 0
+
+def delete_risk(risk_id: int) -> bool:
+    """Elimina un rischio"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM risks WHERE id = %s", (risk_id,))
+    conn.commit()
+    conn.close()
+    return cursor.rowcount > 0
+
+# Funzioni per relazioni clienti-rischi-polizze-sinistri
+def get_client_risks(client_id: int) -> List[Dict[str, Any]]:
+    """Recupera tutti i rischi associati a un cliente"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT r.*, c.name as client_name, c.company as client_company
+        FROM risks r
+        LEFT JOIN clients c ON r.client_id = c.id
+        WHERE r.client_id = %s
+        ORDER BY r.created_at DESC
+    """, (client_id,))
+    
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def get_risk_policies(risk_id: int) -> List[Dict[str, Any]]:
+    """Recupera tutte le polizze associate a un rischio"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT p.*, c.name as client_name, c.company as client_company
+        FROM policies p
+        LEFT JOIN clients c ON p.company_id = c.id
+        WHERE p.risk_id = %s
+        ORDER BY p.created_at DESC
+    """, (risk_id,))
+    
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def get_policy_claims(policy_id: int) -> List[Dict[str, Any]]:
+    """Recupera tutti i sinistri associati a una polizza"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT * FROM claims 
+        WHERE policy_id = %s
+        ORDER BY claim_date DESC
+    """, (policy_id,))
+    
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
 # Funzioni per comunicazioni sinistri
 def get_claim_communications(claim_id: int) -> List[Dict[str, Any]]:
     """Recupera le comunicazioni associate a un sinistro"""

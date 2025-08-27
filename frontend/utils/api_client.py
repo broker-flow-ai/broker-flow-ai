@@ -260,5 +260,52 @@ class APIClient:
         """Verifica lo stato di salute del sistema"""
         return self._make_request("GET", "/health")
 
+    # === METODI PER RELAZIONI CLIENTI-RISCHI-POLIZZE-SINISTRI ===
+    
+    def get_client_risks(self, client_id: int) -> List[Dict[str, Any]]:
+        """Recupera i rischi associati a un cliente"""
+        try:
+            response = self._make_request('GET', f'/clients/{client_id}/risks')
+            return response.get('risks', []) if isinstance(response, dict) else response
+        except Exception as e:
+            print(f"Errore nel recupero dei rischi del cliente {client_id}: {str(e)}")
+            return []
+
+    def get_risk_policies(self, risk_id: int) -> List[Dict[str, Any]]:
+        """Recupera le polizze associate a un rischio"""
+        try:
+            response = self._make_request('GET', f'/risks/{risk_id}/policies')
+            return response.get('policies', []) if isinstance(response, dict) else response
+        except Exception as e:
+            print(f"Errore nel recupero delle polizze del rischio {risk_id}: {str(e)}")
+            return []
+
+    def get_policy_claims(self, policy_id: int) -> List[Dict[str, Any]]:
+        """Recupera i sinistri associati a una polizza"""
+        try:
+            response = self._make_request('GET', f'/policies/{policy_id}/claims')
+            return response.get('claims', []) if isinstance(response, dict) else response
+        except Exception as e:
+            print(f"Errore nel recupero dei sinistri della polizza {policy_id}: {str(e)}")
+            return []
+
+    def get_risks(self) -> List[Dict[str, Any]]:
+        """Recupera la lista dei rischi"""
+        try:
+            response = self._make_request('GET', '/risks')
+            return response.get('risks', []) if isinstance(response, dict) else response
+        except Exception as e:
+            print(f"Errore nel recupero dei rischi: {str(e)}")
+            return []
+
+    def get_risk(self, risk_id: int) -> Optional[Dict[str, Any]]:
+        """Recupera un rischio specifico per ID"""
+        try:
+            response = self._make_request('GET', f'/risks/{risk_id}')
+            return response
+        except Exception as e:
+            print(f"Errore nel recupero del rischio {risk_id}: {str(e)}")
+            return None
+
 # Istanza singleton del client API
 api_client = APIClient()

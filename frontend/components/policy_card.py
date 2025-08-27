@@ -110,6 +110,45 @@ def render_policy_details(policy_data: Dict[str, Any]):
             st.write(f"**Cliente:** {client_info.get('name', 'N/A')}")
             st.write(f"**Azienda:** {client_info.get('company', 'N/A')}")
 
+    # Sezione Relazioni
+    st.subheader("🔗 Relazioni")
+    
+    # Recupera sinistri associati alla polizza
+    try:
+        claims_data = api_client.get_policy_claims(policy_data.get('id'))
+        
+        if claims_data:
+            st.markdown("### 🚨 Sinistri Associati")
+            total_claims = sum(claim.get('amount', 0) for claim in claims_data)
+            
+            # Mostra riepilogo sinistri
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Totale Sinistri", len(claims_data))
+            with col2:
+                st.metric("Importo Totale", f"€{total_claims:,.2f}")
+            with col3:
+                avg_claim = total_claims / len(claims_data) if claims_data else 0
+                st.metric("Importo Medio", f"€{avg_claim:,.2f}")
+            
+            # Mostra dettagli di ogni sinistro
+            for claim in claims_data:
+                with st.expander(f"🚨 Sinistro #{claim.get('id')} - {claim.get('claim_date', '')[:10] if claim.get('claim_date') else 'N/A'}"):
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.write(f"**Importo:** €{claim.get('amount', 0):,.2f}")
+                    with col2:
+                        st.write(f"**Stato:** {claim.get('status', 'N/A').title()}")
+                    with col3:
+                        st.write(f"**Data:** {claim.get('claim_date', '')[:10] if claim.get('claim_date') else 'N/A'}")
+                    
+                    st.write(f"**Descrizione:** {claim.get('description', 'N/A')}")
+        else:
+            st.info(" Nessun sinistro registrato per questa polizza")
+            
+    except Exception as e:
+        st.warning(f"Impossibile recuperare i sinistri: {str(e)}")
+
 def render_policy_form(policy_data: Dict[str, Any] = None):
     """Renderizza un form per creare/modificare una polizza"""
     
@@ -127,10 +166,74 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
     if policy_data:
         default_data.update(policy_data)
     
-    # Campi del form con chiavi uniche
-    risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id")
-    company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id")
-    company = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company")
+    # Recupera i rischi disponibili per la selezione
+    try:
+        risks_data = api_client.get_risks()
+        if risks_data:
+            # Crea un dizionario per la selezione con nome descrittivo
+            risk_options = {}
+            risk_names = []
+            for risk in risks_data:
+                # Crea un nome descrittivo per il rischio
+                client_name = risk.get('client_name', f"Cliente {risk.get('client_id', 'N/A')}")
+                risk_name = f"{client_name} - {risk.get('risk_type', 'N/A')} (ID: {risk.get('id')})"
+                risk_options[risk_name] = risk['id']
+                risk_names.append(risk_name)
+            
+            # Selezione del rischio con dropdown
+            st.subheader("Seleziona Rischio")
+            selected_risk_name = st.selectbox(
+                "Rischio Associato", 
+                options=risk_names,
+                index=risk_names.index([name for name, id in risk_options.items() if id == default_data.get('risk_id')][0]) if default_data.get('risk_id') and any(id == default_data.get('risk_id') for id in risk_options.values()) else 0,
+                key="policy_risk_selection"
+            )
+            
+            # Recupera l'ID del rischio selezionato
+            risk_id = risk_options[selected_risk_name] if selected_risk_name in risk_options else ''
+        else:
+            # Fallback al campo numerico se non ci sono rischi
+            risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id")
+    except Exception as e:
+        st.warning("Impossibile caricare i rischi disponibili")
+        risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id")
+    
+    # Recupera le compagnie disponibili
+    try:
+        companies_data = api_client.get_clients()
+        if companies_data:
+            # Filtra solo le compagnie assicurative
+            insurance_companies = [client for client in companies_data if client.get('sector') == 'Assicurativo']
+            
+            company_options = {}
+            company_names = []
+            for company in insurance_companies:
+                company_name = f"{company.get('company', company.get('name', 'N/A'))} (ID: {company.get('id')})"
+                company_options[company_name] = company['id']
+                company_names.append(company_name)
+            
+            # Selezione della compagnia con dropdown
+            st.subheader("Seleziona Compagnia")
+            selected_company_name = st.selectbox(
+                "Compagnia Assicurativa", 
+                options=company_names,
+                index=company_names.index([name for name, id in company_options.items() if id == default_data.get('company_id')][0]) if default_data.get('company_id') and any(id == default_data.get('company_id') for id in company_options.values()) else 0,
+                key="policy_company_selection"
+            )
+            
+            # Recupera l'ID della compagnia selezionata
+            company_id = company_options[selected_company_name] if selected_company_name in company_options else ''
+            company_name_selected = selected_company_name.split(' (ID:')[0] if ' (ID:' in selected_company_name else selected_company_name
+        else:
+            # Fallback ai campi originali
+            company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id")
+            company_name_selected = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company")
+    except Exception as e:
+        st.warning("Impossibile caricare le compagnie disponibili")
+        company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id")
+        company_name_selected = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company")
+    
+    st.subheader("Dettagli Polizza")
     policy_number = st.text_input("Numero Polizza", value=default_data['policy_number'], key="policy_number")
     
     # Date picker per le date di validità
@@ -150,7 +253,7 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
     return {
         'risk_id': risk_id,
         'company_id': company_id,
-        'company': company,
+        'company': company_name_selected,
         'policy_number': policy_number,
         'start_date': start_date.isoformat() if start_date else '',
         'end_date': end_date.isoformat() if end_date else '',

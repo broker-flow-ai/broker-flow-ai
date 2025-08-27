@@ -76,6 +76,48 @@ def render_client_details(client_data: Dict[str, Any]):
         # Qui andranno aggiunte le statistiche quando saranno disponibili
         st.info("📊 Statistiche in fase di implementazione")
 
+    # Sezione Relazioni
+    st.subheader("🔗 Relazioni")
+    
+    # Recupera polizze e sinistri associati al cliente
+    try:
+        # Recupera i rischi del cliente
+        risks_data = api_client.get_client_risks(client_data.get('id'))
+        
+        if risks_data:
+            st.markdown("### 📜 Polizze Associate")
+            policies_count = 0
+            
+            # Per ogni rischio, recupera le polizze associate
+            for risk in risks_data:
+                policies_data = api_client.get_risk_policies(risk.get('id'))
+                if policies_data:
+                    policies_count += len(policies_data)
+                    for policy in policies_data:
+                        with st.expander(f"📄 Polizza {policy.get('company', 'N/A')} - {policy.get('policy_number', 'N/A')}"):
+                            col1, col2, col3 = st.columns(3)
+                            with col1:
+                                st.write(f"**Compagnia:** {policy.get('company', 'N/A')}")
+                            with col2:
+                                st.write(f"**Numero:** {policy.get('policy_number', 'N/A')}")
+                            with col3:
+                                st.write(f"**Stato:** {policy.get('status', 'N/A').title()}")
+                            
+                            # Recupera sinistri associati alla polizza
+                            claims_data = api_client.get_policy_claims(policy.get('id'))
+                            if claims_data:
+                                st.markdown("#### 🚨 Sinistri Associati")
+                                for claim in claims_data:
+                                    st.write(f"- €{claim.get('amount', 0):,.2f} - {claim.get('description', 'N/A')[:50]}{'...' if len(claim.get('description', '')) > 50 else ''} ({claim.get('status', 'N/A').title()})")
+            
+            if policies_count == 0:
+                st.info(" Nessuna polizza associata a questo cliente")
+        else:
+            st.info(" Nessun rischio registrato per questo cliente")
+            
+    except Exception as e:
+        st.warning(f"Impossibile recuperare le relazioni: {str(e)}")
+
 def render_client_form(client_data: Dict[str, Any] = None):
     """Renderizza un form per creare/modificare un cliente"""
     

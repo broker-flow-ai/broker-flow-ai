@@ -55,6 +55,18 @@ class EmailRequest(BaseModel):
     recipient_email: str
     format_type: str = "pdf"
 
+class RiskCreateRequest(BaseModel):
+    client_id: int
+    broker_id: Optional[int] = None
+    risk_type: str
+    details: Optional[dict] = None
+
+class RiskUpdateRequest(BaseModel):
+    client_id: Optional[int] = None
+    broker_id: Optional[int] = None
+    risk_type: Optional[str] = None
+    details: Optional[dict] = None
+
 class PolicyIssuanceRequest(BaseModel):
     client_data: dict
     risk_data: dict
@@ -405,6 +417,34 @@ async def api_get_policy(policy_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint per relazioni clienti-rischi-polizze-sinistri
+@app.get("/api/v1/clients/{client_id}/risks")
+async def api_get_client_risks(client_id: int):
+    """Recupera tutti i rischi associati a un cliente"""
+    try:
+        risks = get_client_risks(client_id)
+        return jsonable_encoder(risks)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/risks/{risk_id}/policies")
+async def api_get_risk_policies(risk_id: int):
+    """Recupera tutte le polizze associate a un rischio"""
+    try:
+        policies = get_risk_policies(risk_id)
+        return jsonable_encoder(policies)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/policies/{policy_id}/claims")
+async def api_get_policy_claims(policy_id: int):
+    """Recupera tutti i sinistri associati a una polizza"""
+    try:
+        claims = get_policy_claims(policy_id)
+        return jsonable_encoder(claims)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/v1/policies")
 async def api_create_policy(request: PolicyCreateRequest):
     """Crea una nuova polizza"""
@@ -414,6 +454,110 @@ async def api_create_policy(request: PolicyCreateRequest):
         return jsonable_encoder({"policy_id": policy_id, "message": "Polizza creata con successo"})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per gestione rischi
+@app.get("/api/v1/risks")
+async def api_get_risks(
+    client_id: Optional[int] = None,
+    broker_id: Optional[int] = None,
+    risk_type: Optional[str] = None
+):
+    """Recupera la lista dei rischi con filtri opzionali"""
+    try:
+        filters = {}
+        if client_id: filters['client_id'] = client_id
+        if broker_id: filters['broker_id'] = broker_id
+        if risk_type: filters['risk_type'] = risk_type
+        
+        risks = get_risks(filters)
+        return jsonable_encoder({"risks": risks})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/risks/{risk_id}")
+async def api_get_risk(risk_id: int):
+    """Recupera un rischio specifico per ID"""
+    try:
+        risk = get_risk(risk_id)
+        if not risk:
+            raise HTTPException(status_code=404, detail="Rischio non trovato")
+        return jsonable_encoder(risk)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/risks")
+async def api_create_risk(request: RiskCreateRequest):
+    """Crea un nuovo rischio"""
+    try:
+        risk_data = request.dict()
+        risk_id = create_risk(risk_data)
+        return jsonable_encoder({"risk_id": risk_id, "message": "Rischio creato con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/risks/{risk_id}")
+async def api_update_risk(risk_id: int, request: RiskUpdateRequest):
+    """Aggiorna un rischio esistente"""
+    try:
+        risk_data = request.dict(exclude_unset=True)
+        if not risk_data:
+            raise HTTPException(status_code=400, detail="Nessun dato fornito per l'aggiornamento")
+        
+        success = update_risk(risk_id, risk_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Rischio non trovato")
+        
+        return jsonable_encoder({"risk_id": risk_id, "message": "Rischio aggiornato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/risks/{risk_id}")
+async def api_delete_risk(risk_id: int):
+    """Elimina un rischio"""
+    try:
+        success = delete_risk(risk_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Rischio non trovato")
+        
+        return jsonable_encoder({"risk_id": risk_id, "message": "Rischio eliminato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per relazioni clienti-rischi-polizze-sinistri
+@app.get("/api/v1/clients/{client_id}/risks")
+async def api_get_client_risks(client_id: int):
+    """Recupera tutti i rischi associati a un cliente"""
+    try:
+        risks = get_client_risks(client_id)
+        return jsonable_encoder(risks)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/risks/{risk_id}/policies")
+async def api_get_risk_policies(risk_id: int):
+    """Recupera tutte le polizze associate a un rischio"""
+    try:
+        policies = get_risk_policies(risk_id)
+        return jsonable_encoder(policies)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/policies/{policy_id}/claims")
+async def api_get_policy_claims(policy_id: int):
+    """Recupera tutti i sinistri associati a una polizza"""
+    try:
+        claims = get_policy_claims(policy_id)
+        return jsonable_encoder(claims)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/policies")
 
 @app.put("/api/v1/policies/{policy_id}")
 async def api_update_policy(policy_id: int, request: PolicyUpdateRequest):

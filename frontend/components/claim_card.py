@@ -106,8 +106,47 @@ def render_claim_details(claim_data: Dict[str, Any]):
         if 'policy_info' in claim_data:
             policy_info = claim_data['policy_info']
             st.subheader("Informazioni Polizza")
-            st.write(f"**Tipo Rischio:** {policy_info.get('risk_type', 'N/A')}")
             st.write(f"**Compagnia:** {policy_info.get('company', 'N/A')}")
+            st.write(f"**Numero Polizza:** {policy_info.get('policy_number', 'N/A')}")
+            
+            # Mostra informazioni sul cliente se disponibili
+            if 'client_info' in policy_info:
+                client_info = policy_info['client_info']
+                st.write(f"**Cliente:** {client_info.get('name', 'N/A')}")
+                st.write(f"**Azienda:** {client_info.get('company', 'N/A')}")
+
+    # Sezione Relazioni
+    st.subheader("🔗 Relazioni")
+    
+    # Recupera informazioni complete sulla polizza
+    try:
+        policy_id = claim_data.get('policy_id')
+        if policy_id:
+            policy_data = api_client.get_policy(policy_id)
+            
+            if policy_data:
+                st.markdown("### 📄 Polizza Associata")
+                with st.expander(f"📄 {policy_data.get('company', 'N/A')} - {policy_data.get('policy_number', 'N/A')}"):
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.write(f"**Compagnia:** {policy_data.get('company', 'N/A')}")
+                    with col2:
+                        st.write(f"**Numero:** {policy_data.get('policy_number', 'N/A')}")
+                    with col3:
+                        st.write(f"**Stato:** {policy_data.get('status', 'N/A').title()}")
+                    
+                    # Mostra informazioni sul cliente se disponibili
+                    if 'client_info' in policy_data:
+                        client_info = policy_data['client_info']
+                        st.write(f"**Cliente:** {client_info.get('name', 'N/A')}")
+                        st.write(f"**Azienda:** {client_info.get('company', 'N/A')}")
+            else:
+                st.warning(" Impossibile recuperare le informazioni della polizza")
+        else:
+            st.warning(" Nessuna polizza associata a questo sinistro")
+            
+    except Exception as e:
+        st.warning(f"Impossibile recuperare le informazioni della polizza: {str(e)}")
 
 def render_claim_form(claim_data: Dict[str, Any] = None):
     """Renderizza un form per creare/modificare un sinistro"""
@@ -124,14 +163,41 @@ def render_claim_form(claim_data: Dict[str, Any] = None):
     if claim_data:
         default_data.update(claim_data)
     
-    # Campi del form con chiavi uniche
-    policy_id = st.number_input(
-        "ID Polizza", 
-        min_value=1, 
-        value=int(default_data['policy_id']) if default_data['policy_id'] else 1,
-        help="Inserisci l'ID della polizza associata al sinistro",
-        key="claim_policy_id"
-    )
+    # Recupera le polizze disponibili per la selezione
+    try:
+        policies_data = api_client.get_policies()
+        if policies_data:
+            # Crea un dizionario per la selezione con nome descrittivo
+            policy_options = {}
+            policy_names = []
+            for policy in policies_data:
+                # Crea un nome descrittivo per la polizza
+                company_name = policy.get('company', 'N/A')
+                policy_number = policy.get('policy_number', 'N/A')
+                client_name = policy.get('client_name', f"Cliente {policy.get('client_id', 'N/A')}")
+                policy_name = f"{company_name} - {policy_number} ({client_name}) (ID: {policy.get('id')})"
+                policy_options[policy_name] = policy['id']
+                policy_names.append(policy_name)
+            
+            # Selezione della polizza con dropdown
+            st.subheader("Seleziona Polizza")
+            selected_policy_name = st.selectbox(
+                "Polizza Associata", 
+                options=policy_names,
+                index=policy_names.index([name for name, id in policy_options.items() if id == default_data.get('policy_id')][0]) if default_data.get('policy_id') and any(id == default_data.get('policy_id') for id in policy_options.values()) else 0,
+                key="claim_policy_selection"
+            )
+            
+            # Recupera l'ID della polizza selezionata
+            policy_id = policy_options[selected_policy_name] if selected_policy_name in policy_options else ''
+        else:
+            # Fallback al campo numerico se non ci sono polizze
+            policy_id = st.number_input("ID Polizza", min_value=1, value=int(default_data['policy_id']) if default_data['policy_id'] else 1, help="Inserisci l'ID della polizza associata al sinistro", key="claim_policy_id")
+    except Exception as e:
+        st.warning("Impossibile caricare le polizze disponibili")
+        policy_id = st.number_input("ID Polizza", min_value=1, value=int(default_data['policy_id']) if default_data['policy_id'] else 1, help="Inserisci l'ID della polizza associata al sinistro", key="claim_policy_id")
+    
+    st.subheader("Dettagli Sinistro")
     
     # Date picker per la data del sinistro
     claim_date = st.date_input(
