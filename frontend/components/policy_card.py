@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime, timedelta
 from typing import Dict, Any
+from utils.api_client import api_client
 
 def render_policy_card(policy_data: Dict[str, Any]):
     """Renderizza una card polizza stilizzata"""
@@ -148,6 +149,41 @@ def render_policy_details(policy_data: Dict[str, Any]):
             
     except Exception as e:
         st.warning(f"Impossibile recuperare i sinistri: {str(e)}")
+    
+    # Recupera premi associati alla polizza
+    try:
+        premiums_data = api_client.get_policy_premiums(policy_data.get('id'))
+        
+        if premiums_data:
+            st.markdown("### 💰 Premi Associati")
+            total_premiums = sum(premium.get('amount', 0) for premium in premiums_data)
+            
+            # Mostra riepilogo premi
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Totale Premi", f"€{total_premiums:,.2f}")
+            with col2:
+                st.metric("Numero Premi", len(premiums_data))
+            
+            # Mostra dettagli di ogni premio
+            for premium in premiums_data:
+                with st.expander(f"💰 Premio - Scadenza: {premium.get('due_date', '')[:10] if premium.get('due_date') else 'N/A'}"):
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.write(f"**Importo:** €{premium.get('amount', 0):,.2f}")
+                    with col2:
+                        st.write(f"**Stato Pagamento:** {premium.get('payment_status', 'N/A').title()}")
+                    with col3:
+                        st.write(f"**Scadenza:** {premium.get('due_date', '')[:10] if premium.get('due_date') else 'N/A'}")
+                    
+                    # Data pagamento se disponibile
+                    if premium.get('payment_date'):
+                        st.write(f"**Data Pagamento:** {premium.get('payment_date', '')[:10] if premium.get('payment_date') else 'N/A'}")
+        else:
+            st.info(" Nessun premio registrato per questa polizza")
+            
+    except Exception as e:
+        st.warning(f"Errore nel caricamento premi: {str(e)}")
 
 def render_policy_form(policy_data: Dict[str, Any] = None):
     """Renderizza un form per creare/modificare una polizza"""

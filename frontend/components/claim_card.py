@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime, timedelta
 from typing import Dict, Any
+from utils.api_client import api_client
 
 def render_claim_card(claim_data: Dict[str, Any]):
     """Renderizza una card sinistro stilizzata"""

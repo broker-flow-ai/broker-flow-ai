@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime
 from typing import Dict, Any
+from utils.api_client import api_client
 
 def render_client_card(client_data: Dict[str, Any]):
     """Renderizza una card cliente stilizzata"""
@@ -79,7 +80,6 @@ def render_client_details(client_data: Dict[str, Any]):
     # Sezione Relazioni
     st.subheader("🔗 Relazioni")
     
-    # Recupera polizze e sinistri associati al cliente
     try:
         # Recupera i rischi del cliente
         risks_data = api_client.get_client_risks(client_data.get('id'))

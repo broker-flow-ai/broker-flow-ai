@@ -289,6 +289,15 @@ class APIClient:
             print(f"Errore nel recupero dei sinistri della polizza {policy_id}: {str(e)}")
             return []
 
+    def get_policy_premiums(self, policy_id: int) -> List[Dict[str, Any]]:
+        """Recupera i premi associati a una polizza"""
+        try:
+            response = self._make_request('GET', f'/policies/{policy_id}/premiums')
+            return response.get('premiums', []) if isinstance(response, dict) else response
+        except Exception as e:
+            print(f"Errore nel recupero dei premi della polizza {policy_id}: {str(e)}")
+            return []
+
     def get_risks(self) -> List[Dict[str, Any]]:
         """Recupera la lista dei rischi"""
         try:

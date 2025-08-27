@@ -557,9 +557,16 @@ async def api_get_policy_claims(policy_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/v1/policies")
+@app.get("/api/v1/policies/{policy_id}/premiums")
+async def api_get_policy_premiums(policy_id: int):
+    """Recupera tutti i premi associati a una polizza"""
+    try:
+        premiums = get_policy_premiums(policy_id)
+        return jsonable_encoder(premiums)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.put("/api/v1/policies/{policy_id}")
+@app.post("/api/v1/policies")
 async def api_update_policy(policy_id: int, request: PolicyUpdateRequest):
     """Aggiorna una polizza esistente"""
     try:

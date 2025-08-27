@@ -117,25 +117,34 @@ def get_policies(filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    query = "SELECT * FROM policies WHERE 1=1"
+    # Query principale con join per ottenere informazioni correlate
+    query = """
+        SELECT p.*, c.name as client_name, c.company as client_company
+        FROM policies p
+        LEFT JOIN risks r ON p.risk_id = r.id
+        LEFT JOIN clients c ON r.client_id = c.id
+        WHERE 1=1
+    """
     params = []
     
     if filters:
         if filters.get('client_id'):
-            query += " AND client_id = %s"
+            query += " AND r.client_id = %s"
             params.append(filters['client_id'])
         if filters.get('risk_type'):
-            query += " AND risk_type = %s"
+            query += " AND r.risk_type = %s"
             params.append(filters['risk_type'])
         if filters.get('company'):
-            query += " AND company LIKE %s"
+            query += " AND p.company LIKE %s"
             params.append(f"%{filters['company']}%")
         if filters.get('policy_number'):
-            query += " AND policy_number LIKE %s"
+            query += " AND p.policy_number LIKE %s"
             params.append(f"%{filters['policy_number']}%")
         if filters.get('status'):
-            query += " AND status = %s"
+            query += " AND p.status = %s"
             params.append(filters['status'])
+    
+    query += " ORDER BY p.created_at DESC"
     
     cursor.execute(query, params)
     results = cursor.fetchall()
@@ -219,31 +228,44 @@ def get_claims(filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    query = "SELECT * FROM claims WHERE 1=1"
+    # Query principale con join per ottenere informazioni correlate
+    query = """
+        SELECT c.*, p.policy_number, cl.name as client_name, cl.company as client_company
+        FROM claims c
+        LEFT JOIN policies p ON c.policy_id = p.id
+        LEFT JOIN risks r ON p.risk_id = r.id
+        LEFT JOIN clients cl ON r.client_id = cl.id
+        WHERE 1=1
+    """
     params = []
     
     if filters:
         if filters.get('policy_id'):
-            query += " AND policy_id = %s"
+            query += " AND c.policy_id = %s"
             params.append(filters['policy_id'])
+        if filters.get('client_id'):
+            query += " AND r.client_id = %s"
+            params.append(filters['client_id'])
         if filters.get('status'):
-            query += " AND status = %s"
+            query += " AND c.status = %s"
             params.append(filters['status'])
         if filters.get('claim_date_from'):
-            query += " AND claim_date >= %s"
+            query += " AND c.claim_date >= %s"
             params.append(filters['claim_date_from'])
         if filters.get('claim_date_to'):
-            query += " AND claim_date <= %s"
+            query += " AND c.claim_date <= %s"
             params.append(filters['claim_date_to'])
         if filters.get('amount_min'):
-            query += " AND amount >= %s"
+            query += " AND c.amount >= %s"
             params.append(filters['amount_min'])
         if filters.get('amount_max'):
-            query += " AND amount <= %s"
+            query += " AND c.amount <= %s"
             params.append(filters['amount_max'])
         if filters.get('description'):
-            query += " AND description LIKE %s"
+            query += " AND c.description LIKE %s"
             params.append(f"%{filters['description']}%")
+    
+    query += " ORDER BY c.claim_date DESC"
     
     cursor.execute(query, params)
     results = cursor.fetchall()
@@ -517,6 +539,21 @@ def get_policy_claims(policy_id: int) -> List[Dict[str, Any]]:
         SELECT * FROM claims 
         WHERE policy_id = %s
         ORDER BY claim_date DESC
+    """, (policy_id,))
+    
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def get_policy_premiums(policy_id: int) -> List[Dict[str, Any]]:
+    """Recupera tutti i premi associati a una polizza"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT * FROM premiums 
+        WHERE policy_id = %s
+        ORDER BY due_date ASC
     """, (policy_id,))
     
     results = cursor.fetchall()
