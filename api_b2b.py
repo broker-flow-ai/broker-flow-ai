@@ -385,19 +385,29 @@ async def api_delete_client(client_id: int):
 @app.get("/api/v1/policies")
 async def api_get_policies(
     client_id: Optional[int] = None,
+    client: Optional[str] = None,
     risk_type: Optional[str] = None,
     company: Optional[str] = None,
     policy_number: Optional[str] = None,
-    status: Optional[str] = None
+    status: Optional[str] = None,
+    start_date_from: Optional[date] = None,
+    start_date_to: Optional[date] = None,
+    end_date_from: Optional[date] = None,
+    end_date_to: Optional[date] = None
 ):
     """Recupera la lista delle polizze con filtri opzionali"""
     try:
         filters = {}
         if client_id: filters['client_id'] = client_id
+        if client: filters['client'] = client
         if risk_type: filters['risk_type'] = risk_type
         if company: filters['company'] = company
         if policy_number: filters['policy_number'] = policy_number
         if status: filters['status'] = status
+        if start_date_from: filters['start_date_from'] = start_date_from
+        if start_date_to: filters['start_date_to'] = start_date_to
+        if end_date_from: filters['end_date_from'] = end_date_from
+        if end_date_to: filters['end_date_to'] = end_date_to
         
         policies = get_policies(filters)
         return jsonable_encoder(policies)

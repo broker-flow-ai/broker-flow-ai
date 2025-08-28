@@ -59,11 +59,8 @@ def render_policy_filters() -> Dict[str, Any]:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            risk_type_filter = st.multiselect(
-                "Tipo Rischio",
-                ["", "Flotta Auto", "RC Professionale", "Fabbricato", "Rischi Tecnici", "Altro"],
-                default=[]
-            )
+            # Filtro per cliente
+            client_filter = st.text_input("Cliente", "")
             company_filter = st.text_input("Compagnia", "")
         
         with col2:
@@ -75,16 +72,16 @@ def render_policy_filters() -> Dict[str, Any]:
             )
         
         with col3:
-            # Filtro per date di validità
-            st.write("Validità Polizza")
-            validity_from = st.date_input("Da", value=None, key="policy_validity_from")
-            validity_to = st.date_input("A", value=None, key="policy_validity_to")
+            # Filtro per date di validità (stipula)
+            st.write("Data Stipula")
+            start_date_from = st.date_input("Da", value=None, key="policy_start_date_from")
+            start_date_to = st.date_input("A", value=None, key="policy_start_date_to")
         
         with col4:
-            # Filtro per importo
-            st.write("Importo Premio")
-            premium_min = st.number_input("Min (€)", min_value=0.0, value=0.0, step=100.0, key="policy_premium_min")
-            premium_max = st.number_input("Max (€)", min_value=0.0, value=0.0, step=1000.0, key="policy_premium_max")
+            # Filtro per date di scadenza
+            st.write("Data Scadenza")
+            end_date_from = st.date_input("Da", value=None, key="policy_end_date_from")
+            end_date_to = st.date_input("A", value=None, key="policy_end_date_to")
         
         # Pulsanti di azione
         col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 2])
@@ -97,11 +94,14 @@ def render_policy_filters() -> Dict[str, Any]:
         
         # Ritorna i filtri selezionati
         filters = {
+            'client': client_filter,
             'company': company_filter,
             'policy_number': policy_number_filter,
             'status': status_filter,
-            'validity_from': validity_from,
-            'validity_to': validity_to,
+            'start_date_from': start_date_from,
+            'start_date_to': start_date_to,
+            'end_date_from': end_date_from,
+            'end_date_to': end_date_to,
             'apply': apply_filters,
             'clear': clear_filters
         }

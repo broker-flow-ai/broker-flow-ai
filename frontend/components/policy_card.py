@@ -13,6 +13,8 @@ def render_policy_card(policy_data: Dict[str, Any]):
     start_date = policy_data.get('start_date', '')
     end_date = policy_data.get('end_date', '')
     policy_number = policy_data.get('policy_number', 'N/A')
+    client_name = policy_data.get('client_name', 'N/A')
+    client_company = policy_data.get('client_company', 'N/A')
     
     # Formatta le date
     def format_date(date_str):
@@ -52,6 +54,7 @@ def render_policy_card(policy_data: Dict[str, Any]):
                 <div>
                     <h3 style="margin: 0 0 10px 0; color: var(--primary-color);">{company}</h3>
                     <p style="margin: 5px 0; font-weight: bold;">N. Polizza: {policy_number}</p>
+                    <p style="margin: 5px 0; color: var(--text-color);">👤 Cliente: {client_name} ({client_company})</p>
                     <p style="margin: 5px 0; color: var(--text-color);">📅 Validità: {formatted_start} - {formatted_end}</p>
                 </div>
                 <div style="text-align: right;">
@@ -78,6 +81,15 @@ def render_policy_details(policy_data: Dict[str, Any]):
         st.subheader("Informazioni Polizza")
         st.write(f"**Compagnia:** {policy_data.get('company', 'N/A')}")
         st.write(f"**Numero Polizza:** {policy_data.get('policy_number', 'N/A')}")
+        
+        # Mostra informazioni sul cliente se disponibili
+        if 'client_name' in policy_data and 'client_company' in policy_data:
+            st.write(f"**Cliente:** {policy_data.get('client_name', 'N/A')}")
+            st.write(f"**Azienda Cliente:** {policy_data.get('client_company', 'N/A')}")
+        elif 'client_info' in policy_data:
+            client_info = policy_data['client_info']
+            st.write(f"**Cliente:** {client_info.get('name', 'N/A')}")
+            st.write(f"**Azienda Cliente:** {client_info.get('company', 'N/A')}")
         
         # Date di validità
         start_date = policy_data.get('start_date', '')
@@ -106,10 +118,13 @@ def render_policy_details(policy_data: Dict[str, Any]):
             st.write(f"**PDF:** {policy_data['policy_pdf_path']}")
         
         # Mostra informazioni sul cliente se disponibili
-        if 'client_info' in policy_data:
+        if 'client_name' in policy_data and 'client_company' in policy_data:
+            st.write(f"**Cliente:** {policy_data.get('client_name', 'N/A')}")
+            st.write(f"**Azienda Cliente:** {policy_data.get('client_company', 'N/A')}")
+        elif 'client_info' in policy_data:
             client_info = policy_data['client_info']
             st.write(f"**Cliente:** {client_info.get('name', 'N/A')}")
-            st.write(f"**Azienda:** {client_info.get('company', 'N/A')}")
+            st.write(f"**Azienda Cliente:** {client_info.get('company', 'N/A')}")
 
     # Sezione Relazioni
     st.subheader("🔗 Relazioni")
@@ -212,7 +227,9 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
             for risk in risks_data:
                 # Crea un nome descrittivo per il rischio
                 client_name = risk.get('client_name', f"Cliente {risk.get('client_id', 'N/A')}")
-                risk_name = f"{client_name} - {risk.get('risk_type', 'N/A')} (ID: {risk.get('id')})"
+                client_company = risk.get('client_company', '')
+                client_display = f"{client_name} ({client_company})" if client_company else client_name
+                risk_name = f"{client_display} - {risk.get('risk_type', 'N/A')} (ID: {risk.get('id')})"
                 risk_options[risk_name] = risk['id']
                 risk_names.append(risk_name)
             
@@ -224,6 +241,13 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
                 index=risk_names.index([name for name, id in risk_options.items() if id == default_data.get('risk_id')][0]) if default_data.get('risk_id') and any(id == default_data.get('risk_id') for id in risk_options.values()) else 0,
                 key="policy_risk_selection"
             )
+            
+            # Mostra informazioni sul cliente associato al rischio selezionato
+            if selected_risk_name in risk_options:
+                selected_risk_id = risk_options[selected_risk_name]
+                selected_risk = next((risk for risk in risks_data if risk['id'] == selected_risk_id), None)
+                if selected_risk:
+                    st.info(f"_cliente: {selected_risk.get('client_name', 'N/A')} - {selected_risk.get('client_company', 'N/A')}_")
             
             # Recupera l'ID del rischio selezionato
             risk_id = risk_options[selected_risk_name] if selected_risk_name in risk_options else ''

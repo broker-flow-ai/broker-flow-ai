@@ -131,6 +131,9 @@ def get_policies(filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any
         if filters.get('client_id'):
             query += " AND r.client_id = %s"
             params.append(filters['client_id'])
+        if filters.get('client'):
+            query += " AND (c.name LIKE %s OR c.company LIKE %s)"
+            params.extend([f"%{filters['client']}%", f"%{filters['client']}%"])
         if filters.get('risk_type'):
             query += " AND r.risk_type = %s"
             params.append(filters['risk_type'])
@@ -143,6 +146,18 @@ def get_policies(filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any
         if filters.get('status'):
             query += " AND p.status = %s"
             params.append(filters['status'])
+        if filters.get('start_date_from'):
+            query += " AND p.start_date >= %s"
+            params.append(filters['start_date_from'])
+        if filters.get('start_date_to'):
+            query += " AND p.start_date <= %s"
+            params.append(filters['start_date_to'])
+        if filters.get('end_date_from'):
+            query += " AND p.end_date >= %s"
+            params.append(filters['end_date_from'])
+        if filters.get('end_date_to'):
+            query += " AND p.end_date <= %s"
+            params.append(filters['end_date_to'])
     
     query += " ORDER BY p.created_at DESC"
     
