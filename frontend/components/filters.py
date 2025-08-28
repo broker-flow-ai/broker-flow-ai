@@ -11,6 +11,11 @@ def render_client_filters() -> Dict[str, Any]:
         with col1:
             name_filter = st.text_input("Nome Cliente", "")
             company_filter = st.text_input("Azienda", "")
+            client_type_filter = st.multiselect(
+                "Tipo Cliente",
+                ["individual", "company", "freelance", "public_entity"],
+                default=[]
+            )
         
         with col2:
             sector_filter = st.multiselect(
@@ -19,15 +24,26 @@ def render_client_filters() -> Dict[str, Any]:
                  "Commercio", "Logistica", "Noleggio", "Assicurativo"],
                 default=[]
             )
+            customer_status_filter = st.multiselect(
+                "Stato Cliente",
+                ["active", "inactive", "prospect"],
+                default=[]
+            )
         
         with col3:
             email_filter = st.text_input("Email", "")
+            fiscal_code_filter = st.text_input("Codice Fiscale", "")
+            vat_number_filter = st.text_input("Partita IVA", "")
         
         with col4:
             # Filtro per data creazione
             st.write("Data Creazione")
             date_from = st.date_input("Da", value=None, key="client_date_from")
             date_to = st.date_input("A", value=None, key="client_date_to")
+            
+            # Filtro per città e provincia
+            city_filter = st.text_input("Città", "")
+            province_filter = st.text_input("Provincia", "")
         
         # Pulsanti di azione
         col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 2])
@@ -42,8 +58,14 @@ def render_client_filters() -> Dict[str, Any]:
         filters = {
             'name': name_filter,
             'company': company_filter,
+            'client_type': client_type_filter,
             'sector': sector_filter,
+            'customer_status': customer_status_filter,
             'email': email_filter,
+            'fiscal_code': fiscal_code_filter,
+            'vat_number': vat_number_filter,
+            'city': city_filter,
+            'province': province_filter,
             'date_from': date_from,
             'date_to': date_to,
             'apply': apply_filters,
@@ -62,9 +84,14 @@ def render_policy_filters() -> Dict[str, Any]:
             # Filtro per cliente
             client_filter = st.text_input("Cliente", "")
             company_filter = st.text_input("Compagnia", "")
+            policy_number_filter = st.text_input("Numero Polizza", "")
         
         with col2:
-            policy_number_filter = st.text_input("Numero Polizza", "")
+            risk_type_filter = st.multiselect(
+                "Tipo Rischio",
+                ["", "Flotta Auto", "RC Professionale", "Fabbricato", "Rischi Tecnici", "Altro"],
+                default=[]
+            )
             status_filter = st.multiselect(
                 "Stato",
                 ["active", "expired", "cancelled", "pending"],
@@ -72,16 +99,33 @@ def render_policy_filters() -> Dict[str, Any]:
             )
         
         with col3:
-            # Filtro per date di validità (stipula)
-            st.write("Data Stipula")
-            start_date_from = st.date_input("Da", value=None, key="policy_start_date_from")
-            start_date_to = st.date_input("A", value=None, key="policy_start_date_to")
+            # Filtro per date di sottoscrizione
+            st.write("Data Sottoscrizione")
+            subscription_from = st.date_input("Da", value=None, key="policy_subscription_from")
+            subscription_to = st.date_input("A", value=None, key="policy_subscription_to")
+            
+            # Filtro per date di validità
+            st.write("Validità Polizza")
+            validity_from = st.date_input("Da", value=None, key="policy_validity_from")
+            validity_to = st.date_input("A", value=None, key="policy_validity_to")
         
         with col4:
-            # Filtro per date di scadenza
-            st.write("Data Scadenza")
-            end_date_from = st.date_input("Da", value=None, key="policy_end_date_from")
-            end_date_to = st.date_input("A", value=None, key="policy_end_date_to")
+            # Filtro per importo premio
+            st.write("Importo Premio")
+            premium_min = st.number_input("Min (€)", min_value=0.0, value=0.0, step=100.0, key="policy_premium_min")
+            premium_max = st.number_input("Max (€)", min_value=0.0, value=0.0, step=1000.0, key="policy_premium_max")
+            
+            # Filtro per metodo di sottoscrizione e pagamento
+            subscription_method_filter = st.multiselect(
+                "Metodo Sottoscrizione",
+                ["digital", "paper", "agent"],
+                default=[]
+            )
+            payment_method_filter = st.multiselect(
+                "Metodo Pagamento",
+                ["direct_debit", "bank_transfer", "credit_card", "cash", "check"],
+                default=[]
+            )
         
         # Pulsanti di azione
         col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 2])
@@ -97,11 +141,16 @@ def render_policy_filters() -> Dict[str, Any]:
             'client': client_filter,
             'company': company_filter,
             'policy_number': policy_number_filter,
+            'risk_type': risk_type_filter,
             'status': status_filter,
-            'start_date_from': start_date_from,
-            'start_date_to': start_date_to,
-            'end_date_from': end_date_from,
-            'end_date_to': end_date_to,
+            'subscription_from': subscription_from,
+            'subscription_to': subscription_to,
+            'start_date_from': validity_from,
+            'start_date_to': validity_to,
+            'premium_min': premium_min if premium_min > 0 else None,
+            'premium_max': premium_max if premium_max > 0 else None,
+            'subscription_method': subscription_method_filter,
+            'payment_method': payment_method_filter,
             'apply': apply_filters,
             'clear': clear_filters
         }

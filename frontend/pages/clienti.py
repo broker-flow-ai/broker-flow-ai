@@ -323,11 +323,34 @@ def render_client_detail_view():
         except Exception as e:
             st.error(f"Errore nel caricamento sinistri: {str(e)}")
         
+        # Sezione delegati pagamento
+        st.subheader("Delegati al Pagamento")
+        try:
+            delegates_data = api_client.get_premium_delegates(client_id)
+            
+            if delegates_data:
+                df_delegates = pd.DataFrame(delegates_data)
+                
+                # Formatta i dati per visualizzazione
+                if 'created_at' in df_delegates.columns:
+                    df_delegates['created_at_formatted'] = df_delegates['created_at'].apply(DataFormatter.format_date)
+                
+                # Visualizza tabella delegati
+                st.dataframe(
+                    df_delegates[['first_name', 'last_name', 'company_name', 'email', 'mobile', 'created_at_formatted', 'is_active']],
+                    use_container_width=True
+                )
+            else:
+                st.info(" Nessun delegato al pagamento registrato per questo cliente")
+                
+        except Exception as e:
+            st.error(f"Errore nel caricamento delegati: {str(e)}")
+        
     except Exception as e:
         st.error(f"Errore nel caricamento dettagli cliente: {str(e)}")
         if st.button("⬅ Torna alla Lista"):
             del st.session_state.selected_client
-            st.experimental_rerun()
+            st.rerun()
 
 # Esportazioni
 __all__ = ['clients_page', 'render_client_detail_view']

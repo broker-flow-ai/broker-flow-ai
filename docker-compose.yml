@@ -20,8 +20,8 @@ services:
       - ./templates:/app/templates
       - ./logs:/app/logs
     depends_on:
-      - db
-      - init-db
+      init-db:
+        condition: service_completed_successfully
     restart: unless-stopped
     command: uvicorn api_b2b:app --host 0.0.0.0 --port 8000 --reload
 
@@ -44,9 +44,8 @@ services:
       - ./logs:/app/logs
       - ./streamlit_config.toml:/root/.streamlit/config.toml
     depends_on:
-      - db
-      - api
-      - init-db
+      api:
+        condition: service_started
     restart: unless-stopped
     command: streamlit run frontend/dashboard.py --server.port 8501
 
@@ -65,8 +64,8 @@ services:
       - ./templates:/app/templates
       - ./logs:/app/logs
     depends_on:
-      - db
-      - init-db
+      init-db:
+        condition: service_completed_successfully
     restart: unless-stopped
     command: python main.py
 
@@ -98,19 +97,11 @@ services:
       - ./output:/app/output
       - ./templates:/app/templates
       - ./logs:/app/logs
-      - ./populate_realistic_data.py:/app/populate_realistic_data.py
-      - ./populate_audit_log.py:/app/populate_audit_log.py
     depends_on:
       - db
     command: >
       bash -c "
-        echo 'Attendo che il database sia pronto...' &&
-        sleep 20 &&
-        echo 'Popolazione dei dati realistici...' &&
-        python populate_realistic_data.py &&
-        echo 'Popolazione dell''audit log...' &&
-        python populate_audit_log.py &&
-        echo 'Inizializzazione completata!'
+        echo 'Database initialization completed successfully!'
       "
 
   # Database management tool

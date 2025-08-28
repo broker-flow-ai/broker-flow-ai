@@ -336,11 +336,84 @@ def render_policy_detail_view():
         except Exception as e:
             st.error(f"Errore nel caricamento premi: {str(e)}")
         
+        # Sezione sottoscrittori
+        st.subheader("Sottoscrittori")
+        try:
+            if policy_data.get('primary_subscriber_id'):
+                subscriber_data = api_client.get_policy_subscriber(policy_data['primary_subscriber_id'])
+                
+                if subscriber_data:
+                    st.write("**Sottoscrittore Principale:**")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if subscriber_data.get('entity_type') == 'company':
+                            st.write(f"**Azienda:** {subscriber_data.get('company_name', 'N/A')}")
+                            st.write(f"**Partita IVA:** {subscriber_data.get('vat_number', 'N/A')}")
+                        else:
+                            st.write(f"**Nome:** {subscriber_data.get('first_name', 'N/A')} {subscriber_data.get('last_name', 'N/A')}")
+                            st.write(f"**Codice Fiscale:** {subscriber_data.get('fiscal_code', 'N/A')}")
+                    with col2:
+                        st.write(f"**Email:** {subscriber_data.get('email', 'N/A')}")
+                        st.write(f"**Telefono:** {subscriber_data.get('phone', 'N/A')}")
+                        st.write(f"**Cellulare:** {subscriber_data.get('mobile', 'N/A')}")
+                else:
+                    st.info(" Sottoscrittore principale non trovato")
+            else:
+                st.info(" Nessun sottoscrittore principale associato a questa polizza")
+                
+        except Exception as e:
+            st.error(f"Errore nel caricamento sottoscrittori: {str(e)}")
+        
+        # Sezione delegati pagamento
+        st.subheader("Delegati al Pagamento")
+        try:
+            if policy_data.get('premium_delegate_id'):
+                delegate_data = api_client.get_premium_delegate(policy_data['premium_delegate_id'])
+                
+                if delegate_data:
+                    st.write("**Delegato al Pagamento:**")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if delegate_data.get('delegate_type') == 'company':
+                            st.write(f"**Azienda:** {delegate_data.get('company_name', 'N/A')}")
+                            st.write(f"**Partita IVA:** {delegate_data.get('vat_number', 'N/A')}")
+                        else:
+                            st.write(f"**Nome:** {delegate_data.get('first_name', 'N/A')} {delegate_data.get('last_name', 'N/A')}")
+                            st.write(f"**Codice Fiscale:** {delegate_data.get('fiscal_code', 'N/A')}")
+                    with col2:
+                        st.write(f"**Email:** {delegate_data.get('email', 'N/A')}")
+                        st.write(f"**Telefono:** {delegate_data.get('phone', 'N/A')}")
+                        st.write(f"**Cellulare:** {delegate_data.get('mobile', 'N/A')}")
+                        
+                        # Informazioni autorizzazione
+                        if delegate_data.get('authorization_start'):
+                            try:
+                                auth_start = datetime.fromisoformat(delegate_data['authorization_start'].replace('Z', '+00:00'))
+                                st.write(f"**Autorizzazione Da:** {auth_start.strftime('%d/%m/%Y')}")
+                            except:
+                                st.write(f"**Autorizzazione Da:** {delegate_data.get('authorization_start', 'N/A')}")
+                        
+                        if delegate_data.get('authorization_end'):
+                            try:
+                                auth_end = datetime.fromisoformat(delegate_data['authorization_end'].replace('Z', '+00:00'))
+                                st.write(f"**Autorizzazione A:** {auth_end.strftime('%d/%m/%Y')}")
+                            except:
+                                st.write(f"**Autorizzazione A:** {delegate_data.get('authorization_end', 'N/A')}")
+                        
+                        st.write(f"**Attivo:** {'Sì' if delegate_data.get('is_active', False) else 'No'}")
+                else:
+                    st.info(" Delegato al pagamento non trovato")
+            else:
+                st.info(" Nessun delegato al pagamento associato a questa polizza")
+                
+        except Exception as e:
+            st.error(f"Errore nel caricamento delegati: {str(e)}")
+        
     except Exception as e:
         st.error(f"Errore nel caricamento dettagli polizza: {str(e)}")
         if st.button("⬅ Torna alla Lista"):
             del st.session_state.selected_policy
-            st.experimental_rerun()
+            st.rerun()
 
 # Esportazioni
 __all__ = ['policies_page', 'render_policy_detail_view']

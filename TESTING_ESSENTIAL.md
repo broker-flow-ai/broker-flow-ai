@@ -27,7 +27,74 @@ rm -rf broker-flow-ai/
 # riallocazione da zero
 cd broker-flow-ai/
 docker compose up -d
+docker compose exec processor python populate_database.py
+
+# vecchio flow (con documenti pdf in /inbox)
 docker compose exec processor python populate_coherent_data.py
+
+```
+antonio@hp:~/progetti/broker-flow-ai$ docker compose ps
+WARN[0000] /home/antonio/progetti/broker-flow-ai/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+NAME                          IMAGE                      COMMAND                  SERVICE      CREATED         STATUS         PORTS
+broker-flow-ai-api-1          broker-flow-ai-api         "uvicorn api_b2b:app…"   api          8 minutes ago   Up 8 minutes   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp, 8501/tcp
+broker-flow-ai-db-1           mysql:8.0                  "docker-entrypoint.s…"   db           8 minutes ago   Up 8 minutes   0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp, 33060/tcp
+broker-flow-ai-frontend-1     broker-flow-ai-frontend    "streamlit run front…"   frontend     8 minutes ago   Up 8 minutes   8000/tcp, 0.0.0.0:8501->8501/tcp, [::]:8501->8501/tcp
+broker-flow-ai-phpmyadmin-1   phpmyadmin/phpmyadmin      "/docker-entrypoint.…"   phpmyadmin   8 minutes ago   Up 8 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+broker-flow-ai-processor-1    broker-flow-ai-processor   "python main.py"         processor    8 minutes ago   Up 8 minutes   8000/tcp, 8501/tcp
+broker-flow-ai-redis-1        redis:7-alpine             "docker-entrypoint.s…"   redis        8 minutes ago   Up 8 minutes   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+
+docker compose down
+
+docker cp schema.sql broker-flow-ai-db-1:/docker-entrypoint-initdb.d/schema.sql
+
+  Dopo aver copiato il file, riavviamo i servizi per applicare le modifiche:
+
+   1 docker compose down
+   2 docker compose up -d
+
+  Infine, controlliamo i log per verificare che il database sia stato inizializzato correttamente:
+
+   1 docker compose logs init-db
+
+
+✦ Ecco tutti i comandi in sequenza per resettare e ricreare il database da zero:
+
+   1. Fermare e rimuovere tutti i container e i volumi:
+
+   1    docker compose down -v
+
+   2. Verificare che tutti i volumi siano stati rimossi:
+
+   1    docker volume ls | grep broker-flow-ai
+
+   3. Se ci sono ancora volumi, rimuoverli manualmente:
+
+   1    docker volume rm <nome_volume>
+
+   4. Avviare nuovamente tutti i servizi:
+
+   1    docker compose up -d
+
+   5. Attendere qualche secondo che il database si inizializzi, poi controllare i log:
+
+   1    docker compose logs init-db
+
+   6. Se i log mostrano ancora errori, possiamo provare a copiare manualmente il file schema.sql e rieseguirlo:
+
+   1    docker cp schema.sql broker-flow-ai-db-1:/tmp/schema.sql
+   2    docker exec -i broker-flow-ai-db-1 mysql -u root -proot123 < /tmp/schema.sql
+
+   7. Oppure accedere interattivamente al container MySQL ed eseguire lo script:
+
+   1    docker exec -it broker-flow-ai-db-1 bash
+   2    mysql -u root -proot123 < /tmp/schema.sql
+   3    exit
+
+   8. Infine, verificare che le tabelle siano state create correttamente:
+
+   1    docker exec -it broker-flow-ai-db-1 mysql -u root -proot123 -e "USE brokerflow_ai; SHOW TABLES;"
+
+```
 
 ```
 

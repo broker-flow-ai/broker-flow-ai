@@ -113,19 +113,33 @@ def render_policy_details(policy_data: Dict[str, Any]):
         st.subheader("Stato e Dettagli")
         st.write(f"**Stato:** {policy_data.get('status', 'N/A')}")
         
+        # Informazioni di sottoscrizione
+        st.write(f"**Metodo Sottoscrizione:** {policy_data.get('subscription_method', 'N/A').title() if policy_data.get('subscription_method') else 'N/A'}")
+        
+        subscription_date = policy_data.get('subscription_date', '')
+        if subscription_date:
+            try:
+                sub_obj = datetime.fromisoformat(subscription_date.replace('Z', '+00:00'))
+                st.write(f"**Data Sottoscrizione:** {sub_obj.strftime('%d/%m/%Y')}")
+            except:
+                st.write(f"**Data Sottoscrizione:** {subscription_date}")
+        
+        # Premio e pagamento
+        if policy_data.get('premium_amount'):
+            st.write(f"**Importo Premio:** €{float(policy_data['premium_amount']):,.2f}")
+        st.write(f"**Frequenza Pagamento:** {policy_data.get('premium_frequency', 'N/A').title() if policy_data.get('premium_frequency') else 'N/A'}")
+        st.write(f"**Metodo Pagamento:** {policy_data.get('payment_method', 'N/A').title() if policy_data.get('payment_method') else 'N/A'}")
+        
         # Informazioni aggiuntive se disponibili
         if 'policy_pdf_path' in policy_data:
             st.write(f"**PDF:** {policy_data['policy_pdf_path']}")
         
-        # Mostra informazioni sul cliente se disponibili
-        if 'client_name' in policy_data and 'client_company' in policy_data:
-            st.write(f"**Cliente:** {policy_data.get('client_name', 'N/A')}")
-            st.write(f"**Azienda Cliente:** {policy_data.get('client_company', 'N/A')}")
-        elif 'client_info' in policy_data:
-            client_info = policy_data['client_info']
-            st.write(f"**Cliente:** {client_info.get('name', 'N/A')}")
-            st.write(f"**Azienda Cliente:** {client_info.get('company', 'N/A')}")
-
+        # Informazioni su sottoscrittori e delegati
+        if policy_data.get('primary_subscriber_id'):
+            st.write(f"**Sottoscrittore Principale ID:** {policy_data['primary_subscriber_id']}")
+        if policy_data.get('premium_delegate_id'):
+            st.write(f"**Delegato Pagamento ID:** {policy_data['premium_delegate_id']}")
+    
     # Sezione Relazioni
     st.subheader("🔗 Relazioni")
     
@@ -211,7 +225,20 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
         'policy_number': '',
         'start_date': '',
         'end_date': '',
-        'status': 'active'
+        'status': 'active',
+        
+        # Informazioni di sottoscrizione
+        'subscription_date': '',
+        'subscription_method': 'digital',  # digital, paper, agent
+        
+        # Premio e pagamento
+        'premium_amount': 0.0,
+        'premium_frequency': 'annual',  # annual, semiannual, quarterly, monthly
+        'payment_method': '',  # direct_debit, bank_transfer, credit_card, cash, check
+        
+        # Sottoscrittori e delegati
+        'primary_subscriber_id': '',
+        'premium_delegate_id': ''
     }
     
     if policy_data:
@@ -247,16 +274,21 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
                 selected_risk_id = risk_options[selected_risk_name]
                 selected_risk = next((risk for risk in risks_data if risk['id'] == selected_risk_id), None)
                 if selected_risk:
-                    st.info(f"_cliente: {selected_risk.get('client_name', 'N/A')} - {selected_risk.get('client_company', 'N/A')}_")
+                    st.info(f"_Cliente: {selected_risk.get('client_name', 'N/A')} - {selected_risk.get('client_company', 'N/A')}_")
             
             # Recupera l'ID del rischio selezionato
             risk_id = risk_options[selected_risk_name] if selected_risk_name in risk_options else ''
         else:
             # Fallback al campo numerico se non ci sono rischi
-            risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id")
+            st.subheader("Seleziona Rischio")
+            st.warning("Non ci sono rischi disponibili. È necessario creare prima un rischio per il cliente.")
+            risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id", 
+                                    help="Inserisci l'ID del rischio a cui associare questa polizza. Il rischio deve essere già stato creato.")
     except Exception as e:
+        st.subheader("Seleziona Rischio")
         st.warning("Impossibile caricare i rischi disponibili")
-        risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id")
+        risk_id = st.number_input("ID Rischio", min_value=1, value=int(default_data['risk_id']) if default_data['risk_id'] else 1, key="policy_risk_id",
+                                help="Inserisci l'ID del rischio a cui associare questa polizza. Il rischio deve essere già stato creato.")
     
     # Recupera le compagnie disponibili
     try:
@@ -286,12 +318,19 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
             company_name_selected = selected_company_name.split(' (ID:')[0] if ' (ID:' in selected_company_name else selected_company_name
         else:
             # Fallback ai campi originali
-            company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id")
-            company_name_selected = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company")
+            st.subheader("Seleziona Compagnia")
+            st.warning("Non ci sono compagnie assicurative disponibili. È necessario creare prima una compagnia assicurativa.")
+            company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id",
+                                       help="Inserisci l'ID della compagnia assicurativa. La compagnia deve essere già stata creata.")
+            company_name_selected = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company",
+                                                help="Inserisci il nome della compagnia assicurativa.")
     except Exception as e:
+        st.subheader("Seleziona Compagnia")
         st.warning("Impossibile caricare le compagnie disponibili")
-        company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id")
-        company_name_selected = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company")
+        company_id = st.number_input("ID Compagnia", min_value=1, value=int(default_data['company_id']) if default_data['company_id'] else 1, key="policy_company_id",
+                                   help="Inserisci l'ID della compagnia assicurativa. La compagnia deve essere già stata creata.")
+        company_name_selected = st.text_input("Compagnia Assicurativa", value=default_data['company'], key="policy_company",
+                                            help="Inserisci il nome della compagnia assicurativa.")
     
     st.subheader("Dettagli Polizza")
     policy_number = st.text_input("Numero Polizza", value=default_data['policy_number'], key="policy_number")
@@ -310,6 +349,47 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
         key="policy_status"
     )
     
+    # Informazioni di sottoscrizione
+    st.subheader("Informazioni di Sottoscrizione")
+    col1, col2 = st.columns(2)
+    with col1:
+        subscription_date = st.date_input("Data Sottoscrizione", value=datetime.today() if not default_data['subscription_date'] else datetime.fromisoformat(default_data['subscription_date'].split('T')[0]) if default_data['subscription_date'] else datetime.today(), key="policy_subscription_date")
+    with col2:
+        subscription_method = st.selectbox(
+            "Metodo Sottoscrizione",
+            ["digital", "paper", "agent"],
+            index=["digital", "paper", "agent"].index(default_data['subscription_method']) if default_data['subscription_method'] in ["digital", "paper", "agent"] else 0,
+            key="policy_subscription_method"
+        )
+    
+    # Premio e pagamento
+    st.subheader("Premio e Pagamento")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        premium_amount = st.number_input("Importo Premio (€)", min_value=0.0, value=float(default_data['premium_amount']) if default_data['premium_amount'] else 0.0, step=100.0, key="policy_premium_amount")
+    with col2:
+        premium_frequency = st.selectbox(
+            "Frequenza Pagamento",
+            ["annual", "semiannual", "quarterly", "monthly"],
+            index=["annual", "semiannual", "quarterly", "monthly"].index(default_data['premium_frequency']) if default_data['premium_frequency'] in ["annual", "semiannual", "quarterly", "monthly"] else 0,
+            key="policy_premium_frequency"
+        )
+    with col3:
+        payment_method = st.selectbox(
+            "Metodo Pagamento",
+            ["", "direct_debit", "bank_transfer", "credit_card", "cash", "check"],
+            index=["", "direct_debit", "bank_transfer", "credit_card", "cash", "check"].index(default_data['payment_method']) if default_data['payment_method'] in ["", "direct_debit", "bank_transfer", "credit_card", "cash", "check"] else 0,
+            key="policy_payment_method"
+        )
+    
+    # Sottoscrittori e delegati
+    st.subheader("Sottoscrittori e Delegati")
+    col1, col2 = st.columns(2)
+    with col1:
+        primary_subscriber_id = st.number_input("ID Sottoscrittore Principale", min_value=0, value=int(default_data['primary_subscriber_id']) if default_data['primary_subscriber_id'] else 0, key="policy_primary_subscriber_id")
+    with col2:
+        premium_delegate_id = st.number_input("ID Delegato Pagamento", min_value=0, value=int(default_data['premium_delegate_id']) if default_data['premium_delegate_id'] else 0, key="policy_premium_delegate_id")
+    
     return {
         'risk_id': risk_id,
         'company_id': company_id,
@@ -317,5 +397,12 @@ def render_policy_form(policy_data: Dict[str, Any] = None):
         'policy_number': policy_number,
         'start_date': start_date.isoformat() if start_date else '',
         'end_date': end_date.isoformat() if end_date else '',
-        'status': status
+        'status': status,
+        'subscription_date': subscription_date.isoformat() if subscription_date else '',
+        'subscription_method': subscription_method,
+        'premium_amount': premium_amount,
+        'premium_frequency': premium_frequency,
+        'payment_method': payment_method if payment_method else None,
+        'primary_subscriber_id': primary_subscriber_id if primary_subscriber_id > 0 else None,
+        'premium_delegate_id': premium_delegate_id if premium_delegate_id > 0 else None
     }

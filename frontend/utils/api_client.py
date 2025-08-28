@@ -2,6 +2,7 @@ import requests
 import json
 from typing import Dict, Any, List, Optional
 from decimal import Decimal
+from datetime import date, datetime
 import os
 
 class APIClient:
@@ -12,9 +13,13 @@ class APIClient:
         self.base_url = os.getenv("API_BASE_URL", "http://api:8000/api/v1")
         
     def _serialize_decimal(self, obj):
-        """Serializza oggetti Decimal per JSON"""
+        """Serializza oggetti Decimal e date per JSON"""
         if isinstance(obj, Decimal):
             return float(obj)
+        elif isinstance(obj, (date, datetime)):  # Gestisce esplicitamente date e datetime
+            return obj.isoformat()
+        elif hasattr(obj, 'isoformat'):  # Gestisce altri oggetti con isoformat
+            return obj.isoformat()
         raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
     
     def _make_request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
@@ -61,15 +66,37 @@ class APIClient:
     
     def create_client(self, client_data: Dict[str, Any]) -> Dict[str, Any]:
         """Crea un nuovo cliente"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(client_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(client_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("POST", "/clients", json=serialized_data)
     
     def update_client(self, client_id: int, client_data: Dict[str, Any]) -> Dict[str, Any]:
         """Aggiorna un cliente esistente"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(client_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(client_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("PUT", f"/clients/{client_id}", json=serialized_data)
+    
+    def _process_date_fields(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Processa i campi data per convertirli in stringhe ISO"""
+        processed_data = data.copy()
+        date_fields = ['birth_date', 'establishment_date', 'start_date', 'end_date', 'subscription_date', 'claim_date']
+        
+        for field in date_fields:
+            if field in processed_data and processed_data[field] is not None:
+                if isinstance(processed_data[field], (date, datetime)):
+                    processed_data[field] = processed_data[field].isoformat()
+                elif isinstance(processed_data[field], str):
+                    # Se è già una stringa, la lasciamo così
+                    pass
+                else:
+                    # Se è un altro tipo, lo convertiamo in stringa
+                    processed_data[field] = str(processed_data[field])
+        
+        return processed_data
     
     def delete_client(self, client_id: int) -> Dict[str, Any]:
         """Elimina un cliente"""
@@ -96,14 +123,18 @@ class APIClient:
     
     def create_policy(self, policy_data: Dict[str, Any]) -> Dict[str, Any]:
         """Crea una nuova polizza"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(policy_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(policy_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("POST", "/policies", json=serialized_data)
     
     def update_policy(self, policy_id: int, policy_data: Dict[str, Any]) -> Dict[str, Any]:
         """Aggiorna una polizza esistente"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(policy_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(policy_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("PUT", f"/policies/{policy_id}", json=serialized_data)
     
     def delete_policy(self, policy_id: int) -> Dict[str, Any]:
@@ -131,14 +162,18 @@ class APIClient:
     
     def create_claim(self, claim_data: Dict[str, Any]) -> Dict[str, Any]:
         """Crea un nuovo sinistro"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(claim_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(claim_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("POST", "/claims", json=serialized_data)
     
     def update_claim(self, claim_id: int, claim_data: Dict[str, Any]) -> Dict[str, Any]:
         """Aggiorna un sinistro esistente"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(claim_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(claim_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("PUT", f"/claims/{claim_id}", json=serialized_data)
     
     def delete_claim(self, claim_id: int) -> Dict[str, Any]:
@@ -153,8 +188,10 @@ class APIClient:
     
     def create_claim_document(self, document_data: Dict[str, Any]) -> Dict[str, Any]:
         """Crea un nuovo documento per un sinistro"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(document_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(document_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("POST", "/claim-documents", json=serialized_data)
     
     def delete_claim_document(self, document_id: int) -> Dict[str, Any]:
@@ -169,14 +206,18 @@ class APIClient:
     
     def create_claim_communication(self, communication_data: Dict[str, Any]) -> Dict[str, Any]:
         """Crea una nuova comunicazione per un sinistro"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(communication_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(communication_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("POST", "/claim-communications", json=serialized_data)
     
     def update_claim_communication(self, communication_id: int, communication_data: Dict[str, Any]) -> Dict[str, Any]:
         """Aggiorna una comunicazione di sinistro"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(communication_data)
         # Converti Decimal in float per la serializzazione
-        serialized_data = json.loads(json.dumps(communication_data, default=self._serialize_decimal))
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
         return self._make_request("PUT", f"/claim-communications/{communication_id}", json=serialized_data)
     
     # === METODI PER ANALISI E DASHBOARD ===
@@ -315,6 +356,86 @@ class APIClient:
         except Exception as e:
             print(f"Errore nel recupero del rischio {risk_id}: {str(e)}")
             return None
+
+    # === METODI PER SOTTOSCRITTORI POLIZZE ===
+    
+    def get_policy_subscribers(self, policy_id: int) -> List[Dict[str, Any]]:
+        """Recupera i sottoscrittori associati a una polizza"""
+        try:
+            response = self._make_request('GET', '/policy-subscribers', params={'policy_id': policy_id})
+            return response if isinstance(response, list) else []
+        except Exception as e:
+            print(f"Errore nel recupero dei sottoscrittori della polizza {policy_id}: {str(e)}")
+            return []
+
+    def get_policy_subscriber(self, subscriber_id: int) -> Optional[Dict[str, Any]]:
+        """Recupera un sottoscrittore specifico per ID"""
+        try:
+            response = self._make_request('GET', f'/policy-subscribers/{subscriber_id}')
+            return response
+        except Exception as e:
+            print(f"Errore nel recupero del sottoscrittore {subscriber_id}: {str(e)}")
+            return None
+
+    def create_policy_subscriber(self, subscriber_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea un nuovo sottoscrittore"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(subscriber_data)
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
+        return self._make_request("POST", "/policy-subscribers", json=serialized_data)
+
+    def update_policy_subscriber(self, subscriber_id: int, subscriber_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Aggiorna un sottoscrittore esistente"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(subscriber_data)
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
+        return self._make_request("PUT", f"/policy-subscribers/{subscriber_id}", json=serialized_data)
+
+    def delete_policy_subscriber(self, subscriber_id: int) -> Dict[str, Any]:
+        """Elimina un sottoscrittore"""
+        return self._make_request("DELETE", f"/policy-subscribers/{subscriber_id}")
+
+    # === METODI PER DELEGATI PAGAMENTO PREMI ===
+    
+    def get_premium_delegates(self, client_id: int) -> List[Dict[str, Any]]:
+        """Recupera i delegati al pagamento associati a un cliente"""
+        try:
+            response = self._make_request('GET', '/premium-delegates', params={'client_id': client_id})
+            return response if isinstance(response, list) else []
+        except Exception as e:
+            print(f"Errore nel recupero dei delegati del cliente {client_id}: {str(e)}")
+            return []
+
+    def get_premium_delegate(self, delegate_id: int) -> Optional[Dict[str, Any]]:
+        """Recupera un delegato specifico per ID"""
+        try:
+            response = self._make_request('GET', f'/premium-delegates/{delegate_id}')
+            return response
+        except Exception as e:
+            print(f"Errore nel recupero del delegato {delegate_id}: {str(e)}")
+            return None
+
+    def create_premium_delegate(self, delegate_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea un nuovo delegato"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(delegate_data)
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
+        return self._make_request("POST", "/premium-delegates", json=serialized_data)
+
+    def update_premium_delegate(self, delegate_id: int, delegate_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Aggiorna un delegato esistente"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(delegate_data)
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
+        return self._make_request("PUT", f"/premium-delegates/{delegate_id}", json=serialized_data)
+
+    def delete_premium_delegate(self, delegate_id: int) -> Dict[str, Any]:
+        """Elimina un delegato"""
+        return self._make_request("DELETE", f"/premium-delegates/{delegate_id}")
 
 # Istanza singleton del client API
 api_client = APIClient()

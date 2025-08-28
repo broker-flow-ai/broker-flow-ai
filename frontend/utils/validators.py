@@ -120,10 +120,16 @@ class Validators:
         errors = []
         
         # Validate required fields
-        required_fields = ["name", "company"]
+        required_fields = ["name"]
         for field in required_fields:
             if not client_data.get(field):
                 errors.append(f"Il campo '{field}' è obbligatorio")
+        
+        # Validate client type
+        client_type = client_data.get("client_type")
+        valid_client_types = ["individual", "company", "freelance", "public_entity"]
+        if client_type and client_type not in valid_client_types:
+            errors.append(f"Tipo cliente non valido. Tipi validi: {', '.join(valid_client_types)}")
         
         # Validate email if provided
         email = client_data.get("email")
@@ -139,12 +145,34 @@ class Validators:
             if not is_valid:
                 errors.append(f"Telefono: {error_msg}")
         
-        # Validate tax ID if provided
-        tax_id = client_data.get("tax_id")
-        if tax_id:
-            is_valid, error_msg = Validators.validate_tax_id(tax_id)
+        # Validate mobile if provided
+        mobile = client_data.get("mobile")
+        if mobile:
+            is_valid, error_msg = Validators.validate_phone(mobile)
             if not is_valid:
-                errors.append(f"Codice Fiscale/Partita IVA: {error_msg}")
+                errors.append(f"Cellulare: {error_msg}")
+        
+        # Validate fiscal code if provided
+        fiscal_code = client_data.get("fiscal_code")
+        if fiscal_code and len(fiscal_code) != 16:
+            errors.append("Il codice fiscale deve essere di 16 caratteri")
+        
+        # Validate VAT number if provided
+        vat_number = client_data.get("vat_number")
+        if vat_number and len(vat_number) != 11:
+            errors.append("La partita IVA deve essere di 11 caratteri numerici")
+        
+        # Validate SDI code if provided
+        sdi_code = client_data.get("sdi_code")
+        if sdi_code and len(sdi_code) != 7:
+            errors.append("Il codice SDI deve essere di 7 caratteri")
+        
+        # Validate PEC email if provided
+        pec_email = client_data.get("pec_email")
+        if pec_email:
+            is_valid, error_msg = Validators.validate_email(pec_email)
+            if not is_valid:
+                errors.append(f"Email PEC: {error_msg}")
         
         # Validate IBAN if provided
         iban = client_data.get("iban")
@@ -152,6 +180,34 @@ class Validators:
             is_valid, error_msg = Validators.validate_iban(iban)
             if not is_valid:
                 errors.append(f"IBAN: {error_msg}")
+        
+        # Validate share capital if provided
+        share_capital = client_data.get("share_capital")
+        if share_capital is not None:
+            try:
+                share_capital_float = float(share_capital)
+                if share_capital_float < 0:
+                    errors.append("Il capitale sociale non può essere negativo")
+            except (ValueError, TypeError):
+                errors.append("Capitale sociale non valido")
+        
+        # Validate customer status if provided
+        customer_status = client_data.get("customer_status")
+        valid_statuses = ["active", "inactive", "prospect"]
+        if customer_status and customer_status not in valid_statuses:
+            errors.append(f"Stato cliente non valido. Stati validi: {', '.join(valid_statuses)}")
+        
+        # Validate preferred communication if provided
+        preferred_communication = client_data.get("preferred_communication")
+        valid_communications = ["email", "phone", "mail", "pec"]
+        if preferred_communication and preferred_communication not in valid_communications:
+            errors.append(f"Canale comunicazione non valido. Canali validi: {', '.join(valid_communications)}")
+        
+        # Validate language if provided
+        language = client_data.get("language")
+        valid_languages = ["it", "en", "es", "fr", "de"]
+        if language and language not in valid_languages:
+            errors.append(f"Lingua non valida. Lingue valide: {', '.join(valid_languages)}")
         
         return len(errors) == 0, errors
     
@@ -165,6 +221,20 @@ class Validators:
         for field in required_fields:
             if not policy_data.get(field):
                 errors.append(f"Il campo '{field}' è obbligatorio")
+        
+        # Validate risk_id
+        risk_id = policy_data.get("risk_id")
+        try:
+            int(risk_id)
+        except (ValueError, TypeError):
+            errors.append("L'ID rischio deve essere un numero")
+        
+        # Validate company_id
+        company_id = policy_data.get("company_id")
+        try:
+            int(company_id)
+        except (ValueError, TypeError):
+            errors.append("L'ID compagnia deve essere un numero")
         
         # Validate dates
         start_date = policy_data.get("start_date")
@@ -180,10 +250,64 @@ class Validators:
             if not is_valid:
                 errors.append(f"Data fine: {error_msg}")
         
+        # Validate date range
+        if start_date and end_date:
+            is_valid, error_msg = Validators.validate_date_range(start_date, end_date)
+            if not is_valid:
+                errors.append(f"Periodo polizza: {error_msg}")
+        
+        # Validate subscription date if provided
+        subscription_date = policy_data.get("subscription_date")
+        if subscription_date:
+            is_valid, error_msg = Validators.validate_date(subscription_date)
+            if not is_valid:
+                errors.append(f"Data sottoscrizione: {error_msg}")
+        
         # Validate policy number format (basic check)
         policy_number = policy_data.get("policy_number")
         if policy_number and len(policy_number) < 3:
             errors.append("Il numero di polizza deve essere di almeno 3 caratteri")
+        
+        # Validate premium amount if provided
+        premium_amount = policy_data.get("premium_amount")
+        if premium_amount is not None:
+            is_valid, error_msg = Validators.validate_amount(float(premium_amount) if not isinstance(premium_amount, float) else premium_amount)
+            if not is_valid:
+                errors.append(f"Importo premio: {error_msg}")
+        
+        # Validate subscription method if provided
+        subscription_method = policy_data.get("subscription_method")
+        valid_methods = ["digital", "paper", "agent"]
+        if subscription_method and subscription_method not in valid_methods:
+            errors.append(f"Metodo sottoscrizione non valido. Metodi validi: {', '.join(valid_methods)}")
+        
+        # Validate premium frequency if provided
+        premium_frequency = policy_data.get("premium_frequency")
+        valid_frequencies = ["annual", "semiannual", "quarterly", "monthly"]
+        if premium_frequency and premium_frequency not in valid_frequencies:
+            errors.append(f"Frequenza pagamento non valida. Frequenze valide: {', '.join(valid_frequencies)}")
+        
+        # Validate payment method if provided
+        payment_method = policy_data.get("payment_method")
+        valid_methods = ["", "direct_debit", "bank_transfer", "credit_card", "cash", "check"]
+        if payment_method and payment_method not in valid_methods:
+            errors.append(f"Metodo pagamento non valido. Metodi validi: {', '.join([m for m in valid_methods if m])}")
+        
+        # Validate primary subscriber ID if provided
+        primary_subscriber_id = policy_data.get("primary_subscriber_id")
+        if primary_subscriber_id:
+            try:
+                int(primary_subscriber_id)
+            except (ValueError, TypeError):
+                errors.append("L'ID sottoscrittore principale deve essere un numero")
+        
+        # Validate premium delegate ID if provided
+        premium_delegate_id = policy_data.get("premium_delegate_id")
+        if premium_delegate_id:
+            try:
+                int(premium_delegate_id)
+            except (ValueError, TypeError):
+                errors.append("L'ID delegato pagamento deve essere un numero")
         
         return len(errors) == 0, errors
     
