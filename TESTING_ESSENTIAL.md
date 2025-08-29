@@ -9,7 +9,7 @@ cp .env.example .env
 
 # 2. Avvio ambiente
 docker compose up -d
-docker compose exec processor python populate_coherent_data.py
+docker compose exec processor python populate_database.py
 
 # 3. Verifica servizi attivi
 docker compose ps

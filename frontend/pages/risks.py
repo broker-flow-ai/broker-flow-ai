@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
-from frontend.utils.api_client import api_client
+import sys
+import os
+
+# Aggiungi il path per gli import relativi
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+from utils.api_client import api_client
 
 def risks_page():
     st.title("🛡️ Gestione Rischi")
