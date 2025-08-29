@@ -527,6 +527,16 @@ async def api_delete_client(client_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/v1/clients/{client_id}/risks")
+async def api_get_client_risks(client_id: int):
+    """Recupera tutti i rischi associati a un cliente"""
+    try:
+        from modules.db import get_client_risks
+        risks = get_client_risks(client_id)
+        return jsonable_encoder({"risks": risks})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Endpoint per polizze
 @app.get("/api/v1/policies")
 async def api_get_policies(
@@ -615,6 +625,16 @@ async def api_delete_policy(policy_id: int):
         return jsonable_encoder({"policy_id": policy_id, "message": "Polizza eliminata con successo"})
     except HTTPException:
         raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/risks/{risk_id}/policies")
+async def api_get_risk_policies(risk_id: int):
+    """Recupera tutte le polizze associate a un rischio"""
+    try:
+        from modules.db import get_risk_policies
+        policies = get_risk_policies(risk_id)
+        return jsonable_encoder({"policies": policies})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -796,3 +816,79 @@ async def system_metrics():
     }
     
     return jsonable_encoder(response)
+
+# Endpoint per rischi
+@app.get("/api/v1/risks")
+async def api_get_risks(risk_type: str = None, client_id: int = None):
+    """Recupera la lista dei rischi con filtri opzionali"""
+    try:
+        from modules.db import get_risks
+        filters = {}
+        if risk_type:
+            filters['risk_type'] = risk_type
+        if client_id:
+            filters['client_id'] = client_id
+        
+        risks = get_risks(filters)
+        return jsonable_encoder({"risks": risks})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/risks/{risk_id}")
+async def api_get_risk(risk_id: int):
+    """Recupera un rischio specifico per ID"""
+    try:
+        from modules.db import get_risk
+        risk = get_risk(risk_id)
+        if not risk:
+            raise HTTPException(status_code=404, detail="Rischio non trovato")
+        return jsonable_encoder(risk)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/risks")
+async def api_create_risk(request: RiskCreateRequest):
+    """Crea un nuovo rischio"""
+    try:
+        from modules.db import create_risk
+        risk_data = request.dict()
+        risk_id = create_risk(risk_data)
+        return jsonable_encoder({"risk_id": risk_id, "message": "Rischio creato con successo"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/risks/{risk_id}")
+async def api_update_risk(risk_id: int, request: RiskUpdateRequest):
+    """Aggiorna un rischio esistente"""
+    try:
+        from modules.db import update_risk
+        risk_data = request.dict(exclude_unset=True)
+        if not risk_data:
+            raise HTTPException(status_code=400, detail="Nessun dato fornito per l'aggiornamento")
+        
+        success = update_risk(risk_id, risk_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Rischio non trovato")
+        
+        return jsonable_encoder({"risk_id": risk_id, "message": "Rischio aggiornato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/api/v1/risks/{risk_id}")
+async def api_delete_risk(risk_id: int):
+    """Elimina un rischio"""
+    try:
+        from modules.db import delete_risk
+        success = delete_risk(risk_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Rischio non trovato")
+        
+        return jsonable_encoder({"risk_id": risk_id, "message": "Rischio eliminato con successo"})
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

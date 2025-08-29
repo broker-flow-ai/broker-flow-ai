@@ -357,6 +357,14 @@ class APIClient:
             print(f"Errore nel recupero del rischio {risk_id}: {str(e)}")
             return None
 
+    def create_risk(self, risk_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea un nuovo rischio"""
+        # Pre-processa i dati per convertire le date in stringhe
+        processed_data = self._process_date_fields(risk_data)
+        # Converti Decimal in float per la serializzazione
+        serialized_data = json.loads(json.dumps(processed_data, default=self._serialize_decimal))
+        return self._make_request("POST", "/risks", json=serialized_data)
+
     # === METODI PER SOTTOSCRITTORI POLIZZE ===
     
     def get_policy_subscribers(self, policy_id: int) -> List[Dict[str, Any]]:

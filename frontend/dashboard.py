@@ -14,6 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__)))
 from pages.clienti import clients_page
 from pages.polizze import policies_page
 from pages.sinistri import claims_page
+from pages.risks import risks_page
 
 # Configurazione della pagina
 st.set_page_config(
@@ -1147,6 +1148,7 @@ def main():
     elif section == "👥 Gestione":
         pages = {
             "👥 Clienti": clients_page,
+            "🛡️ Rischi": risks_page,
             "📜 Polizze": policies_page,
             "🚨 Sinistri": claims_page
         }
