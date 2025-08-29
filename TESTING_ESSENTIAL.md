@@ -35,6 +35,85 @@ docker compose exec processor python populate_coherent_data.py
 
 ```
 
+# Logs docker
+
+✦ Ecco l'elenco dei comandi per visualizzare i log di tutti i servizi dell'applicazione:
+
+    # Visualizza i log di tutti i servizi
+    docker compose logs
+    
+    # Visualizza i log di tutti i servizi con output in tempo reale
+    docker compose logs -f
+    
+    # Visualizza i log di un singolo servizio
+    docker compose logs api
+    docker compose logs frontend
+   docker compose logs db
+   docker compose logs init-db
+   docker compose logs processor
+   docker compose logs phpmyadmin
+   docker compose logs redis
+   
+   # Visualizza i log di un singolo servizio con output in tempo reale
+   docker compose logs -f api
+   docker compose logs -f frontend
+   docker compose logs -f db
+   docker compose logs -f init-db
+   docker compose logs -f processor
+   docker compose logs -f phpmyadmin
+   docker compose logs -f redis
+   
+   # Visualizza i log degli ultimi 100 righe per tutti i servizi
+   docker compose logs --tail=100
+   
+   # Visualizza i log degli ultimi 50 righe per un servizio specifico
+   docker compose logs --tail=50 api
+   
+   # Visualizza i log degli ultimi 30 minuti
+   docker compose logs --since=30m
+   
+   # Visualizza i log degli ultimi 1 ora
+   docker compose logs --since=1h
+   
+   # Visualizza i log con timestamp
+   docker compose logs -t
+   
+   # Combinazione di opzioni: ultime 50 righe con timestamp in tempo reale
+   docker compose logs -f --tail=50 -t
+
+  Comandi utili specifici per il debugging:
+
+    # Controlla lo stato di tutti i servizi
+    docker compose ps
+    
+    # Controlla i log dell'inizializzazione del database
+    docker compose logs init-db
+    
+    # Controlla i log dell'API (per errori 404, 500, ecc.)
+    docker compose logs api
+    
+   # Controlla i log del frontend (per errori di connessione)
+   docker compose logs frontend
+   
+   # Controlla i log del database MySQL
+   docker compose logs db
+   
+   # Controlla i log del processor
+   docker compose logs processor
+
+  Per visualizzare i log in tempo reale per il debugging:
+
+    # Apri 3 terminali separati:
+    
+    # Terminale 1 - Log dell'API in tempo reale
+    docker compose logs -f api
+    
+    # Terminale 2 - Log del frontend in tempo reale
+    docker compose logs -f frontend
+    
+    # Terminale 3 - Log del database in tempo reale
+   docker compose logs -f db
+
 ## 🎯 **Approccio al Testing**
 
 BrokerFlow AI adotta un approccio **shift-left testing** con focus su **test automation**, **coverage completo** e **qualità continua**. La strategia comprende:

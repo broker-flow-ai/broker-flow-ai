@@ -714,6 +714,44 @@ async def api_get_portfolio_analytics(company_id: Optional[int] = None):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint per performance compagnia
+@app.get("/api/v1/insurance/company-performance")
+async def api_get_company_performance(company_id: int):
+    """Recupera le performance di una compagnia assicurativa"""
+    try:
+        from modules.dashboard_analytics import get_company_performance
+        performance = get_company_performance(company_id)
+        return jsonable_encoder(performance)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per metriche broker
+@app.get("/api/v1/insurance/broker-metrics")
+async def api_get_broker_metrics(broker_id: int):
+    """Recupera le metriche di performance di un broker"""
+    try:
+        from modules.dashboard_analytics import get_broker_performance
+        metrics = get_broker_performance(broker_id)
+        return jsonable_encoder(metrics)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint per report compliance
+@app.post("/api/v1/insurance/compliance-report")
+async def api_generate_compliance_report(request: ComplianceReportRequest):
+    """Genera un report di compliance"""
+    try:
+        from modules.compliance_reporting import generate_compliance_report
+        report_data = request.dict()
+        report = generate_compliance_report(
+            report_data["report_type"],
+            report_data["period_start"],
+            report_data["period_end"]
+        )
+        return jsonable_encoder(report)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Endpoint di salute del sistema
 @app.get("/api/v1/health")
 async def health_check():

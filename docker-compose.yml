@@ -97,11 +97,19 @@ services:
       - ./output:/app/output
       - ./templates:/app/templates
       - ./logs:/app/logs
+      - ./populate_realistic_data.py:/app/populate_realistic_data.py
+      - ./populate_audit_log.py:/app/populate_audit_log.py
     depends_on:
       - db
     command: >
       bash -c "
-        echo 'Database initialization completed successfully!'
+        echo 'Attendo che il database sia pronto...' &&
+        sleep 30 &&
+        echo 'Popolazione dei dati realistici...' &&
+        python populate_realistic_data.py &&
+        echo 'Popolazione dell''audit log...' &&
+        python populate_audit_log.py &&
+        echo 'Inizializzazione completata!'
       "
 
   # Database management tool
