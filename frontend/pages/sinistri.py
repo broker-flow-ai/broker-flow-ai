@@ -358,7 +358,7 @@ def render_claim_detail_view():
         st.error(f"Errore nel caricamento dettagli sinistro: {str(e)}")
         if st.button("⬅ Torna alla Lista"):
             del st.session_state.selected_claim
-            st.experimental_rerun()
+            st.rerun()
 
 # Esportazioni
 __all__ = ['claims_page', 'render_claim_detail_view']

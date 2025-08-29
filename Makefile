@@ -42,6 +42,22 @@ setup:
 	@echo "1. Copy .env.example to .env and configure it"
 	@echo "2. Create the database and run schema.sql"
 	@echo "3. Install Tesseract OCR if processing scanned PDFs"
+	@echo "4. Run 'make init-auth' to initialize authentication system"
+
+# Initialize authentication system
+.PHONY: init-auth
+init-auth:
+	$(PYTHON) init_complete_auth.py
+
+# Initialize auth tables only
+.PHONY: init-auth-tables
+init-auth-tables:
+	$(PYTHON) init_auth_tables.py
+
+# Populate permissions and roles
+.PHONY: populate-permissions
+populate-permissions:
+	$(PYTHON) populate_permissions.py
 
 # Install dependencies
 .PHONY: install

@@ -19,7 +19,23 @@ BrokerFlow AI è una **piattaforma intelligente B2B2B** progettata per **automat
 - **Compilazione Moduli**: Generazione automatica di preventivi PDF
 - **Email Personalizzate**: Creazione e invio di email ai clienti
 
-## 🆕 Novità Recenti
+## 🔐 Autenticazione e Autorizzazione
+
+### Sistema di Autenticazione
+- **Login con username/password**: Autenticazione sicura con hashing bcrypt
+- **Autenticazione a Due Fattori (2FA)**: Codice di verifica inviato via email
+- **Token JWT**: Gestione sessioni con token JSON Web Token
+- **Protezione brute force**: Blocco account dopo tentativi falliti consecutivi
+
+### Sistema di Autorizzazione
+- **Ruoli utente**: 6 livelli di accesso (admin, broker, underwriter, claims_adjuster, customer_service, viewer)
+- **Permessi granulari**: Controllo fine accesso alle funzionalità
+- **Sessioni sicure**: Tracciamento sessioni con IP e user agent
+
+### Gestione Utenti
+- **Creazione/modifica utenti**: Interfaccia amministrativa per gestire gli utenti
+- **Abilitazione 2FA**: Possibilità di attivare/disattivare il 2FA per ogni utente
+- **Audit trail**: Tracciamento accessi e attività utenti
 
 ### Agosto 2025 - Miglioramenti alla Compliance
 - Implementata la generazione e il download di report di compliance in formato PDF, Excel e Word

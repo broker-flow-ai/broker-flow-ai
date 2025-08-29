@@ -15,6 +15,7 @@ from pages.clienti import clients_page
 from pages.polizze import policies_page
 from pages.sinistri import claims_page
 from pages.risks import risks_page
+from pages.login import login_page
 
 # Configurazione della pagina
 st.set_page_config(
@@ -50,10 +51,20 @@ st.markdown("""
 # URL base dell'API - può essere sovrascritto da variabile d'ambiente
 API_BASE_URL = os.getenv("API_BASE_URL", "http://api:8000/api/v1")
 
+# Inizializza lo stato della sessione
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+if 'user' not in st.session_state:
+    st.session_state.user = None
+
 # Funzioni di utilità per chiamate API
 def api_get(endpoint):
     try:
-        response = requests.get(f"{API_BASE_URL}{endpoint}")
+        headers = {}
+        if st.session_state.authenticated and hasattr(st.session_state, 'access_token'):
+            headers['Authorization'] = f"Bearer {st.session_state.access_token}"
+        
+        response = requests.get(f"{API_BASE_URL}{endpoint}", headers=headers)
         response.raise_for_status()
         return response.json()
     except Exception as e:
@@ -62,7 +73,11 @@ def api_get(endpoint):
 
 def api_post(endpoint, data):
     try:
-        response = requests.post(f"{API_BASE_URL}{endpoint}", json=data)
+        headers = {}
+        if st.session_state.authenticated and hasattr(st.session_state, 'access_token'):
+            headers['Authorization'] = f"Bearer {st.session_state.access_token}"
+        
+        response = requests.post(f"{API_BASE_URL}{endpoint}", json=data, headers=headers)
         response.raise_for_status()
         return response.json()
     except Exception as e:
@@ -1122,11 +1137,24 @@ def main():
     st.sidebar.title("🏦 BrokerFlow AI")
     st.sidebar.markdown("### Dashboard Assicurativa B2B2B")
     
+    # Se l'utente non è autenticato, mostra solo la pagina di login
+    if not st.session_state.authenticated:
+        login_page()
+        return
+    
+    # Se l'utente è autenticato, mostra il menu principale
     # Informazioni utente
     st.sidebar.markdown("---")
-    st.sidebar.markdown("👤 **Utente:** Admin")
+    st.sidebar.markdown(f"👤 **Utente:** {st.session_state.user.get('username', 'Utente')}")
     st.sidebar.markdown("🏢 **Compagnia:** Demo Insurance")
     st.sidebar.markdown("📅 **Data:** " + date.today().strftime("%d/%m/%Y"))
+    
+    # Pulsante di logout
+    if st.sidebar.button("🚪 Logout"):
+        st.session_state.authenticated = False
+        st.session_state.user = None
+        st.session_state.access_token = None
+        st.rerun()  # Cambiato da experimental_rerun a rerun
     
     # Organizzazione delle pagine in sezioni
     section = st.sidebar.selectbox(

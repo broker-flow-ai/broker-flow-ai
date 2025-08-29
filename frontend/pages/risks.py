@@ -125,6 +125,7 @@ def risks_page():
                             if result and "risk_id" in result:
                                 st.success(f"Rischio creato con successo! ID: {result['risk_id']}")
                                 st.balloons()
+                                st.rerun()  # Cambiato da experimental_rerun a rerun
                             else:
                                 st.error("Errore nella creazione del rischio")
                         except Exception as e:

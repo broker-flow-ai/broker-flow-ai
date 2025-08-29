@@ -28,6 +28,30 @@ rm -rf broker-flow-ai/
 cd broker-flow-ai/
 docker compose up -d
 docker compose exec processor python populate_database.py
+docker exec broker-flow-ai-api-1 python init_complete_auth.py
+  🔐 Default Credentials:
+   - Username: admin
+   - Password: admin123
+
+curl -X POST "http://localhost:8000/api/v1/auth/token" \
+   -H "Content-Type: application/x-www-form-urlencoded" \
+   -d "username=admin&password=admin123"
+
+
+
+  5. Esegui la creazione dell'utente admin
+
+   1 # Esegui lo script per creare l'utente admin
+   2 docker exec broker-flow-ai-api-1 python create_admin_user.py
+
+  6. Oppure esegui l'inizializzazione completa
+
+   1 # Esegui l'inizializzazione completa
+   2 docker exec broker-flow-ai-api-1 python init_complete_auth.py
+
+  🔐 Default Credentials:
+   - Username: admin
+   - Password: admin123
 
 # vecchio flow (con documenti pdf in /inbox)
 docker compose exec processor python populate_coherent_data.py
@@ -944,6 +968,13 @@ docker cp schema.sql broker-flow-ai-db-1:/docker-entrypoint-initdb.d/schema.sql
    1    docker exec -it broker-flow-ai-db-1 bash
    2    mysql -u root -proot123 < /tmp/schema.sql
    3    exit
+
+docker exec broker-flow-ai-db-1 mysql -u root -proot123 brokerflow_ai -e "SELECT username,email,role,status FROM users WHERE username='admin';"
+
+
+curl -X POST "http://localhost:8000/auth/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=admin&password=admin123"
 
    8. Infine, verificare che le tabelle siano state create correttamente:
 

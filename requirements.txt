@@ -17,3 +17,6 @@ requests
 reportlab
 openpyxl
 python-docx
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart

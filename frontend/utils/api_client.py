@@ -11,6 +11,7 @@ class APIClient:
     def __init__(self):
         # URL base dell'API - può essere sovrascritto da variabile d'ambiente
         self.base_url = os.getenv("API_BASE_URL", "http://api:8000/api/v1")
+        self.access_token = None
         
     def _serialize_decimal(self, obj):
         """Serializza oggetti Decimal e date per JSON"""
@@ -26,10 +27,22 @@ class APIClient:
         """Effettua una richiesta HTTP all'API"""
         url = f"{self.base_url}{endpoint}"
         
+        # Aggiungi il token di autorizzazione se disponibile
+        if self.access_token:
+            if 'headers' not in kwargs:
+                kwargs['headers'] = {}
+            kwargs['headers']['Authorization'] = f"Bearer {self.access_token}"
+        
         try:
             response = requests.request(method, url, **kwargs)
             response.raise_for_status()
             return response.json()
+        except requests.exceptions.ConnectionError as e:
+            print(f"Connection Error making request to {url}: {str(e)}")
+            raise Exception(f"Connection Error: Impossibile connettersi all'API. Verifica che il servizio API sia attivo.")
+        except requests.exceptions.Timeout as e:
+            print(f"Timeout Error making request to {url}: {str(e)}")
+            raise Exception(f"Timeout Error: La richiesta all'API ha impiegato troppo tempo.")
         except requests.exceptions.RequestException as e:
             print(f"Error making request to {url}: {str(e)}")
             if hasattr(e, 'response') and e.response is not None:
@@ -39,11 +52,34 @@ class APIClient:
                 except:
                     raise Exception(f"HTTP Error: {e.response.status_code} - {e.response.text}")
             else:
-                raise Exception(f"Connection Error: {str(e)}")
+                raise Exception(f"Request Error: {str(e)}")
         except json.JSONDecodeError as e:
             raise Exception(f"JSON Decode Error: {str(e)}")
         except Exception as e:
             raise Exception(f"Unexpected Error: {str(e)}")
+    
+    def login(self, username: str, password: str) -> Optional[Dict[str, Any]]:
+        """Effettua il login e ottiene il token di accesso"""
+        try:
+            response = self._make_request("POST", "/auth/token", data={
+                "username": username,
+                "password": password
+            })
+            if "access_token" in response:
+                self.access_token = response["access_token"]
+                return response
+            return None
+        except Exception as e:
+            print(f"Login error: {str(e)}")
+            return None
+    
+    def logout(self):
+        """Effettua il logout"""
+        self.access_token = None
+    
+    def is_authenticated(self) -> bool:
+        """Verifica se l'utente è autenticato"""
+        return self.access_token is not None
     
     # === METODI PER CLIENTI ===
     

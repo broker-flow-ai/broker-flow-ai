@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Response
 from fastapi.responses import FileResponse
+from fastapi.security import OAuth2PasswordBearer
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date, datetime
@@ -26,8 +28,23 @@ from modules.compliance_reporting import generate_compliance_report, get_complia
 from modules.ai_underwriting import suggest_pricing, predict_claims, automated_underwriting
 from modules.b2b_integrations import integrate_with_sga_system, sync_with_broker_portal, process_payment
 from modules.discount_program import create_discount, get_active_discounts, calculate_discounted_premium, get_broker_performance_metrics
+from modules.auth_api import router as auth_router
+from modules.auth_middleware import get_current_user, require_permission, require_role
+from modules.auth_models import User, UserRole
 
 app = FastAPI(title="BrokerFlow AI - API Assicurativa B2B2B", version="2.0.0")
+
+# Aggiungi il router di autenticazione
+app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
+
+# Configura CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Modelli per le richieste API
 class RiskAnalysisRequest(BaseModel):
@@ -443,7 +460,8 @@ async def api_get_clients(
     postal_code: Optional[str] = None,
     country: Optional[str] = None,
     customer_segment: Optional[str] = None,
-    customer_status: Optional[str] = None
+    customer_status: Optional[str] = None,
+    current_user: User = Depends(require_permission("view_clients"))
 ):
     """Recupera la lista dei clienti con filtri opzionali"""
     try:
