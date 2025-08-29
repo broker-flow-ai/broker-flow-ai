@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import sys
 import os
+import json
 
 # Aggiungi il path per gli import relativi
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -72,39 +73,68 @@ def risks_page():
     with tab2:
         st.subheader("Nuovo Rischio")
         
-        # Form per creare un nuovo rischio
-        with st.form("new_risk_form"):
-            col1, col2 = st.columns(2)
-            with col1:
-                client_id = st.number_input("ID Cliente", min_value=1, help="ID del cliente a cui associare il rischio")
-                risk_type = st.selectbox("Tipo Rischio", ["Auto", "Casa", "Salute", "Viaggio", "Attività Professionale"])
-            with col2:
-                # Possiamo aggiungere campi per i dettagli del rischio
-                st.write("### Dettagli Rischio")
-                st.info("I dettagli del rischio possono essere aggiunti dopo la creazione")
-            
-            submitted = st.form_submit_button("Crea Rischio")
-            
-            if submitted and client_id:
-                try:
-                    # Prepara i dati per la creazione
-                    risk_data = {
-                        "client_id": client_id,
-                        "risk_type": risk_type,
-                        "details": {}
-                    }
-                    
-                    # Crea il rischio
-                    result = api_client.create_risk(risk_data)
-                    if result and "risk_id" in result:
-                        st.success(f"Rischio creato con successo! ID: {result['risk_id']}")
-                        st.balloons()
+        # Prima, otteniamo la lista dei clienti per una selezione più user-friendly
+        try:
+            clients = api_client.get_clients()
+            if clients:
+                # Crea un dizionario per la selezione con nome descrittivo
+                client_options = {}
+                client_names = []
+                for client in clients:
+                    # Crea un nome descrittivo per il cliente
+                    if client.get('company'):
+                        client_name = f"{client['company']} (ID: {client['id']})"
+                        client_options[client_name] = client['id']
+                        client_names.append(client_name)
                     else:
-                        st.error("Errore nella creazione del rischio")
-                except Exception as e:
-                    st.error(f"Errore nella creazione del rischio: {str(e)}")
-            elif submitted:
-                st.warning("Per favore inserisci l'ID del cliente")
+                        client_name = f"{client.get('name', 'N/A')} (ID: {client['id']})"
+                        client_options[client_name] = client['id']
+                        client_names.append(client_name)
+                
+                # Form per creare un nuovo rischio
+                with st.form("new_risk_form"):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        selected_client_name = st.selectbox("Seleziona Cliente", options=client_names)
+                        client_id = client_options[selected_client_name] if selected_client_name else None
+                        risk_type = st.selectbox("Tipo Rischio", ["Auto", "Casa", "Salute", "Viaggio", "Attività Professionale"])
+                    with col2:
+                        st.write("### Dettagli Rischio")
+                        # Campi per i dettagli del rischio
+                        coverage_limit = st.number_input("Limite di Copertura (€)", min_value=0.0, value=100000.0, step=1000.0)
+                        deductible = st.number_input("Franchigia (€)", min_value=0.0, value=500.0, step=100.0)
+                        description = st.text_area("Descrizione", "Descrizione del rischio")
+                    
+                    submitted = st.form_submit_button("Crea Rischio")
+                    
+                    if submitted and client_id:
+                        try:
+                            # Prepara i dati per la creazione
+                            risk_data = {
+                                "client_id": client_id,
+                                "risk_type": risk_type,
+                                "details": {
+                                    "description": description,
+                                    "coverage_limit": coverage_limit,
+                                    "deductible": deductible
+                                }
+                            }
+                            
+                            # Crea il rischio
+                            result = api_client.create_risk(risk_data)
+                            if result and "risk_id" in result:
+                                st.success(f"Rischio creato con successo! ID: {result['risk_id']}")
+                                st.balloons()
+                            else:
+                                st.error("Errore nella creazione del rischio")
+                        except Exception as e:
+                            st.error(f"Errore nella creazione del rischio: {str(e)}")
+                    elif submitted:
+                        st.warning("Per favore seleziona un cliente")
+            else:
+                st.warning("Nessun cliente disponibile. È necessario creare prima un cliente.")
+        except Exception as e:
+            st.error(f"Errore nel recupero dei clienti: {str(e)}")
     
     with tab3:
         st.subheader("Dettagli Rischio Specifico")
