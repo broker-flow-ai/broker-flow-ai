@@ -205,8 +205,8 @@ def save_compliance_report(report_type, period_start, period_end, content):
     cursor = conn.cursor()
     
     cursor.execute("""
-        INSERT INTO compliance_reports (report_type, period_start, period_end, content)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO compliance_reports (report_type, period_start, period_end, content, generated_at)
+        VALUES (%s, %s, %s, %s, NOW())
     """, (report_type, period_start, period_end, json.dumps(content)))
     
     report_id = cursor.lastrowid

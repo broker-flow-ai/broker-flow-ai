@@ -752,6 +752,16 @@ async def api_generate_compliance_report(request: ComplianceReportRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/v1/insurance/compliance-reports")
+async def api_get_compliance_reports(report_type: str = None):
+    """Recupera i report di compliance esistenti"""
+    try:
+        from modules.compliance_reporting import get_compliance_reports
+        reports = get_compliance_reports(report_type)
+        return jsonable_encoder({"reports": reports})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Endpoint di salute del sistema
 @app.get("/api/v1/health")
 async def health_check():
