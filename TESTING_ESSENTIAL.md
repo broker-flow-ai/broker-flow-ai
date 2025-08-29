@@ -32,6 +32,10 @@ docker exec broker-flow-ai-api-1 python init_complete_auth.py
   🔐 Default Credentials:
    - Username: admin
    - Password: admin123
+si naviga su http://localhost:8501/ per il frontend
+si naviga su http://localhost:8000/docs per l'API
+si naviga su http://localhost:8080/ per phpmyadmin
+
 
 curl -X POST "http://localhost:8000/api/v1/auth/token" \
    -H "Content-Type: application/x-www-form-urlencoded" \
