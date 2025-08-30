@@ -4,6 +4,7 @@
 ## Utenti, Login e autenticazione
 - [X] implementare il login 2fa con email (codice otp inviato in email) attivabile e disattivabile in .env
 - [X] frontend per il logout
+- [] Quando si fa refresh delle pagine bisogna che rimanga loggato (ad ora si slogga e bisogna rifare login)
 - [] Rendere bloccate le pagine clienti polizze sinistri se non si è loggati e gestione delle pagine in base al ruolo dell'utente (non funziona ancora bene)
 - [X] frontend di creazione utenze e set privilegi per gli utenti creati se sei un admin (fatto ma da un errore di aggiornamento [anche se in realtà aggiorna])
 - Pagina di modifica profilo utente (personale per utente)
@@ -32,3 +33,9 @@
 ## Menu frontend
 
 - riorganizzarlo completamente perchè è caotico poco comprensibile e parti spariscono quando si va in alcune pagine
+
+
+
+## Pulizia da file obsoleti
+
+- tutti i vecchi file di import DB o altro deve essere eliminato perchè inutile e sporca il progetto

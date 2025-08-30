@@ -1179,6 +1179,20 @@ def main():
             page()
     
     elif section == "👥 Gestione":
+        # Verifica che l'utente sia autenticato
+        if not st.session_state.get('authenticated', False) or not st.session_state.get('user', None):
+            st.warning("⚠️ Devi effettuare il login per accedere a questa sezione")
+            return
+            
+        # Verifica i permessi per la sezione gestione
+        user_role = st.session_state.user.get('role', 'viewer') if isinstance(st.session_state.user, dict) else 'viewer'
+        allowed_roles = ['admin', 'broker', 'customer_service', 'underwriter', 'claims_adjuster']
+        if user_role not in allowed_roles:
+            st.error("❌ Accesso negato. Permessi insufficienti per accedere alla sezione di gestione.")
+            st.info(f"Il tuo ruolo è: {user_role}")
+            st.info(f"Ruoli consentiti: {', '.join(allowed_roles)}")
+            return
+            
         pages = {
             "👥 Clienti": clients_page,
             "🛡️ Rischi": risks_page,
@@ -1192,6 +1206,20 @@ def main():
             page()
     
     elif section == "🔬 Analisi":
+        # Verifica che l'utente sia autenticato
+        if not st.session_state.get('authenticated', False) or not st.session_state.get('user', None):
+            st.warning("⚠️ Devi effettuare il login per accedere a questa sezione")
+            return
+            
+        # Verifica i permessi per la sezione analisi
+        user_role = st.session_state.user.get('role', 'viewer') if isinstance(st.session_state.user, dict) else 'viewer'
+        allowed_roles = ['admin', 'broker', 'underwriter', 'claims_adjuster']
+        if user_role not in allowed_roles:
+            st.error("❌ Accesso negato. Permessi insufficienti per accedere alla sezione di analisi.")
+            st.info(f"Il tuo ruolo è: {user_role}")
+            st.info(f"Ruoli consentiti: {', '.join(allowed_roles)}")
+            return
+            
         pages = {
             "📋 Compliance": compliance_page,
             "💰 Programmi Sconto": discounts_page,
@@ -1203,12 +1231,54 @@ def main():
             page()
     
     elif section == "📋 Compliance":
+        # Verifica che l'utente sia autenticato
+        if not st.session_state.get('authenticated', False) or not st.session_state.get('user', None):
+            st.warning("⚠️ Devi effettuare il login per accedere a questa sezione")
+            return
+            
+        # Verifica i permessi per la sezione compliance
+        user_role = st.session_state.user.get('role', 'viewer') if isinstance(st.session_state.user, dict) else 'viewer'
+        allowed_roles = ['admin', 'broker', 'underwriter', 'claims_adjuster']
+        if user_role not in allowed_roles:
+            st.error("❌ Accesso negato. Permessi insufficienti per accedere alla sezione compliance.")
+            st.info(f"Il tuo ruolo è: {user_role}")
+            st.info(f"Ruoli consentiti: {', '.join(allowed_roles)}")
+            return
+            
         compliance_page()
     
     elif section == "💰 Programmi":
+        # Verifica che l'utente sia autenticato
+        if not st.session_state.get('authenticated', False) or not st.session_state.get('user', None):
+            st.warning("⚠️ Devi effettuare il login per accedere a questa sezione")
+            return
+            
+        # Verifica i permessi per la sezione programmi
+        user_role = st.session_state.user.get('role', 'viewer') if isinstance(st.session_state.user, dict) else 'viewer'
+        allowed_roles = ['admin', 'broker']
+        if user_role not in allowed_roles:
+            st.error("❌ Accesso negato. Permessi insufficienti per accedere alla sezione programmi.")
+            st.info(f"Il tuo ruolo è: {user_role}")
+            st.info(f"Ruoli consentiti: {', '.join(allowed_roles)}")
+            return
+            
         discounts_page()
     
     elif section == "⚙️ Configurazione":
+        # Verifica che l'utente sia autenticato
+        if not st.session_state.get('authenticated', False) or not st.session_state.get('user', None):
+            st.warning("⚠️ Devi effettuare il login per accedere a questa sezione")
+            return
+            
+        # Verifica i permessi per la sezione configurazione
+        user_role = st.session_state.user.get('role', 'viewer') if isinstance(st.session_state.user, dict) else 'viewer'
+        allowed_roles = ['admin']
+        if user_role not in allowed_roles:
+            st.error("❌ Accesso negato. Permessi insufficienti per accedere alla sezione configurazione.")
+            st.info(f"Il tuo ruolo è: {user_role}")
+            st.info(f"Ruoli consentiti: {', '.join(allowed_roles)}")
+            return
+            
         st.title("⚙️ Configurazione Sistema")
         st.info("🔧 Sezione configurazione in fase di sviluppo")
         
