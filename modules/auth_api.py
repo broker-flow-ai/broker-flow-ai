@@ -313,7 +313,7 @@ async def update_user_endpoint(user_id: int, user_update: UserUpdate, current_us
         
         # Verifica che l'utente esista
         print(f"[DEBUG] Checking if user {user_id} exists")
-        existing_user = get_user_by_id(user_id)
+        existing_user = await get_user_by_id(user_id)
         if not existing_user:
             print(f"[DEBUG] User {user_id} not found")
             raise HTTPException(
@@ -333,7 +333,7 @@ async def update_user_endpoint(user_id: int, user_update: UserUpdate, current_us
             # Anche se success è False, potrebbe essere perché non ci sono modifiche
             # Controlliamo comunque se l'utente esiste ancora
             print(f"[DEBUG] Checking user after update")
-            updated_user = get_user_by_id(user_id)
+            updated_user = await get_user_by_id(user_id)
             if not updated_user:
                 print(f"[DEBUG] User not found after update")
                 raise HTTPException(
@@ -344,7 +344,7 @@ async def update_user_endpoint(user_id: int, user_update: UserUpdate, current_us
         
         # Recupera l'utente aggiornato
         print(f"[DEBUG] Retrieving updated user {user_id}")
-        updated_user = get_user_by_id(user_id)
+        updated_user = await get_user_by_id(user_id)
         if not updated_user:
             print(f"[DEBUG] Updated user {user_id} not found")
             raise HTTPException(
