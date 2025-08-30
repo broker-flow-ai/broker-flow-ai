@@ -5,8 +5,8 @@
 - [X] implementare il login 2fa con email (codice otp inviato in email) attivabile e disattivabile in .env
 - [X] frontend per il logout
 - [] Rendere bloccate le pagine clienti polizze sinistri se non si è loggati e gestione delle pagine in base al ruolo dell'utente (non funziona ancora bene)
-- [] frontend di creazione utenze e set privilegi per gli utenti creati se sei un admin (fatto ma da un errore di aggiornamento [anche se in realtà aggiorna])
-- Pagina di modifica profilo utente
+- [X] frontend di creazione utenze e set privilegi per gli utenti creati se sei un admin (fatto ma da un errore di aggiornamento [anche se in realtà aggiorna])
+- Pagina di modifica profilo utente (personale per utente)
     - implementare il recupero password con email
     - implementare la modifica della password con email
 
