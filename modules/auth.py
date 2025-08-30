@@ -3,7 +3,7 @@ import secrets
 import time
 import random
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from jose import jwt
 from passlib.context import CryptContext
 import smtplib
@@ -104,6 +104,69 @@ def get_user_by_email(email: str) -> Optional[UserInDB]:
         return UserInDB(**user_row)
     return None
 
+def get_user_by_id(user_id: int) -> Optional[UserInDB]:
+    """Recupera un utente specifico per ID"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    user_row = cursor.fetchone()
+    conn.close()
+    
+    if user_row:
+        # Gestisci i campi che potrebbero essere NULL nel database
+        if user_row.get('locked_until') is not None and isinstance(user_row.get('locked_until'), datetime):
+            user_row['locked_until'] = user_row['locked_until'].isoformat()
+        elif user_row.get('locked_until') is None:
+            user_row['locked_until'] = None
+            
+        if user_row.get('last_login') is not None and isinstance(user_row.get('last_login'), datetime):
+            user_row['last_login'] = user_row['last_login'].isoformat()
+        elif user_row.get('last_login') is None:
+            user_row['last_login'] = None
+            
+        # Converti i datetime in stringhe se necessario
+        if isinstance(user_row.get('created_at'), datetime):
+            user_row['created_at'] = user_row['created_at'].isoformat()
+        if isinstance(user_row.get('updated_at'), datetime):
+            user_row['updated_at'] = user_row['updated_at'].isoformat()
+            
+        return UserInDB(**user_row)
+    return None
+
+def get_all_users() -> List[dict]:
+    """Recupera tutti gli utenti dal database"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM users ORDER BY created_at DESC")
+    users_rows = cursor.fetchall()
+    conn.close()
+    
+    users = []
+    for user_row in users_rows:
+        # Gestisci i campi che potrebbero essere NULL nel database
+        if user_row.get('locked_until') is not None and isinstance(user_row.get('locked_until'), datetime):
+            user_row['locked_until'] = user_row['locked_until'].isoformat()
+        elif user_row.get('locked_until') is None:
+            user_row['locked_until'] = None
+            
+        if user_row.get('last_login') is not None and isinstance(user_row.get('last_login'), datetime):
+            user_row['last_login'] = user_row['last_login'].isoformat()
+        elif user_row.get('last_login') is None:
+            user_row['last_login'] = None
+            
+        # Converti i datetime in stringhe se necessario
+        if isinstance(user_row.get('created_at'), datetime):
+            user_row['created_at'] = user_row['created_at'].isoformat()
+        if isinstance(user_row.get('updated_at'), datetime):
+            user_row['updated_at'] = user_row['updated_at'].isoformat()
+            
+        # Aggiungi l'utente come dizionario
+        users.append(user_row)
+    
+    return users
+
 def create_user(user_data: Dict[str, Any]) -> int:
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -111,8 +174,8 @@ def create_user(user_data: Dict[str, Any]) -> int:
     hashed_password = get_password_hash(user_data["password"])
     
     query = """
-        INSERT INTO users (username, email, full_name, hashed_password, role, status)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO users (username, email, full_name, hashed_password, role, status, is_two_factor_enabled)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
     params = (
         user_data["username"],
@@ -120,7 +183,8 @@ def create_user(user_data: Dict[str, Any]) -> int:
         user_data["full_name"],
         hashed_password,
         user_data["role"],
-        user_data["status"] if "status" in user_data else "pending"
+        user_data["status"] if "status" in user_data else "pending",
+        user_data.get("is_two_factor_enabled", False)
     )
     
     cursor.execute(query, params)
@@ -131,6 +195,7 @@ def create_user(user_data: Dict[str, Any]) -> int:
     return user_id
 
 def update_user(user_id: int, user_data: Dict[str, Any]) -> bool:
+    print(f"[DEBUG] update_user called with user_id={user_id}, user_data={user_data}")
     conn = get_db_connection()
     cursor = conn.cursor()
     
@@ -147,12 +212,36 @@ def update_user(user_id: int, user_data: Dict[str, Any]) -> bool:
             params.append(value)
     
     if not set_parts:
-        return False
+        print(f"[DEBUG] No fields to update, returning True")
+        conn.close()
+        return True  # Non ci sono modifiche da applicare, consideralo un successo
     
     params.append(user_id)
     query = f"UPDATE users SET {', '.join(set_parts)} WHERE id = %s"
+    print(f"[DEBUG] SQL Query: {query}")
+    print(f"[DEBUG] SQL Params: {params}")
     
-    cursor.execute(query, params)
+    try:
+        cursor.execute(query, params)
+        conn.commit()
+        print(f"[DEBUG] Rows affected: {cursor.rowcount}")
+        # Non controlliamo rowcount perché anche se non ci sono modifiche, l'operazione è andata a buon fine
+        success = True
+        print(f"[DEBUG] Update successful: {success}")
+    except Exception as e:
+        print(f"[ERROR] Database error: {str(e)}")
+        success = False
+    finally:
+        conn.close()
+    
+    return success
+
+def delete_user(user_id: int) -> bool:
+    """Elimina un utente dal database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
     conn.commit()
     success = cursor.rowcount > 0
     conn.close()

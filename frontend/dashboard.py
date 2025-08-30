@@ -17,6 +17,7 @@ try:
     from pages.sinistri import claims_page
     from pages.risks import risks_page
     from pages.login import login_page
+    from pages.users import users_page
 except ImportError as e:
     st.error(f"Errore nell'import dei moduli: {str(e)}")
     st.stop()
@@ -1182,7 +1183,8 @@ def main():
             "👥 Clienti": clients_page,
             "🛡️ Rischi": risks_page,
             "📜 Polizze": policies_page,
-            "🚨 Sinistri": claims_page
+            "🚨 Sinistri": claims_page,
+            "👥 Utenti": users_page
         }
         selection = st.sidebar.radio("📄 Pagine", list(pages.keys()))
         page = pages[selection]

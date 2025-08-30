@@ -31,8 +31,10 @@ class UserUpdate(BaseModel):
     username: Optional[str] = None
     email: Optional[str] = None
     full_name: Optional[str] = None
+    password: Optional[str] = None
     role: Optional[UserRole] = None
     status: Optional[UserStatus] = None
+    is_two_factor_enabled: Optional[bool] = None
 
 class UserInDB(UserBase):
     id: int
@@ -53,6 +55,9 @@ class User(UserBase):
     locked_until: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
+
+class UserListResponse(BaseModel):
+    users: List[User]
 
 class Token(BaseModel):
     access_token: str

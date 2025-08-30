@@ -96,6 +96,41 @@ class APIClient:
         """Verifica se l'utente è autenticato"""
         return self.access_token is not None
     
+    def get_current_user_info(self) -> Optional[Dict[str, Any]]:
+        """Ottiene le informazioni dell'utente corrente dal token JWT"""
+        if not self.access_token:
+            return None
+        
+        try:
+            # Decodifica il token JWT per ottenere le informazioni dell'utente
+            import base64
+            import json
+            
+            # Il token JWT è formato da tre parti separate da punti: header.payload.signature
+            token_parts = self.access_token.split('.')
+            if len(token_parts) != 3:
+                return None
+                
+            # Decodifica la parte payload (seconda parte)
+            payload = token_parts[1]
+            
+            # Aggiungi padding se necessario
+            padding = 4 - len(payload) % 4
+            if padding:
+                payload += '=' * padding
+                
+            # Decodifica base64
+            decoded_payload = base64.urlsafe_b64decode(payload)
+            payload_data = json.loads(decoded_payload)
+            
+            return {
+                "username": payload_data.get("sub"),
+                "role": payload_data.get("role")
+            }
+        except Exception as e:
+            print(f"Error decoding JWT token: {str(e)}")
+            return None
+    
     # === METODI PER CLIENTI ===
     
     def get_clients(self, filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:

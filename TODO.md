@@ -2,9 +2,10 @@
 
 
 ## Utenti, Login e autenticazione
-- implementare il login 2fa con email (codice otp inviato in email) attivabile e disattivabile in .env
-- frontend per il logout
-- frontend di creazione utenze e set privilegi se sei admin
+- [X] implementare il login 2fa con email (codice otp inviato in email) attivabile e disattivabile in .env
+- [X] frontend per il logout
+- [] Rendere bloccate le pagine clienti polizze sinistri se non si è loggati e gestione delle pagine in base al ruolo dell'utente (non funziona ancora bene)
+- [] frontend di creazione utenze e set privilegi per gli utenti creati se sei un admin (fatto ma da un errore di aggiornamento [anche se in realtà aggiorna])
 - Pagina di modifica profilo utente
     - implementare il recupero password con email
     - implementare la modifica della password con email
@@ -22,6 +23,9 @@
 
 ## Elaborazioni AI
 
+-  Analisi Rischio Avanzata non funziona (errore nell'endpoin Errore nella chiamata API: 404 Client Error: Not Found for url: http://api:8000/api/v1/insurance/risk-analysis)
+    - Siccome è per compagnia nel frontend migliorare la selezione al posto di compagnia id va creato un filtro adeguato
+- Compilance non scarica il file dice file non trovato ma in realtà c'è perchè la mail la invia con allegato un file
 - guardare il file in compilance/COMPILANCE_DOCUMENT_GENERATION_TODO.md
 
 
