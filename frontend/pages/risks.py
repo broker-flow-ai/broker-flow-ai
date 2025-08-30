@@ -8,7 +8,9 @@ import json
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from utils.api_client import api_client
+from utils.auth_decorator import require_role
 
+@require_role(allowed_roles=["admin", "broker", "underwriter"])
 def risks_page():
     st.title("🛡️ Gestione Rischi")
     

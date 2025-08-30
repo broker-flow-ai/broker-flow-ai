@@ -8,9 +8,11 @@ from typing import Dict, Any, List
 from utils.api_client import api_client
 from utils.data_formatter import DataFormatter
 from utils.validators import Validators
+from utils.auth_decorator import require_role, has_delete_permission
 from components.claim_card import render_claim_card, render_claim_details, render_claim_form
 from components.filters import render_claim_filters
 
+@require_role(allowed_roles=["admin", "broker", "claims_adjuster", "customer_service"])
 def claims_page():
     """Pagina principale gestione sinistri"""
     st.title("🚨 Gestione Sinistri")
@@ -117,7 +119,7 @@ def render_claims_list():
                     st.session_state.editing_claim = claim['id']
                     st.rerun()
             with col3:
-                if st.button(f"🗑 Elimina #{claim['id']}", key=f"delete_claim_{claim['id']}"):
+                if has_delete_permission() and st.button(f"🗑 Elimina #{claim['id']}", key=f"delete_claim_{claim['id']}"):
                     st.warning(f"Eliminazione sinistro #{claim['id']} non ancora implementata")
             
             st.markdown("---")

@@ -8,9 +8,11 @@ from typing import Dict, Any, List
 from utils.api_client import api_client
 from utils.data_formatter import DataFormatter
 from utils.validators import Validators
+from utils.auth_decorator import require_role, has_delete_permission
 from components.policy_card import render_policy_card, render_policy_details, render_policy_form
 from components.filters import render_policy_filters
 
+@require_role(allowed_roles=["admin", "broker", "underwriter", "customer_service"])
 def policies_page():
     """Pagina principale gestione polizze"""
     st.title("📜 Gestione Polizze")
@@ -117,7 +119,7 @@ def render_policies_list():
                     st.session_state.editing_policy = policy['id']
                     st.rerun()
             with col3:
-                if st.button(f"🗑 Elimina #{policy['id']}", key=f"delete_policy_{policy['id']}"):
+                if has_delete_permission() and st.button(f"🗑 Elimina #{policy['id']}", key=f"delete_policy_{policy['id']}"):
                     st.warning(f"Eliminazione polizza #{policy['id']} non ancora implementata")
             
             st.markdown("---")

@@ -8,9 +8,11 @@ from typing import Dict, Any, List
 from utils.api_client import api_client
 from utils.data_formatter import DataFormatter
 from utils.validators import Validators
+from utils.auth_decorator import require_role, has_delete_permission
 from components.client_card import render_client_card, render_client_details, render_client_form
 from components.filters import render_client_filters
 
+@require_role(allowed_roles=["admin", "broker", "customer_service"])
 def clients_page():
     """Pagina principale gestione clienti"""
     st.title("👥 Gestione Clienti")
@@ -118,7 +120,7 @@ def render_clients_list():
                     st.session_state.editing_client = client['id']
                     st.rerun()
             with col3:
-                if st.button(f"🗑 Elimina #{client['id']}", key=f"delete_{client['id']}"):
+                if has_delete_permission() and st.button(f"🗑 Elimina #{client['id']}", key=f"delete_{client['id']}"):
                     st.warning(f"Eliminazione cliente #{client['id']} non ancora implementata")
             
             st.markdown("---")
