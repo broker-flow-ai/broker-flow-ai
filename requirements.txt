@@ -20,3 +20,4 @@ python-docx
 passlib[bcrypt]
 python-jose[cryptography]
 python-multipart
+streamlit-cookies-controller

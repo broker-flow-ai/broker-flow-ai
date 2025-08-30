@@ -36,46 +36,21 @@ si naviga su http://localhost:8501/ per il frontend
 si naviga su http://localhost:8000/docs per l'API
 si naviga su http://localhost:8080/ per phpmyadmin
 
-
-curl -X POST "http://localhost:8000/api/v1/auth/token" \
-   -H "Content-Type: application/x-www-form-urlencoded" \
-   -d "username=admin&password=admin123"
-
-
-
-  5. Esegui la creazione dell'utente admin
-
-   1 # Esegui lo script per creare l'utente admin
-   2 docker exec broker-flow-ai-api-1 python create_admin_user.py
-
-  6. Oppure esegui l'inizializzazione completa
-
-   1 # Esegui l'inizializzazione completa
-   2 docker exec broker-flow-ai-api-1 python init_complete_auth.py
-
-  🔐 Default Credentials:
-   - Username: admin
-   - Password: admin123
-
-# vecchio flow (con documenti pdf in /inbox)
-docker compose exec processor python populate_coherent_data.py
-
-
 ```
 
 # Logs docker
 
 ✦ Ecco l'elenco dei comandi per visualizzare i log di tutti i servizi dell'applicazione:
 
-    # Visualizza i log di tutti i servizi
-    docker compose logs
-    
-    # Visualizza i log di tutti i servizi con output in tempo reale
-    docker compose logs -f
-    
-    # Visualizza i log di un singolo servizio
-    docker compose logs api
-    docker compose logs frontend
+   # Visualizza i log di tutti i servizi
+   docker compose logs
+   
+   # Visualizza i log di tutti i servizi con output in tempo reale
+   docker compose logs -f
+   
+   # Visualizza i log di un singolo servizio
+   docker compose logs api
+   docker compose logs frontend
    docker compose logs db
    docker compose logs init-db
    docker compose logs processor

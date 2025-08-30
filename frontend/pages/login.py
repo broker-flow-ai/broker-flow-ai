@@ -9,6 +9,7 @@ from typing import Optional, Dict, Any
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from utils.api_client import api_client
+from utils.cookie_manager import CookieManager
 
 def decode_jwt_token(token: str) -> Optional[Dict[str, Any]]:
     """Decodifica un token JWT per ottenere le informazioni dell'utente"""
@@ -63,6 +64,11 @@ def login_page():
             st.session_state.username_2fa = None
             st.session_state.temp_password = None
             api_client.logout()
+            
+            # Clear the auth data from URL parameters
+            cookie_manager = CookieManager()
+            cookie_manager.clear_auth_cookie()
+            
             st.rerun()
         return
     
@@ -92,6 +98,11 @@ def login_page():
                                 st.session_state.user = user_info
                                 # Salva il token nell'API client
                                 api_client.access_token = result["access_token"]
+                                
+                                # Salva i dati di autenticazione nei parametri URL
+                                cookie_manager = CookieManager()
+                                cookie_manager.save_auth_cookie(result["access_token"], user_info)
+                                
                                 st.success("Accesso effettuato con successo!")
                                 st.rerun()
                             else:
@@ -155,6 +166,11 @@ def login_page():
                                 st.session_state.user = {"username": st.session_state.username_2fa, "role": "viewer"}
                             # Salva il token nell'API client
                             api_client.access_token = result["access_token"]
+                            
+                            # Salva i dati di autenticazione nei parametri URL
+                            cookie_manager = CookieManager()
+                            cookie_manager.save_auth_cookie(result["access_token"], st.session_state.user)
+                            
                             st.session_state.show_2fa = False
                             st.session_state.username_2fa = None
                             st.session_state.temp_password = None

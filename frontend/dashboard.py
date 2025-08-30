@@ -18,6 +18,8 @@ try:
     from pages.risks import risks_page
     from pages.login import login_page
     from pages.users import users_page
+    from utils.cookie_manager import CookieManager
+    from utils.api_client import api_client
 except ImportError as e:
     st.error(f"Errore nell'import dei moduli: {str(e)}")
     st.stop()
@@ -61,6 +63,33 @@ if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'user' not in st.session_state:
     st.session_state.user = None
+
+# Funzione per ripristinare l'autenticazione dai cookie
+def restore_auth_from_cookie():
+    """Restore authentication state from cookie if available"""
+    # Se l'utente non è già autenticato, controlla se esiste un cookie di autenticazione
+    if not st.session_state.get('authenticated', False):
+        try:
+            cookie_manager = CookieManager()
+            auth_data = cookie_manager.load_auth_cookie()
+            
+            if auth_data:
+                # Ripristina i dati di autenticazione
+                st.session_state.authenticated = True
+                st.session_state.user = auth_data.get("user")
+                
+                # Ripristina il token API
+                if "access_token" in auth_data:
+                    api_client.access_token = auth_data["access_token"]
+                
+                # Mostra messaggio di successo solo se non siamo già nella pagina di login
+                if st.session_state.get('page') != 'login':
+                    st.success("Sessione ripristinata automaticamente!")
+        except Exception as e:
+            st.warning(f"Impossibile ripristinare la sessione: {str(e)}")
+
+# Ripristina l'autenticazione dai cookie all'avvio
+restore_auth_from_cookie()
 
 # Funzioni di utilità per chiamate API
 def api_get(endpoint):
@@ -1159,6 +1188,11 @@ def main():
         st.session_state.authenticated = False
         st.session_state.user = None
         st.session_state.access_token = None
+        
+        # Clear the auth data from URL parameters
+        cookie_manager = CookieManager()
+        cookie_manager.clear_auth_cookie()
+        
         st.rerun()  # Cambiato da experimental_rerun a rerun
     
     # Organizzazione delle pagine in sezioni

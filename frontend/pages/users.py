@@ -8,6 +8,7 @@ from typing import Optional, Dict, Any
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from utils.api_client import api_client
+from utils.cookie_manager import CookieManager
 
 def users_page():
     st.title("👥 Gestione Utenti")
