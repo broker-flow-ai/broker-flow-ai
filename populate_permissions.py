@@ -109,18 +109,25 @@ def create_default_admin():
         # Verifica se esiste già un admin
         cursor.execute("SELECT id FROM users WHERE username = 'admin'")
         if cursor.fetchone():
-            print("✅ Utente admin già esistente")
+            # Aggiorna l'utente esistente per abilitare il 2FA
+            cursor.execute("""
+                UPDATE users 
+                SET is_two_factor_enabled = TRUE 
+                WHERE username = 'admin'
+            """)
+            conn.commit()
+            print("✅ Utente admin aggiornato con 2FA abilitato")
             return
         
-        # Crea l'utente admin
+        # Crea l'utente admin con 2FA abilitato
         hashed_password = get_password_hash("admin123")
         cursor.execute("""
             INSERT INTO users (username, email, full_name, hashed_password, role, status, is_two_factor_enabled)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, ("admin", "lantoniotrento@gmail.com", "Amministratore di Sistema", hashed_password, "admin", "active", False))
+        """, ("admin", "admin@brokerflow.ai", "Amministratore di Sistema", hashed_password, "admin", "active", True))
         
         conn.commit()
-        print("✅ Utente admin creato (username: admin, password: admin123)")
+        print("✅ Utente admin creato con 2FA abilitato (username: admin, password: admin123)")
         
     except Exception as e:
         print(f"❌ Errore nella creazione dell'admin: {str(e)}")

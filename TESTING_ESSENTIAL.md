@@ -912,7 +912,7 @@ exclude_lines = [
 *BrokerFlow AI - Testing Excellence for Insurance Innovation*
 
 
-
+ # appuntini su comandi
 
 
 ```
@@ -985,3 +985,24 @@ curl -X POST "http://localhost:8000/auth/token" \
    1    docker exec -it broker-flow-ai-db-1 mysql -u root -proot123 -e "USE brokerflow_ai; SHOW TABLES;"
 
 ```
+
+
+
+
+
+
+    1 # Copia i file corretti nei container
+    2 docker cp C:\Users\hp\Documents\GitHub\broker-flow-ai\.env broker-flow-ai-api-1:/app/.env
+    3 docker cp C:\Users\hp\Documents\GitHub\broker-flow-ai\.env broker-flow-ai-frontend-1:/app/.env
+    4 docker cp C:\Users\hp\Documents\GitHub\broker-flow-ai\config.py broker-flow-ai-api-1:/app/config.py
+    5 docker cp C:\Users\hp\Documents\GitHub\broker-flow-ai\modules\auth.py broker-flow-ai-api-1:/app/modules/auth.py
+    6 docker cp C:\Users\hp\Documents\GitHub\broker-flow-ai\modules\auth_api.py
+      broker-flow-ai-api-1:/app/modules/auth_api.py
+    7 docker cp C:\Users\hp\Documents\GitHub\broker-flow-ai\frontend\pages\login.py
+      broker-flow-ai-frontend-1:/app/frontend/pages/login.py
+    8
+    9 # Riavvia i servizi
+   10 docker-compose restart api frontend
+   11 </parameter>
+   12 </function>
+   13 </tool_call>

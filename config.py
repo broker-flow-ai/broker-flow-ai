@@ -25,6 +25,11 @@ EMAIL_CONFIG = {
     'sender_password': os.getenv("SENDER_PASSWORD", "")
 }
 
+# 2FA Configuration
+ENABLE_2FA = os.getenv("ENABLE_2FA", "true").lower() == "true"
+OTP_EXPIRATION_MINUTES = int(os.getenv("OTP_EXPIRATION_MINUTES", "10"))
+OTP_LENGTH = int(os.getenv("OTP_LENGTH", "6"))
+
 # JWT Configuration
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
 ALGORITHM = "HS256"

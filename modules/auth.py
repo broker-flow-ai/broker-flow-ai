@@ -1,6 +1,7 @@
 import hashlib
 import secrets
 import time
+import random
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 from jose import jwt
@@ -8,7 +9,7 @@ from passlib.context import CryptContext
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, EMAIL_CONFIG
+from config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, EMAIL_CONFIG, ENABLE_2FA, OTP_EXPIRATION_MINUTES, OTP_LENGTH
 from modules.db import get_db_connection
 from modules.auth_models import UserInDB, User, TokenData, UserRole
 
@@ -212,12 +213,12 @@ def delete_session(session_token: str) -> bool:
     return success
 
 # Funzioni per la gestione del 2FA
-def generate_two_factor_token() -> str:
-    """Genera un token 2FA a 6 cifre"""
-    return str(secrets.randbelow(1000000)).zfill(6)
+def generate_otp_code(length: int = OTP_LENGTH) -> str:
+    """Genera un codice OTP casuale"""
+    return ''.join([str(random.randint(0, 9)) for _ in range(length)])
 
-def save_two_factor_token(user_id: int, token: str, expires_in_minutes: int = 10) -> int:
-    """Salva un token 2FA nel database"""
+def save_otp_token(user_id: int, token: str, expires_in_minutes: int = OTP_EXPIRATION_MINUTES) -> int:
+    """Salva un token OTP nel database"""
     conn = get_db_connection()
     cursor = conn.cursor()
     
@@ -236,8 +237,8 @@ def save_two_factor_token(user_id: int, token: str, expires_in_minutes: int = 10
     
     return token_id
 
-def verify_two_factor_token(user_id: int, token: str) -> bool:
-    """Verifica un token 2FA"""
+def verify_otp_token(user_id: int, token: str) -> bool:
+    """Verifica un token OTP"""
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
@@ -260,8 +261,8 @@ def verify_two_factor_token(user_id: int, token: str) -> bool:
     
     return False
 
-def send_two_factor_email(email: str, token: str) -> bool:
-    """Invia il token 2FA via email"""
+def send_otp_email(email: str, otp_code: str, username: str) -> bool:
+    """Invia il codice OTP via email"""
     try:
         msg = MIMEMultipart()
         msg['From'] = EMAIL_CONFIG['sender_email']
@@ -269,11 +270,13 @@ def send_two_factor_email(email: str, token: str) -> bool:
         msg['Subject'] = "Codice di Verifica 2FA - BrokerFlow AI"
         
         body = f"""
-        Il tuo codice di verifica 2FA per BrokerFlow AI è: {token}
+        Gentile {username},
         
-        Questo codice scadrà tra 10 minuti.
+        Il tuo codice di verifica a due fattori per BrokerFlow AI è: {otp_code}
         
-        Se non hai richiesto questo codice, ignora questa email.
+        Questo codice scadrà tra {OTP_EXPIRATION_MINUTES} minuti.
+        
+        Se non hai richiesto questo codice, ti consigliamo di cambiare immediatamente la tua password.
         
         Grazie,
         Team BrokerFlow AI
@@ -294,7 +297,7 @@ def send_two_factor_email(email: str, token: str) -> bool:
         
         return True
     except Exception as e:
-        print(f"Errore nell'invio dell'email 2FA: {str(e)}")
+        print(f"Errore nell'invio dell'email OTP: {str(e)}")
         return False
 
 # Funzioni per la gestione dei permessi

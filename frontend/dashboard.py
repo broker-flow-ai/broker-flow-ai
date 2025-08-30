@@ -11,11 +11,15 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
 # Import delle nuove pagine
-from pages.clienti import clients_page
-from pages.polizze import policies_page
-from pages.sinistri import claims_page
-from pages.risks import risks_page
-from pages.login import login_page
+try:
+    from pages.clienti import clients_page
+    from pages.polizze import policies_page
+    from pages.sinistri import claims_page
+    from pages.risks import risks_page
+    from pages.login import login_page
+except ImportError as e:
+    st.error(f"Errore nell'import dei moduli: {str(e)}")
+    st.stop()
 
 # Configurazione della pagina
 st.set_page_config(

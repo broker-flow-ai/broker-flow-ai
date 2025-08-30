@@ -35,6 +35,16 @@ class APIClient:
         
         try:
             response = requests.request(method, url, **kwargs)
+            
+            # Gestione speciale per il 2FA - anche con status 200 può richiedere 2FA
+            if response.status_code == 200:
+                try:
+                    response_data = response.json()
+                    if isinstance(response_data, dict) and response_data.get("detail") == "2FA_REQUIRED":
+                        raise Exception("2FA_REQUIRED")
+                except json.JSONDecodeError:
+                    pass  # Non è JSON, procedi normalmente
+            
             response.raise_for_status()
             return response.json()
         except requests.exceptions.ConnectionError as e:
@@ -48,6 +58,9 @@ class APIClient:
             if hasattr(e, 'response') and e.response is not None:
                 try:
                     error_detail = e.response.json()
+                    # Gestione speciale per il 2FA
+                    if isinstance(error_detail, dict) and error_detail.get("detail") == "2FA_REQUIRED":
+                        raise Exception("2FA_REQUIRED")
                     raise Exception(f"API Error: {error_detail.get('detail', str(e))}")
                 except:
                     raise Exception(f"HTTP Error: {e.response.status_code} - {e.response.text}")
@@ -70,6 +83,8 @@ class APIClient:
                 return response
             return None
         except Exception as e:
+            if "2FA_REQUIRED" in str(e):
+                raise Exception("2FA_REQUIRED")
             print(f"Login error: {str(e)}")
             return None
     

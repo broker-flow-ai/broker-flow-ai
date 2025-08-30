@@ -19,6 +19,8 @@ def login_page():
         st.session_state.show_2fa = False
     if 'username_2fa' not in st.session_state:
         st.session_state.username_2fa = None
+    if 'temp_password' not in st.session_state:
+        st.session_state.temp_password = None
     
     # Se l'utente è già autenticato, mostriamo un messaggio
     if st.session_state.authenticated:
@@ -28,8 +30,9 @@ def login_page():
             st.session_state.user = None
             st.session_state.show_2fa = False
             st.session_state.username_2fa = None
+            st.session_state.temp_password = None
             api_client.logout()
-            st.rerun()  # Cambiato da experimental_rerun a rerun
+            st.rerun()
         return
     
     # Form di login
@@ -54,46 +57,78 @@ def login_page():
                             st.session_state.authenticated = True
                             st.session_state.user = {"username": username}
                             st.success("Accesso effettuato con successo!")
-                            st.rerun()  # Cambiato da experimental_rerun a rerun
+                            st.rerun()
                         else:
                             st.error("Credenziali non valide")
                     except Exception as e:
-                        st.error(f"Errore durante il login: {str(e)}")
-                        st.info("Verifica che il servizio API sia attivo e raggiungibile")
+                        # Gestione del 2FA
+                        error_message = str(e)
+                        if "2FA_REQUIRED" in error_message:
+                            st.session_state.show_2fa = True
+                            st.session_state.username_2fa = username
+                            st.session_state.temp_password = password
+                            st.info("🔒 Autenticazione a due fattori richiesta")
+                            st.info("📧 Controlla la tua email per il codice OTP")
+                            st.rerun()
+                        else:
+                            st.error(f"❌ Errore durante il login: {error_message}")
+                            st.info("🔧 Verifica che il servizio API sia attivo e raggiungibile")
     
     # Form 2FA
     if st.session_state.show_2fa:
+        st.subheader("🔐 Verifica a Due Fattori")
+        st.info(f"📧 Codice OTP inviato all'email associata all'utente **{st.session_state.username_2fa}**")
+        
         with st.form("2fa_form"):
-            st.subheader("Verifica a Due Fattori")
-            st.info(f"Codice inviato all'email associata all'utente {st.session_state.username_2fa}")
-            token = st.text_input("Codice 2FA", key="2fa_token", max_chars=6)
+            token = st.text_input("Codice OTP (6 cifre)", key="2fa_token", max_chars=6, placeholder="123456")
             
             col1, col2 = st.columns(2)
             with col1:
-                submitted_2fa = st.form_submit_button("Verifica")
+                submitted_2fa = st.form_submit_button("✅ Verifica Codice", type="primary")
             with col2:
-                if st.form_submit_button("Invia nuovo codice"):
+                if st.form_submit_button("🔄 Invia Nuovo Codice"):
                     try:
-                        # Questo endpoint va implementato nell'API auth
-                        st.info("Funzionalità di invio nuovo codice in fase di implementazione")
+                        # Richiedi un nuovo codice OTP
+                        api_client._make_request("POST", "/auth/two-factor/request", json={
+                            "username": st.session_state.username_2fa,
+                            "password": st.session_state.temp_password
+                        })
+                        st.success("📤 Nuovo codice OTP inviato all'email")
                     except Exception as e:
-                        st.error(f"Errore nell'invio del codice: {str(e)}")
+                        st.error(f"❌ Errore nell'invio del codice: {str(e)}")
             
             if submitted_2fa:
                 if not token:
-                    st.error("Per favore inserisci il codice 2FA")
+                    st.error("⚠️ Per favore inserisci il codice OTP")
                 else:
                     try:
-                        # Questo endpoint va implementato nell'API auth
-                        st.info("Funzionalità di verifica 2FA in fase di implementazione")
+                        result = api_client._make_request("POST", "/auth/two-factor/verify", json={
+                            "username": st.session_state.username_2fa,
+                            "token": token
+                        })
+                        
+                        if "access_token" in result:
+                            st.session_state.authenticated = True
+                            st.session_state.user = {"username": st.session_state.username_2fa}
+                            # Salva il token nell'API client
+                            api_client.access_token = result["access_token"]
+                            st.session_state.show_2fa = False
+                            st.session_state.username_2fa = None
+                            st.session_state.temp_password = None
+                            st.success("🎉 Accesso effettuato con successo!")
+                            st.balloons()
+                            st.rerun()
+                        else:
+                            st.error("❌ Codice OTP non valido o scaduto")
                     except Exception as e:
-                        st.error(f"Errore nella verifica 2FA: {str(e)}")
+                        st.error(f"❌ Errore nella verifica OTP: {str(e)}")
         
         # Opzione per tornare al login
-        if st.button("Torna al login"):
+        if st.button("🔙 Torna al login"):
             st.session_state.show_2fa = False
             st.session_state.username_2fa = None
-            st.rerun()  # Cambiato da experimental_rerun a rerun
+            st.session_state.temp_password = None
+            st.rerun()
 
 if __name__ == "__main__":
     login_page()
