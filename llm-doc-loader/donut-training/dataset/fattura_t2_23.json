@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4517",
+    "data": "2022-04-17",
+    "cliente": "Bruno e figli",
+    "piva": "51653396550",
+    "indirizzo": "Strada Milo, 19 Appartamento 55 23037, Tirano (SO)",
+    "totale": 1865.44,
+    "iva": "22%"
+  }
+}

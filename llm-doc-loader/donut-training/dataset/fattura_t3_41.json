@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4470",
+    "data": "2024-03-09",
+    "cliente": "Chiaramonte Group",
+    "piva": "31572615362",
+    "indirizzo": "Contrada Ramona, 74 Appartamento 93 34138, Trieste (TS)",
+    "totale": 1685.07,
+    "iva": "22%"
+  }
+}

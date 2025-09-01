@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5158",
+    "data": "2023-01-03",
+    "cliente": "Telesio s.r.l.",
+    "piva": "35803074393",
+    "indirizzo": "Viale Mercedes, 25 Appartamento 6 13899, Pralungo (BI)",
+    "totale": 928.5,
+    "iva": "22%"
+  }
+}

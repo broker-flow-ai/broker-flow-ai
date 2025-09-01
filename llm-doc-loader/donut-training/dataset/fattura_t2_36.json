@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8501",
+    "data": "2024-10-02",
+    "cliente": "Grassi, Nitti e Pareto Group",
+    "piva": "72962676381",
+    "indirizzo": "Rotonda Boccioni, 772 71011, Apricena (FG)",
+    "totale": 691.16,
+    "iva": "22%"
+  }
+}

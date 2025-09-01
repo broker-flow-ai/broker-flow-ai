@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7625",
+    "data": "2022-06-01",
+    "cliente": "Salieri-Bembo Group",
+    "piva": "33450367510",
+    "indirizzo": "Vicolo Gianfranco, 50 Piano 0 25125, Brescia (BS)",
+    "totale": 1504.89,
+    "iva": "22%"
+  }
+}

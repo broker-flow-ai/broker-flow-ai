@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9642",
+    "data": "2022-08-17",
+    "cliente": "Donà-Rismondo Group",
+    "piva": "18576025091",
+    "indirizzo": "Rotonda Bonaventura, 7 00169, Roma (RM)",
+    "totale": 1457.82,
+    "iva": "22%"
+  }
+}

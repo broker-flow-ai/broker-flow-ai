@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5743",
+    "data": "2024-11-03",
+    "cliente": "Innocenti, Ziani e Cavanna e figli",
+    "piva": "46518916669",
+    "indirizzo": "Incrocio Emanuelli, 6 Appartamento 4 13874, Mottalciata (BI)",
+    "totale": 1600.86,
+    "iva": "22%"
+  }
+}

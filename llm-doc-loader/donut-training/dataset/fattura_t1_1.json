@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5275",
+    "data": "2022-10-03",
+    "cliente": "Bottaro, Lerner e Bertoni s.r.l.",
+    "piva": "18887993070",
+    "indirizzo": "Canale Salata, 253 Piano 1 50054, Querce (FI)",
+    "totale": 688.11,
+    "iva": "22%"
+  }
+}

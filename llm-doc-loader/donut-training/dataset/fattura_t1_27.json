@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8637",
+    "data": "2020-06-23",
+    "cliente": "Correr-Ferrara e figli",
+    "piva": "45829221038",
+    "indirizzo": "Strada Toscani, 3 Piano 8 47836, Mondaino (RN)",
+    "totale": 1591.75,
+    "iva": "22%"
+  }
+}

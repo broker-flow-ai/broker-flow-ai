@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2811",
+    "data": "2020-09-18",
+    "cliente": "Catenazzi-Verdi s.r.l.",
+    "piva": "5616136803",
+    "indirizzo": "Borgo Damiano, 5 Appartamento 1 39040, Velturno (BZ)",
+    "totale": 1255.81,
+    "iva": "22%"
+  }
+}

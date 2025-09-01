@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2252",
+    "data": "2021-07-23",
+    "cliente": "Cainero-Ferrucci Group",
+    "piva": "27838510602",
+    "indirizzo": "Contrada Gremese, 11 Piano 5 20071, Vermezzo (MI)",
+    "totale": 1668.98,
+    "iva": "22%"
+  }
+}

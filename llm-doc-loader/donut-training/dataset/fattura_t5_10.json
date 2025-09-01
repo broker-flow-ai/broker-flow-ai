@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7647",
+    "data": "2023-06-27",
+    "cliente": "Roncalli, Moschino e Martinelli e figli",
+    "piva": "79708828402",
+    "indirizzo": "Rotonda Amleto, 33 19018, Corniglia (SP)",
+    "totale": 842.41,
+    "iva": "22%"
+  }
+}

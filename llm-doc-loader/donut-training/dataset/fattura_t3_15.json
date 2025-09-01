@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8346",
+    "data": "2023-12-07",
+    "cliente": "Vittadello-Fanucci e figli",
+    "piva": "1503087794",
+    "indirizzo": "Viale Clelia, 91 Piano 8 33021, Ampezzo (UD)",
+    "totale": 1873.42,
+    "iva": "22%"
+  }
+}

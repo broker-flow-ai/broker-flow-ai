@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8135",
+    "data": "2023-12-16",
+    "cliente": "Luna, Argentero e Moneta s.r.l.",
+    "piva": "11632992578",
+    "indirizzo": "Strada Giada, 9 Appartamento 1 06016, San Giustino (PG)",
+    "totale": 1052.78,
+    "iva": "22%"
+  }
+}

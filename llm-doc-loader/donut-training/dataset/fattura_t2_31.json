@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7754",
+    "data": "2023-12-11",
+    "cliente": "Cesarotti s.r.l.",
+    "piva": "52957100454",
+    "indirizzo": "Vicolo Gianmarco, 51 Piano 5 14021, Buttigliera D'Asti (AT)",
+    "totale": 753.69,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5350",
+    "data": "2024-09-21",
+    "cliente": "Sismondi e figli",
+    "piva": "59789031641",
+    "indirizzo": "Vicolo Cassandra, 71 Piano 1 39059, Wolfsgruben (BZ)",
+    "totale": 1726.49,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5127",
+    "data": "2020-11-09",
+    "cliente": "Angiolello e figli",
+    "piva": "28602195043",
+    "indirizzo": "Rotonda Enzo, 537 11100, Aosta (AO)",
+    "totale": 581.35,
+    "iva": "22%"
+  }
+}

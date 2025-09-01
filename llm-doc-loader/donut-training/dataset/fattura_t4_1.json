@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4982",
+    "data": "2024-01-20",
+    "cliente": "Giacometti s.r.l.",
+    "piva": "77988966677",
+    "indirizzo": "Vicolo Paoletta, 67 Appartamento 2 87014, Laino Borgo (CS)",
+    "totale": 1166.23,
+    "iva": "22%"
+  }
+}

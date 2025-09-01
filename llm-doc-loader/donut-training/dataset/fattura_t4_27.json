@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3173",
+    "data": "2021-07-31",
+    "cliente": "Vittadello Group",
+    "piva": "75792244502",
+    "indirizzo": "Canale Belletini, 4 84038, Caiazzano (SA)",
+    "totale": 732.39,
+    "iva": "22%"
+  }
+}

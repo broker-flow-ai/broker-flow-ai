@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3446",
+    "data": "2021-06-24",
+    "cliente": "Depero SPA",
+    "piva": "40433858055",
+    "indirizzo": "Via Riccardo, 70 Appartamento 1 13039, Trino (VC)",
+    "totale": 247.19,
+    "iva": "22%"
+  }
+}

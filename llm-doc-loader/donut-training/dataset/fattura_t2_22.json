@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9141",
+    "data": "2020-06-05",
+    "cliente": "Bruscantini, Cabibbo e Agostini s.r.l.",
+    "piva": "78550162216",
+    "indirizzo": "Vicolo Pierina, 27 46041, Castelnuovo Asolano (MN)",
+    "totale": 1745.03,
+    "iva": "22%"
+  }
+}

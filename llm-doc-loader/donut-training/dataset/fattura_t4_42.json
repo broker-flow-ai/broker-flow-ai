@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3341",
+    "data": "2021-03-03",
+    "cliente": "Petruzzi, Tagliafierro e Falier s.r.l.",
+    "piva": "79837027660",
+    "indirizzo": "Viale Caccioppoli, 48 Piano 5 13867, Flecchia (BI)",
+    "totale": 1440.28,
+    "iva": "22%"
+  }
+}

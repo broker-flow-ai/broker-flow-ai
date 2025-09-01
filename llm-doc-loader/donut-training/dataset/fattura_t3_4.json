@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5654",
+    "data": "2022-07-30",
+    "cliente": "Iannuzzi SPA",
+    "piva": "29035968562",
+    "indirizzo": "Vicolo Ezio, 83 88813, Ciro' (KR)",
+    "totale": 357.85,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5874",
+    "data": "2024-02-20",
+    "cliente": "Trotta, Zeffirelli e Capuana SPA",
+    "piva": "81756604322",
+    "indirizzo": "Viale Ferretti, 98 Appartamento 10 31047, Ponte Di Piave (TV)",
+    "totale": 472.68,
+    "iva": "22%"
+  }
+}

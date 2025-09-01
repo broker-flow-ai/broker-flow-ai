@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6353",
+    "data": "2023-09-01",
+    "cliente": "Pastine Group",
+    "piva": "62820110332",
+    "indirizzo": "Canale Cociarelli, 47 22018, Porlezza (CO)",
+    "totale": 77.44,
+    "iva": "22%"
+  }
+}

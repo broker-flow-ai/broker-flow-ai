@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8499",
+    "data": "2024-07-29",
+    "cliente": "Favata-Scarpetta s.r.l.",
+    "piva": "23547871465",
+    "indirizzo": "Canale Brunelleschi, 97 50054, Galleno (FI)",
+    "totale": 56.17,
+    "iva": "22%"
+  }
+}

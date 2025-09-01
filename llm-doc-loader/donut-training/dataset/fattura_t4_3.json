@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5098",
+    "data": "2025-06-21",
+    "cliente": "Pucci e figli",
+    "piva": "96223797735",
+    "indirizzo": "Vicolo Trombetta, 922 26836, Montanaso Lombardo (LO)",
+    "totale": 1541.43,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4504",
+    "data": "2022-11-11",
+    "cliente": "Asmundo s.r.l.",
+    "piva": "83600844878",
+    "indirizzo": "Viale Viridiana, 67 Piano 1 98145, Messina (ME)",
+    "totale": 1466.67,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8591",
+    "data": "2022-08-20",
+    "cliente": "Falcone, Cilea e Fogazzaro Group",
+    "piva": "3688300954",
+    "indirizzo": "Borgo Martino, 2 Piano 3 16164, Genova (GE)",
+    "totale": 1158.58,
+    "iva": "22%"
+  }
+}

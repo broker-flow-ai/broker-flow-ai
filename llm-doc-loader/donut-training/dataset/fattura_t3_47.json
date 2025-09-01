@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8968",
+    "data": "2023-02-23",
+    "cliente": "Agazzi, Lucarelli e Cimarosa s.r.l.",
+    "piva": "86189689092",
+    "indirizzo": "Via Gabrieli, 82 24029, Vertova (BG)",
+    "totale": 779.97,
+    "iva": "22%"
+  }
+}

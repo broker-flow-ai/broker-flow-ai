@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3514",
+    "data": "2023-02-26",
+    "cliente": "Palazzo-Soranzo Group",
+    "piva": "13246052455",
+    "indirizzo": "Stretto Sordi, 0 66038, San Vito Chietino (CH)",
+    "totale": 1686.32,
+    "iva": "22%"
+  }
+}

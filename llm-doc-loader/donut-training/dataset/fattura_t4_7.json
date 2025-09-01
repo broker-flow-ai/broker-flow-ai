@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6642",
+    "data": "2022-06-06",
+    "cliente": "Babbo-Fattori e figli",
+    "piva": "43558612359",
+    "indirizzo": "Contrada Romana, 388 53027, Bagno Vignoni (SI)",
+    "totale": 1198.92,
+    "iva": "22%"
+  }
+}

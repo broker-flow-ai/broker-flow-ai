@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9839",
+    "data": "2023-11-01",
+    "cliente": "Peranda, Rossetti e Nonis s.r.l.",
+    "piva": "59427496793",
+    "indirizzo": "Vicolo Chiesa, 874 Appartamento 86 89052, Campo Calabro (RC)",
+    "totale": 973.88,
+    "iva": "22%"
+  }
+}

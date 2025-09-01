@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8283",
+    "data": "2021-11-19",
+    "cliente": "Valentino e figli",
+    "piva": "23364014751",
+    "indirizzo": "Contrada Lollobrigida, 8 Piano 7 63094, Montegallo (AP)",
+    "totale": 1786.05,
+    "iva": "22%"
+  }
+}

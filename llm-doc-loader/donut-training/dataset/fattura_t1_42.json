@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6618",
+    "data": "2022-07-03",
+    "cliente": "Fogazzaro SPA",
+    "piva": "49204522975",
+    "indirizzo": "Via Petralli, 9 80125, Napoli (NA)",
+    "totale": 1682.65,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7175",
+    "data": "2025-04-30",
+    "cliente": "Pellico Group",
+    "piva": "52367286237",
+    "indirizzo": "Canale Corrado, 10 40129, Bologna (BO)",
+    "totale": 1697.4,
+    "iva": "22%"
+  }
+}

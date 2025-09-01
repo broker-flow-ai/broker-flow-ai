@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8308",
+    "data": "2021-11-04",
+    "cliente": "Nugnes-Fabbri Group",
+    "piva": "6614273886",
+    "indirizzo": "Strada Giuseppe, 962 20821, Meda (MB)",
+    "totale": 281.03,
+    "iva": "22%"
+  }
+}

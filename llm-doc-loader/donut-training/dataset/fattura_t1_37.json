@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3641",
+    "data": "2021-09-18",
+    "cliente": "Leopardi e figli",
+    "piva": "46167237270",
+    "indirizzo": "Viale Virgilio, 18 13895, Graglia Bagni (BI)",
+    "totale": 1725.42,
+    "iva": "22%"
+  }
+}

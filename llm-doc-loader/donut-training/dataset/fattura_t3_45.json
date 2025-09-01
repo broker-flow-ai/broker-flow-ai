@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2311",
+    "data": "2022-03-29",
+    "cliente": "Angiolello SPA",
+    "piva": "58101309900",
+    "indirizzo": "Rotonda Saverio, 88 Piano 1 20095, Cusano Milanino (MI)",
+    "totale": 1894.03,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7214",
+    "data": "2020-01-12",
+    "cliente": "Orlando-Babato Group",
+    "piva": "16855359572",
+    "indirizzo": "Contrada Bajardi, 67 19015, Montale (SP)",
+    "totale": 986.17,
+    "iva": "22%"
+  }
+}

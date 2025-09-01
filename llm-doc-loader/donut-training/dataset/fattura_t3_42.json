@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1937",
+    "data": "2022-12-17",
+    "cliente": "Priuli Group",
+    "piva": "29556847899",
+    "indirizzo": "Viale Milanesi, 11 Piano 2 00036, Carchitti (RM)",
+    "totale": 70.73,
+    "iva": "22%"
+  }
+}

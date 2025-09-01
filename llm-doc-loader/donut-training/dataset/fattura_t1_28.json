@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4623",
+    "data": "2023-09-15",
+    "cliente": "Trotta, Odescalchi e Tarchetti e figli",
+    "piva": "15229778394",
+    "indirizzo": "Contrada Maria, 177 Piano 9 52028, Terranuova Bracciolini (AR)",
+    "totale": 184.63,
+    "iva": "22%"
+  }
+}

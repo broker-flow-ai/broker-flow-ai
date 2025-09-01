@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9666",
+    "data": "2023-08-18",
+    "cliente": "Tasso SPA",
+    "piva": "77717943797",
+    "indirizzo": "Stretto Franco, 5 13048, Santhia' (VC)",
+    "totale": 232.89,
+    "iva": "22%"
+  }
+}

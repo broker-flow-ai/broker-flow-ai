@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5399",
+    "data": "2020-09-22",
+    "cliente": "Sraffa Group",
+    "piva": "5149552194",
+    "indirizzo": "Canale Nino, 823 Piano 2 36035, Marano Vicentino (VI)",
+    "totale": 1448.81,
+    "iva": "22%"
+  }
+}

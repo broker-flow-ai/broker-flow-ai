@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5062",
+    "data": "2021-10-10",
+    "cliente": "Venier-Amato e figli",
+    "piva": "63293962276",
+    "indirizzo": "Vicolo Cicilia, 68 Appartamento 20 10142, Torino (TO)",
+    "totale": 817.05,
+    "iva": "22%"
+  }
+}

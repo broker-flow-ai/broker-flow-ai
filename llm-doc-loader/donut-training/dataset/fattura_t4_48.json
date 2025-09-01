@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6952",
+    "data": "2024-05-04",
+    "cliente": "Polesel-Canali SPA",
+    "piva": "53997952761",
+    "indirizzo": "Rotonda Venditti, 99 46029, Sailetto (MN)",
+    "totale": 1059.55,
+    "iva": "22%"
+  }
+}

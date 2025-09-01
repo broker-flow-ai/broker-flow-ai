@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9539",
+    "data": "2021-03-26",
+    "cliente": "Santoro, Parisi e Giovine SPA",
+    "piva": "34101433677",
+    "indirizzo": "Via Amadeo, 25 03012, Anagni (FR)",
+    "totale": 1166.83,
+    "iva": "22%"
+  }
+}

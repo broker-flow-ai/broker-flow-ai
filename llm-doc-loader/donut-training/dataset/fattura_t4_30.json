@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3506",
+    "data": "2021-10-14",
+    "cliente": "Cagnotto Group",
+    "piva": "95730685059",
+    "indirizzo": "Vicolo Ludovico, 76 Piano 5 28065, Cerano (NO)",
+    "totale": 375.38,
+    "iva": "22%"
+  }
+}

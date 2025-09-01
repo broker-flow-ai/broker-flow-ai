@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8471",
+    "data": "2024-12-21",
+    "cliente": "Pergolesi, Cutuli e Bazzi e figli",
+    "piva": "7114680126",
+    "indirizzo": "Borgo Ottone, 8 Appartamento 8 82018, Calvi (BN)",
+    "totale": 459.34,
+    "iva": "22%"
+  }
+}

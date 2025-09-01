@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3039",
+    "data": "2024-08-14",
+    "cliente": "Bonaventura SPA",
+    "piva": "56425129671",
+    "indirizzo": "Rotonda Viviani, 37 47867, Talamello (RN)",
+    "totale": 270.79,
+    "iva": "22%"
+  }
+}

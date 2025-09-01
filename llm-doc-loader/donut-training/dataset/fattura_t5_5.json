@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7030",
+    "data": "2023-05-01",
+    "cliente": "Fermi Group",
+    "piva": "69443320577",
+    "indirizzo": "Via Dario, 6 43029, Mamiano (PR)",
+    "totale": 429.18,
+    "iva": "22%"
+  }
+}

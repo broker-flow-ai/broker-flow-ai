@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2558",
+    "data": "2020-04-05",
+    "cliente": "Grossi, Antonini e Federico Group",
+    "piva": "5465585756",
+    "indirizzo": "Contrada Camilla, 34 98020, Pagliara (ME)",
+    "totale": 1654.39,
+    "iva": "22%"
+  }
+}

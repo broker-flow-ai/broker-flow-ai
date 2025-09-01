@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2862",
+    "data": "2024-12-10",
+    "cliente": "Collina-Zito Group",
+    "piva": "90138593618",
+    "indirizzo": "Viale Ernesto, 51 Appartamento 4 16032, San Rocco (GE)",
+    "totale": 720.07,
+    "iva": "22%"
+  }
+}

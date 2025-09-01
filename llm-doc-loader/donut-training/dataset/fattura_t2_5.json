@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6328",
+    "data": "2020-01-05",
+    "cliente": "Ughi s.r.l.",
+    "piva": "64043190908",
+    "indirizzo": "Rotonda Callegaro, 89 Piano 3 41051, Montale (MO)",
+    "totale": 1067.26,
+    "iva": "22%"
+  }
+}

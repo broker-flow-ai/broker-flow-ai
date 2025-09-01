@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2057",
+    "data": "2023-05-20",
+    "cliente": "Oliboni, Pulci e Condoleo e figli",
+    "piva": "7866292626",
+    "indirizzo": "Viale Puglisi, 63 09100, Cagliari (CA)",
+    "totale": 1576.55,
+    "iva": "22%"
+  }
+}

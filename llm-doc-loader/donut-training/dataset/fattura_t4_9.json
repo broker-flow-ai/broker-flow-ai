@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4320",
+    "data": "2024-12-01",
+    "cliente": "Jovinelli SPA",
+    "piva": "58953602600",
+    "indirizzo": "Stretto Prada, 8 20812, Villaggio Del Sole (MB)",
+    "totale": 1520.41,
+    "iva": "22%"
+  }
+}

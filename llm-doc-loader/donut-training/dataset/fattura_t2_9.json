@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3717",
+    "data": "2025-07-28",
+    "cliente": "Vidoni, Contarini e Cabrini s.r.l.",
+    "piva": "69104143092",
+    "indirizzo": "Canale Sommaruga, 7 Piano 3 20087, Robecco Sul Naviglio (MI)",
+    "totale": 852.79,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6238",
+    "data": "2024-05-03",
+    "cliente": "Bernini-Michelangeli s.r.l.",
+    "piva": "64498617861",
+    "indirizzo": "Rotonda Trincavelli, 196 00155, La Rustica (RM)",
+    "totale": 1886.53,
+    "iva": "22%"
+  }
+}

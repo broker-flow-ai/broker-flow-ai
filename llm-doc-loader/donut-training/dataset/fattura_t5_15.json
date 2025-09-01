@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5169",
+    "data": "2020-07-11",
+    "cliente": "Cossiga-Correr e figli",
+    "piva": "78827512388",
+    "indirizzo": "Strada Lilla, 6 34136, Cedas (TS)",
+    "totale": 1172.33,
+    "iva": "22%"
+  }
+}

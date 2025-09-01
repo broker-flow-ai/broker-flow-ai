@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6481",
+    "data": "2025-07-03",
+    "cliente": "Prati, Garzoni e Bixio s.r.l.",
+    "piva": "90428168956",
+    "indirizzo": "Incrocio Angelina, 48 40121, Bologna (BO)",
+    "totale": 174.1,
+    "iva": "22%"
+  }
+}

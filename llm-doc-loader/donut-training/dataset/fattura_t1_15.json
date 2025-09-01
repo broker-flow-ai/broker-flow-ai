@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6907",
+    "data": "2024-01-03",
+    "cliente": "Ferrara s.r.l.",
+    "piva": "7506865288",
+    "indirizzo": "Viale Giuseppe, 383 Appartamento 3 51036, Larciano (PT)",
+    "totale": 1763.77,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3745",
+    "data": "2024-01-23",
+    "cliente": "Barese s.r.l.",
+    "piva": "31682276524",
+    "indirizzo": "Incrocio Canil, 81 Appartamento 83 37053, Asparetto (VR)",
+    "totale": 1153.28,
+    "iva": "22%"
+  }
+}

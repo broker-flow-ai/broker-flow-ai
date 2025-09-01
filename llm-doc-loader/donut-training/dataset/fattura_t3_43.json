@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6714",
+    "data": "2024-07-09",
+    "cliente": "Luria-Cusano s.r.l.",
+    "piva": "14718462401",
+    "indirizzo": "Stretto Boiardo, 7 28016, Orta Novarese (NO)",
+    "totale": 314.18,
+    "iva": "22%"
+  }
+}

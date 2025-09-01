@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8279",
+    "data": "2020-08-28",
+    "cliente": "Mercalli, Gargallo e Canova s.r.l.",
+    "piva": "77212868448",
+    "indirizzo": "Borgo Offredi, 91 Appartamento 4 32022, Alleghe (BL)",
+    "totale": 1094.29,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2646",
+    "data": "2024-01-23",
+    "cliente": "Verga-Lerner SPA",
+    "piva": "65220845363",
+    "indirizzo": "Strada Grisoni, 555 Piano 0 98138, Pezzolo (ME)",
+    "totale": 1530.65,
+    "iva": "22%"
+  }
+}

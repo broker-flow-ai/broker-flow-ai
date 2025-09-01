@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2087",
+    "data": "2021-10-17",
+    "cliente": "Roth Group",
+    "piva": "70475418429",
+    "indirizzo": "Borgo Flaiano, 6 Piano 8 30038, Spinea (VE)",
+    "totale": 1414.13,
+    "iva": "22%"
+  }
+}

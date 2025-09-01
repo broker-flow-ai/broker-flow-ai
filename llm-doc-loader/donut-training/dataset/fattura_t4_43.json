@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8554",
+    "data": "2020-05-20",
+    "cliente": "Sanudo Group",
+    "piva": "82143864605",
+    "indirizzo": "Via Corrado, 9 Appartamento 9 12048, Sommariva Del Bosco (CN)",
+    "totale": 378.78,
+    "iva": "22%"
+  }
+}

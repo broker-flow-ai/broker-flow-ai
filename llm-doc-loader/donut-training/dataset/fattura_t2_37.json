@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4879",
+    "data": "2023-10-03",
+    "cliente": "Simeoni, Cagnin e Curci SPA",
+    "piva": "6584569889",
+    "indirizzo": "Borgo Tina, 33 89127, Reggio Calabria (RC)",
+    "totale": 702.15,
+    "iva": "22%"
+  }
+}

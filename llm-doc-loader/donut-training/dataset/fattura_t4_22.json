@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4751",
+    "data": "2022-08-02",
+    "cliente": "Pellico-Bellucci s.r.l.",
+    "piva": "4272378321",
+    "indirizzo": "Stretto Federica, 9 Piano 4 55047, Seravezza (LU)",
+    "totale": 1533.9,
+    "iva": "22%"
+  }
+}

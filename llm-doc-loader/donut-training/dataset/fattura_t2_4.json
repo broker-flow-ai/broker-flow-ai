@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8410",
+    "data": "2025-06-08",
+    "cliente": "Beccaria, Barese e Taccola Group",
+    "piva": "99775478645",
+    "indirizzo": "Incrocio Eraldo, 32 07022, Berchidda (SS)",
+    "totale": 848.42,
+    "iva": "22%"
+  }
+}

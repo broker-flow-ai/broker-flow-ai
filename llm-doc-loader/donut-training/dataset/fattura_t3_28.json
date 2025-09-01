@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7587",
+    "data": "2023-06-07",
+    "cliente": "Boezio-Ricolfi SPA",
+    "piva": "15931682654",
+    "indirizzo": "Via Allegra, 295 37055, Albaro (VR)",
+    "totale": 331.81,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8753",
+    "data": "2022-03-05",
+    "cliente": "Dulbecco-Mennea s.r.l.",
+    "piva": "41776178423",
+    "indirizzo": "Canale Elladio, 5 Appartamento 0 30014, Boscochiaro (VE)",
+    "totale": 511.47,
+    "iva": "22%"
+  }
+}

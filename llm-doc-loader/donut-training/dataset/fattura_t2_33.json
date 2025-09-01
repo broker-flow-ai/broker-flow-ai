@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8458",
+    "data": "2023-01-28",
+    "cliente": "Ruggeri-Scaduto Group",
+    "piva": "40516919170",
+    "indirizzo": "Rotonda Tassoni, 40 42011, Bagnolo In Piano (RE)",
+    "totale": 417.26,
+    "iva": "22%"
+  }
+}

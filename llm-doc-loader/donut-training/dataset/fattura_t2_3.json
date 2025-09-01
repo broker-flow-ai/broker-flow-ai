@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2375",
+    "data": "2024-07-23",
+    "cliente": "Scarlatti, Cianciolo e Ruberto s.r.l.",
+    "piva": "93957707393",
+    "indirizzo": "Incrocio Grimani, 323 85033, Episcopia (PZ)",
+    "totale": 1136.47,
+    "iva": "22%"
+  }
+}

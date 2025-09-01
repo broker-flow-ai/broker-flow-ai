@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4210",
+    "data": "2020-10-19",
+    "cliente": "Mazzini-Faggiani e figli",
+    "piva": "7801584830",
+    "indirizzo": "Contrada Antonello, 30 94011, Agira (EN)",
+    "totale": 666.57,
+    "iva": "22%"
+  }
+}

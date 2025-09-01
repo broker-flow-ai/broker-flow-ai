@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6467",
+    "data": "2024-01-13",
+    "cliente": "Chechi Group",
+    "piva": "9072659034",
+    "indirizzo": "Rotonda Giuliano, 57 Appartamento 10 33033, Beano (UD)",
+    "totale": 342.09,
+    "iva": "22%"
+  }
+}

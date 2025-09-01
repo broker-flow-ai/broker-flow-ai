@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4117",
+    "data": "2024-05-21",
+    "cliente": "Camuccini-Doria Group",
+    "piva": "71393254194",
+    "indirizzo": "Borgo Tamborini, 63 Appartamento 3 44012, Scortichino (FE)",
+    "totale": 1060.43,
+    "iva": "22%"
+  }
+}

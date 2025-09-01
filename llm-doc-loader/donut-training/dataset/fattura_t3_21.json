@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2280",
+    "data": "2021-03-17",
+    "cliente": "Trentin, Nitto e Berlusconi s.r.l.",
+    "piva": "48850588007",
+    "indirizzo": "Piazza Turrini, 5 15011, Moirano (AL)",
+    "totale": 721.18,
+    "iva": "22%"
+  }
+}

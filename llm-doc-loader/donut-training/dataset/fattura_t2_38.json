@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8076",
+    "data": "2023-09-17",
+    "cliente": "Sauro-Monduzzi SPA",
+    "piva": "2088142342",
+    "indirizzo": "Viale Bonaventura, 81 70029, Santeramo In Colle (BA)",
+    "totale": 1451.8,
+    "iva": "22%"
+  }
+}

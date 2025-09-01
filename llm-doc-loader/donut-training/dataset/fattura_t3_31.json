@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2237",
+    "data": "2020-12-20",
+    "cliente": "Donatoni, Monaco e Boccherini s.r.l.",
+    "piva": "81689733021",
+    "indirizzo": "Incrocio Toscani, 481 Piano 4 10144, Torino (TO)",
+    "totale": 679.5,
+    "iva": "22%"
+  }
+}

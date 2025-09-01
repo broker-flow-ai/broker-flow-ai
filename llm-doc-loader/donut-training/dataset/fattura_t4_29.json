@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2671",
+    "data": "2022-02-23",
+    "cliente": "Tebaldi, Ferrazzi e Valmarana Group",
+    "piva": "36808749214",
+    "indirizzo": "Piazza Federico, 18 Appartamento 84 58045, Monte Antico (GR)",
+    "totale": 1239.58,
+    "iva": "22%"
+  }
+}

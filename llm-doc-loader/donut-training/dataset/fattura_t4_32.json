@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7306",
+    "data": "2023-08-29",
+    "cliente": "Pascarella-Ferrata Group",
+    "piva": "96797074021",
+    "indirizzo": "Stretto Pratesi, 3 67055, Casali D'Aschi (AQ)",
+    "totale": 724.27,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2632",
+    "data": "2021-11-28",
+    "cliente": "Morabito-Meucci SPA",
+    "piva": "12320667026",
+    "indirizzo": "Borgo Antonello, 70 08038, Sorgono (NU)",
+    "totale": 151.5,
+    "iva": "22%"
+  }
+}

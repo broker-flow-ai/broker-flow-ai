@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5314",
+    "data": "2021-05-02",
+    "cliente": "Caccianemico e figli",
+    "piva": "82462582961",
+    "indirizzo": "Strada Gritti, 941 Piano 5 83030, Zungoli (AV)",
+    "totale": 1526.09,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6470",
+    "data": "2022-11-08",
+    "cliente": "Benussi SPA",
+    "piva": "55949925381",
+    "indirizzo": "Stretto Varano, 676 39054, Collalbo (BZ)",
+    "totale": 543.01,
+    "iva": "22%"
+  }
+}

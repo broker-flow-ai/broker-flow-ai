@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8364",
+    "data": "2021-01-24",
+    "cliente": "Ottino, Telesio e Zabarella s.r.l.",
+    "piva": "50942093964",
+    "indirizzo": "Canale Hugo, 556 92026, Favara (AG)",
+    "totale": 632.33,
+    "iva": "22%"
+  }
+}

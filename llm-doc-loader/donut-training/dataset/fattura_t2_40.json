@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4520",
+    "data": "2022-01-22",
+    "cliente": "Morpurgo Group",
+    "piva": "85686470215",
+    "indirizzo": "Incrocio Leonetti, 26 63827, Pedaso (FM)",
+    "totale": 1807.16,
+    "iva": "22%"
+  }
+}

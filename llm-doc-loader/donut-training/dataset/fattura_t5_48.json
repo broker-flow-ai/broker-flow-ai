@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3797",
+    "data": "2022-04-25",
+    "cliente": "Mocenigo Group",
+    "piva": "58735097983",
+    "indirizzo": "Canale Marcello, 390 43012, Parola (PR)",
+    "totale": 851.65,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6042",
+    "data": "2025-02-22",
+    "cliente": "Soderini, Zito e Vecoli SPA",
+    "piva": "41382093435",
+    "indirizzo": "Stretto Riccati, 34 Appartamento 3 63069, Montedinove (AP)",
+    "totale": 1554.67,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5427",
+    "data": "2023-01-08",
+    "cliente": "Romiti, Giovine e Polizzi Group",
+    "piva": "93978292400",
+    "indirizzo": "Stretto Lercari, 73 14020, Villa San Secondo (AT)",
+    "totale": 139.31,
+    "iva": "22%"
+  }
+}

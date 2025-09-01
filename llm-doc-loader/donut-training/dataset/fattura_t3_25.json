@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4217",
+    "data": "2021-12-09",
+    "cliente": "Ficino-Giradello s.r.l.",
+    "piva": "22205409768",
+    "indirizzo": "Contrada Elena, 9 Appartamento 3 83100, Picarelli (AV)",
+    "totale": 1084.12,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7971",
+    "data": "2021-09-10",
+    "cliente": "Barillaro e figli",
+    "piva": "61809724063",
+    "indirizzo": "Vicolo Cilea, 648 91022, Marinella (TP)",
+    "totale": 1297.46,
+    "iva": "22%"
+  }
+}

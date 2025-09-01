@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1675",
+    "data": "2020-02-09",
+    "cliente": "Guinizzelli-Iacobucci SPA",
+    "piva": "95469148898",
+    "indirizzo": "Viale Antelami, 12 64016, Villa Mattoni (TE)",
+    "totale": 1774.57,
+    "iva": "22%"
+  }
+}

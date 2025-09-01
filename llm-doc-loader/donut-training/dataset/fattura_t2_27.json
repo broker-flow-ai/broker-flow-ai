@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9700",
+    "data": "2022-06-03",
+    "cliente": "Giannetti, Surian e Corcos s.r.l.",
+    "piva": "7830202465",
+    "indirizzo": "Via Giulietta, 2 00192, Roma (RM)",
+    "totale": 863.65,
+    "iva": "22%"
+  }
+}

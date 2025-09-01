@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9435",
+    "data": "2024-07-17",
+    "cliente": "Bernardi, Fracci e Bergoglio Group",
+    "piva": "17753188640",
+    "indirizzo": "Strada Montalti, 425 Piano 5 12072, Camerana (CN)",
+    "totale": 1475.6,
+    "iva": "22%"
+  }
+}

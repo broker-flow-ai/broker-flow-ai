@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4782",
+    "data": "2020-03-15",
+    "cliente": "Verri s.r.l.",
+    "piva": "20070758656",
+    "indirizzo": "Via Nicola, 3 40125, Bologna (BO)",
+    "totale": 1429.64,
+    "iva": "22%"
+  }
+}

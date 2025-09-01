@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2352",
+    "data": "2021-06-29",
+    "cliente": "Spinola SPA",
+    "piva": "35282650962",
+    "indirizzo": "Piazza Giulietti, 3 Appartamento 4 17041, Altare (SV)",
+    "totale": 1322.13,
+    "iva": "22%"
+  }
+}

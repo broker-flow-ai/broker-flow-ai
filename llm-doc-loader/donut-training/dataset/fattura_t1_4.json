@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7604",
+    "data": "2020-01-06",
+    "cliente": "Scaramucci, Olivetti e Orsini Group",
+    "piva": "35627577604",
+    "indirizzo": "Rotonda Iannucci, 0 Appartamento 48 20149, Milano (MI)",
+    "totale": 1870.81,
+    "iva": "22%"
+  }
+}

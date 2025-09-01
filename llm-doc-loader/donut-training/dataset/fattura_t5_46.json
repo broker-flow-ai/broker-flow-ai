@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6085",
+    "data": "2022-05-26",
+    "cliente": "Bramante, Ferrucci e Missoni Group",
+    "piva": "62000087541",
+    "indirizzo": "Contrada Pennetta, 45 20085, Locate Di Triulzi (MI)",
+    "totale": 1857.68,
+    "iva": "22%"
+  }
+}

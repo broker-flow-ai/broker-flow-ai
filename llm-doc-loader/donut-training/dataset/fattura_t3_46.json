@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7382",
+    "data": "2023-08-25",
+    "cliente": "Tasso-Valguarnera e figli",
+    "piva": "12888743103",
+    "indirizzo": "Incrocio Pierangelo, 86 Appartamento 1 89844, Motta Filocastro (VV)",
+    "totale": 1141.46,
+    "iva": "22%"
+  }
+}

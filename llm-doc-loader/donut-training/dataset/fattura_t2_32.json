@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1395",
+    "data": "2020-02-21",
+    "cliente": "Sismondi s.r.l.",
+    "piva": "49106524146",
+    "indirizzo": "Vicolo Giovanni, 56 75022, Taccone (MT)",
+    "totale": 1712.96,
+    "iva": "22%"
+  }
+}

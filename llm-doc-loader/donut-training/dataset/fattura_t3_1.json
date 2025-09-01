@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3347",
+    "data": "2022-07-03",
+    "cliente": "Morrocco, Cavanna e Bruscantini s.r.l.",
+    "piva": "10295219650",
+    "indirizzo": "Stretto Viridiana, 35 Piano 0 33087, Pozzo (PN)",
+    "totale": 1350.93,
+    "iva": "22%"
+  }
+}

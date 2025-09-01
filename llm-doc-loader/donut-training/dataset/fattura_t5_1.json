@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6515",
+    "data": "2023-01-09",
+    "cliente": "Cianciolo, Rosmini e Pizzetti Group",
+    "piva": "6173506789",
+    "indirizzo": "Stretto Riccardi, 224 Piano 9 35024, Bovolenta (PD)",
+    "totale": 1676.73,
+    "iva": "22%"
+  }
+}

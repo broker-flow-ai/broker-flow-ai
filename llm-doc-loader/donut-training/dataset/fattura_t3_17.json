@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2287",
+    "data": "2020-12-04",
+    "cliente": "Fittipaldi, Pulci e Chiappetta SPA",
+    "piva": "76931390603",
+    "indirizzo": "Contrada Roberto, 39 Piano 9 40057, Fabbreria Di Cadriana (BO)",
+    "totale": 1093.58,
+    "iva": "22%"
+  }
+}

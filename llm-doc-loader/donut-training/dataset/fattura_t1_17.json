@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8833",
+    "data": "2023-02-10",
+    "cliente": "Prodi, Ceschi e Ricciardi e figli",
+    "piva": "78124698494",
+    "indirizzo": "Piazza Pierangelo, 51 Appartamento 11 26816, Ossago Lodigiano (LO)",
+    "totale": 851.09,
+    "iva": "22%"
+  }
+}

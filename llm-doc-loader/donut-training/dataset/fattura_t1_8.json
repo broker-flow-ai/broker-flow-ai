@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1646",
+    "data": "2020-06-15",
+    "cliente": "Scarfoglio, Barcella e Pacelli Group",
+    "piva": "21301950929",
+    "indirizzo": "Incrocio Fabia, 892 22078, Turate (CO)",
+    "totale": 1431.87,
+    "iva": "22%"
+  }
+}

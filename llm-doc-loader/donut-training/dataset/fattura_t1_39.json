@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7579",
+    "data": "2024-11-14",
+    "cliente": "Monaco, Luciani e Cheda e figli",
+    "piva": "74480650164",
+    "indirizzo": "Canale Ubaldo, 89 55042, Forte Dei Marmi (LU)",
+    "totale": 1843.03,
+    "iva": "22%"
+  }
+}

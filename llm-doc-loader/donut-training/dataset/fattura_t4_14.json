@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8522",
+    "data": "2023-04-28",
+    "cliente": "Monduzzi, Greco e Panatta s.r.l.",
+    "piva": "25898702275",
+    "indirizzo": "Contrada Ferrante, 8 23874, Quattro Strade (LC)",
+    "totale": 391.07,
+    "iva": "22%"
+  }
+}

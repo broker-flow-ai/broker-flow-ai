@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9237",
+    "data": "2024-08-14",
+    "cliente": "Zamengo s.r.l.",
+    "piva": "96607368911",
+    "indirizzo": "Incrocio Rastelli, 169 16134, Genova (GE)",
+    "totale": 1437.49,
+    "iva": "22%"
+  }
+}

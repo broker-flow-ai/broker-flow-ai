@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6234",
+    "data": "2023-02-24",
+    "cliente": "Montalti-Scarponi e figli",
+    "piva": "65747876752",
+    "indirizzo": "Piazza Carfagna, 84 81023, Cervino (CE)",
+    "totale": 639.41,
+    "iva": "22%"
+  }
+}

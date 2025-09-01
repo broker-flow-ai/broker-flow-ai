@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8874",
+    "data": "2023-12-09",
+    "cliente": "Turchetta Group",
+    "piva": "2026289783",
+    "indirizzo": "Incrocio Filippini, 5 Appartamento 43 23036, Tresenda (SO)",
+    "totale": 1188.94,
+    "iva": "22%"
+  }
+}

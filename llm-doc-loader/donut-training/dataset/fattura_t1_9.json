@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1043",
+    "data": "2022-01-20",
+    "cliente": "Vigorelli s.r.l.",
+    "piva": "40338675418",
+    "indirizzo": "Incrocio Monteverdi, 9 39026, Agums (BZ)",
+    "totale": 1088.34,
+    "iva": "22%"
+  }
+}

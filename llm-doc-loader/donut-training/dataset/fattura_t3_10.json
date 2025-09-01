@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8459",
+    "data": "2024-04-16",
+    "cliente": "Babato, Gianetti e Bosio Group",
+    "piva": "74523759378",
+    "indirizzo": "Strada Giovanni, 6 43036, Chiusa Ferranda (PR)",
+    "totale": 1426.62,
+    "iva": "22%"
+  }
+}

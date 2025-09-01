@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4176",
+    "data": "2025-08-11",
+    "cliente": "Govoni-Tutino SPA",
+    "piva": "37244032394",
+    "indirizzo": "Via Antelami, 24 Appartamento 11 71020, Rocchetta Sant'Antonio Stazione (FG)",
+    "totale": 1446.38,
+    "iva": "22%"
+  }
+}

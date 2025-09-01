@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1495",
+    "data": "2022-03-25",
+    "cliente": "Doglioni-Fracci e figli",
+    "piva": "2638264204",
+    "indirizzo": "Rotonda Argentero, 50 Appartamento 29 73011, Alezio (LE)",
+    "totale": 452.51,
+    "iva": "22%"
+  }
+}

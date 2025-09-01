@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1582",
+    "data": "2021-10-23",
+    "cliente": "Michelangeli SPA",
+    "piva": "58462576199",
+    "indirizzo": "Contrada Panatta, 1 Piano 2 23823, Colico Piano (LC)",
+    "totale": 414.94,
+    "iva": "22%"
+  }
+}

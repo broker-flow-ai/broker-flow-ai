@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2344",
+    "data": "2023-01-13",
+    "cliente": "Cristoforetti-Sbarbaro SPA",
+    "piva": "15148583268",
+    "indirizzo": "Contrada Luzi, 898 Appartamento 82 67031, Roccacinquemiglia (AQ)",
+    "totale": 543.21,
+    "iva": "22%"
+  }
+}

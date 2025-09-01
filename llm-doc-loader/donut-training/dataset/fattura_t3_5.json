@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5949",
+    "data": "2025-08-25",
+    "cliente": "Fantini-Nitti SPA",
+    "piva": "9770781272",
+    "indirizzo": "Incrocio Fallaci, 34 Piano 7 41049, San Michele Dei Mucchietti (MO)",
+    "totale": 1476.12,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4903",
+    "data": "2021-11-25",
+    "cliente": "Montessori Group",
+    "piva": "45826973654",
+    "indirizzo": "Rotonda Pellegrino, 689 Appartamento 98 90036, Portella Di Mare (PA)",
+    "totale": 348.47,
+    "iva": "22%"
+  }
+}

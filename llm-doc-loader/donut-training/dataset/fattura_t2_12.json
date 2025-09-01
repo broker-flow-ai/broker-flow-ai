@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7139",
+    "data": "2022-03-04",
+    "cliente": "Curatoli-Infantino SPA",
+    "piva": "88504265617",
+    "indirizzo": "Canale Mariana, 394 19126, Isola (SP)",
+    "totale": 311.23,
+    "iva": "22%"
+  }
+}

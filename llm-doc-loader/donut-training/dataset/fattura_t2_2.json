@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3929",
+    "data": "2025-04-03",
+    "cliente": "Mimun-Chiaramonte Group",
+    "piva": "8696618281",
+    "indirizzo": "Stretto Canil, 33 Piano 5 35128, Padova (PD)",
+    "totale": 261.71,
+    "iva": "22%"
+  }
+}

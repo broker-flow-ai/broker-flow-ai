@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9397",
+    "data": "2020-05-20",
+    "cliente": "Fagotto-Farina Group",
+    "piva": "22076481973",
+    "indirizzo": "Viale Ignazio, 823 Appartamento 45 88067, Olivadi (CZ)",
+    "totale": 1215.12,
+    "iva": "22%"
+  }
+}

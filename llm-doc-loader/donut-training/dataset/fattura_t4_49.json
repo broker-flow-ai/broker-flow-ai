@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9932",
+    "data": "2024-04-22",
+    "cliente": "Fuseli, Giannuzzi e Disdero SPA",
+    "piva": "36537398430",
+    "indirizzo": "Via Condoleo, 796 50034, Crespino Del Lamone (FI)",
+    "totale": 943.53,
+    "iva": "22%"
+  }
+}

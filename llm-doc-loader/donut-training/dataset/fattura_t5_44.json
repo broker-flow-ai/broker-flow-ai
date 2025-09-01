@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2241",
+    "data": "2021-09-20",
+    "cliente": "Marangoni, Gigli e Romiti SPA",
+    "piva": "29053949033",
+    "indirizzo": "Contrada Caboto, 72 26048, Sospiro (CR)",
+    "totale": 492.58,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6795",
+    "data": "2023-01-09",
+    "cliente": "Gregorio e figli",
+    "piva": "93463078763",
+    "indirizzo": "Rotonda Alfio, 34 Appartamento 2 35122, Padova (PD)",
+    "totale": 170.84,
+    "iva": "22%"
+  }
+}

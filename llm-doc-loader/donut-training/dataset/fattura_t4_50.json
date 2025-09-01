@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4474",
+    "data": "2023-12-03",
+    "cliente": "Mazzeo Group",
+    "piva": "66381554265",
+    "indirizzo": "Via Gotti, 35 Appartamento 1 80137, Napoli (NA)",
+    "totale": 297.7,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4796",
+    "data": "2021-01-19",
+    "cliente": "Cugia-Casale Group",
+    "piva": "12054190457",
+    "indirizzo": "Strada Bajamonti, 69 71043, Siponto (FG)",
+    "totale": 977.79,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8879",
+    "data": "2022-03-19",
+    "cliente": "Spadafora, Infantino e Volta e figli",
+    "piva": "56267998650",
+    "indirizzo": "Piazza Marconi, 85 Piano 1 40020, Casalfiumanese (BO)",
+    "totale": 1305.75,
+    "iva": "22%"
+  }
+}

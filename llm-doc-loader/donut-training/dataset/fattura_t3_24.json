@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7773",
+    "data": "2023-05-04",
+    "cliente": "Romano e figli",
+    "piva": "49972079657",
+    "indirizzo": "Stretto Niccolò, 584 76011, Bisceglie (BT)",
+    "totale": 1901.48,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1552",
+    "data": "2020-01-04",
+    "cliente": "Zampa SPA",
+    "piva": "10832875289",
+    "indirizzo": "Via Mancini, 66 Appartamento 5 75013, Borgo Macchia (MT)",
+    "totale": 1823.24,
+    "iva": "22%"
+  }
+}

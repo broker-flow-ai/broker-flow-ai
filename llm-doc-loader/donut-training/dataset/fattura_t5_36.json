@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9623",
+    "data": "2022-08-26",
+    "cliente": "Virgilio, Catenazzi e Mazzocchi s.r.l.",
+    "piva": "12709614934",
+    "indirizzo": "Rotonda Polizzi, 49 Piano 0 90029, Valledolmo (PA)",
+    "totale": 1460.24,
+    "iva": "22%"
+  }
+}

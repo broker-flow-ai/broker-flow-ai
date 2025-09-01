@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5467",
+    "data": "2020-09-18",
+    "cliente": "Agnesi Group",
+    "piva": "60300101720",
+    "indirizzo": "Vicolo Massimiliano, 7 Appartamento 7 76015, Trinitapoli (BT)",
+    "totale": 661.77,
+    "iva": "22%"
+  }
+}

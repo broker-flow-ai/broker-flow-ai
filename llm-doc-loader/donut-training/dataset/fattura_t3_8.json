@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6560",
+    "data": "2024-06-05",
+    "cliente": "Ciampi SPA",
+    "piva": "52831708709",
+    "indirizzo": "Piazza Ludovico, 26 Appartamento 5 03049, Valleluce (FR)",
+    "totale": 1898.69,
+    "iva": "22%"
+  }
+}

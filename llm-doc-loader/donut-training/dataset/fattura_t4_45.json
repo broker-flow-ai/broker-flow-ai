@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4030",
+    "data": "2023-12-29",
+    "cliente": "Biagiotti-Cesaroni SPA",
+    "piva": "74117102342",
+    "indirizzo": "Via Calvo, 54 03029, Castelmassimo (FR)",
+    "totale": 1839.52,
+    "iva": "22%"
+  }
+}

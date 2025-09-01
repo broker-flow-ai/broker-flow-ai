@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6001",
+    "data": "2021-01-31",
+    "cliente": "Pareto-Bataglia e figli",
+    "piva": "27307329616",
+    "indirizzo": "Incrocio Ricciardi, 47 Piano 8 16044, Cicagna (GE)",
+    "totale": 643.51,
+    "iva": "22%"
+  }
+}

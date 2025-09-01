@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3017",
+    "data": "2023-11-14",
+    "cliente": "Moneta e figli",
+    "piva": "57318113332",
+    "indirizzo": "Piazza Antonelli, 0 Appartamento 57 24030, Capizzone (BG)",
+    "totale": 809.0,
+    "iva": "22%"
+  }
+}

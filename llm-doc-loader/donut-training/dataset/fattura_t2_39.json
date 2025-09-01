@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5484",
+    "data": "2022-02-12",
+    "cliente": "Catalano, Pulci e Donatoni s.r.l.",
+    "piva": "48007007682",
+    "indirizzo": "Stretto Durante, 785 57039, Rio Nell'Elba (LI)",
+    "totale": 546.95,
+    "iva": "22%"
+  }
+}

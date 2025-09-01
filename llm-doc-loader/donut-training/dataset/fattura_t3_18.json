@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9543",
+    "data": "2023-03-11",
+    "cliente": "Finetti-Petralli e figli",
+    "piva": "68272664166",
+    "indirizzo": "Borgo Beatrice, 9 Appartamento 14 87032, Amantea Marina (CS)",
+    "totale": 1205.81,
+    "iva": "22%"
+  }
+}

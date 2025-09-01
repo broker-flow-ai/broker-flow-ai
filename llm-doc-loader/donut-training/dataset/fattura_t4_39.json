@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5081",
+    "data": "2024-06-17",
+    "cliente": "Tebaldi-Gualandi SPA",
+    "piva": "63949905641",
+    "indirizzo": "Borgo Susanna, 535 63838, Belmonte Piceno (FM)",
+    "totale": 526.32,
+    "iva": "22%"
+  }
+}

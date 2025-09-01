@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3364",
+    "data": "2022-12-06",
+    "cliente": "Briccialdi-Stein e figli",
+    "piva": "78696595734",
+    "indirizzo": "Rotonda Ubaldo, 798 Piano 8 08037, Seui (NU)",
+    "totale": 219.98,
+    "iva": "22%"
+  }
+}

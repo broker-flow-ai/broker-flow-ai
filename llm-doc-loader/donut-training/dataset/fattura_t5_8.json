@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9522",
+    "data": "2021-01-25",
+    "cliente": "Taccola, Bernini e Pometta e figli",
+    "piva": "46831581443",
+    "indirizzo": "Vicolo Costantino, 6 Piano 5 67045, Casamaina Di Lucoli (AQ)",
+    "totale": 151.12,
+    "iva": "22%"
+  }
+}

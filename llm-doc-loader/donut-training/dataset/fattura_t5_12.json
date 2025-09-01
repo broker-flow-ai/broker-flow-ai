@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5442",
+    "data": "2021-03-23",
+    "cliente": "Torricelli, Pergolesi e Maffei s.r.l.",
+    "piva": "92259409639",
+    "indirizzo": "Piazza Fracci, 23 20142, Milano (MI)",
+    "totale": 1157.85,
+    "iva": "22%"
+  }
+}

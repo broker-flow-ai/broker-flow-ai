@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8633",
+    "data": "2021-08-08",
+    "cliente": "Palmisano-Monteverdi Group",
+    "piva": "74596843804",
+    "indirizzo": "Vicolo Garzoni, 319 Appartamento 9 92017, Sambuca Di Sicilia (AG)",
+    "totale": 1561.91,
+    "iva": "22%"
+  }
+}

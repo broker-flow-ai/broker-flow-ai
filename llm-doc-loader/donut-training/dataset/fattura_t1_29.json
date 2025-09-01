@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8246",
+    "data": "2024-12-14",
+    "cliente": "Montanari-Taccola s.r.l.",
+    "piva": "73493328605",
+    "indirizzo": "Vicolo Mascheroni, 2 Piano 4 41049, Montegibbio (MO)",
+    "totale": 1244.17,
+    "iva": "22%"
+  }
+}

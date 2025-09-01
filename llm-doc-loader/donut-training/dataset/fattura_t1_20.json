@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4904",
+    "data": "2022-03-29",
+    "cliente": "Pometta, Gentilini e Ottino Group",
+    "piva": "58630933224",
+    "indirizzo": "Piazza Paola, 498 Piano 0 26030, Ca' De' Mari (CR)",
+    "totale": 1324.47,
+    "iva": "22%"
+  }
+}

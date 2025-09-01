@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3148",
+    "data": "2023-08-28",
+    "cliente": "Ginese, Pagliaro e Combi Group",
+    "piva": "74365139820",
+    "indirizzo": "Via Iolanda, 89 Piano 0 28078, Romagnano Sesia (NO)",
+    "totale": 1121.05,
+    "iva": "22%"
+  }
+}

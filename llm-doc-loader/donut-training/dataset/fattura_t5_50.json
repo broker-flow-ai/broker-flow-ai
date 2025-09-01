@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8461",
+    "data": "2021-04-29",
+    "cliente": "Argurio-Giorgetti Group",
+    "piva": "91411442681",
+    "indirizzo": "Viale Zeffirelli, 216 Piano 9 52010, Moggiona Di Poppi (AR)",
+    "totale": 977.57,
+    "iva": "22%"
+  }
+}

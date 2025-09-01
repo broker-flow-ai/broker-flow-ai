@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3345",
+    "data": "2025-01-07",
+    "cliente": "Pontecorvo-Cimini s.r.l.",
+    "piva": "54980829578",
+    "indirizzo": "Via Galilei, 890 12056, San Donato Di Mango (CN)",
+    "totale": 1349.28,
+    "iva": "22%"
+  }
+}

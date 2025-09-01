@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3808",
+    "data": "2020-11-26",
+    "cliente": "Monaco-Ariasso e figli",
+    "piva": "61773216849",
+    "indirizzo": "Incrocio Ugolino, 31 12075, Trappa (CN)",
+    "totale": 1437.04,
+    "iva": "22%"
+  }
+}

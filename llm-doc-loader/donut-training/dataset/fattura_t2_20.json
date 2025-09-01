@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9562",
+    "data": "2020-06-19",
+    "cliente": "Salvini Group",
+    "piva": "25610051865",
+    "indirizzo": "Via Federica, 455 09121, Cagliari (CA)",
+    "totale": 155.22,
+    "iva": "22%"
+  }
+}

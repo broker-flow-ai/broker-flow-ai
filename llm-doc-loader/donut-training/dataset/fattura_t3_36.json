@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9258",
+    "data": "2024-02-03",
+    "cliente": "Pace, Abate e Gatto s.r.l.",
+    "piva": "4240349253",
+    "indirizzo": "Rotonda Salata, 31 Piano 7 28865, Preglia (VB)",
+    "totale": 313.4,
+    "iva": "22%"
+  }
+}

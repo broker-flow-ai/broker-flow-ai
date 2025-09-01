@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3760",
+    "data": "2022-06-01",
+    "cliente": "Schiaparelli, Renault e Paganini e figli",
+    "piva": "71614930963",
+    "indirizzo": "Vicolo Gozzi, 69 15043, Fubine (AL)",
+    "totale": 647.48,
+    "iva": "22%"
+  }
+}

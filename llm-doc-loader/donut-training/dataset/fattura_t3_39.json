@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7881",
+    "data": "2021-11-20",
+    "cliente": "Pirandello s.r.l.",
+    "piva": "41757946720",
+    "indirizzo": "Strada Rosina, 3 Appartamento 5 55025, Tereglio (LU)",
+    "totale": 1112.47,
+    "iva": "22%"
+  }
+}

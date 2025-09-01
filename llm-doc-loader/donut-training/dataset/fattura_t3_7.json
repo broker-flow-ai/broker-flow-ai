@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3170",
+    "data": "2025-02-27",
+    "cliente": "Mozart-Micca Group",
+    "piva": "35824229219",
+    "indirizzo": "Viale Stefani, 12 83042, Atripalda (AV)",
+    "totale": 1002.09,
+    "iva": "22%"
+  }
+}

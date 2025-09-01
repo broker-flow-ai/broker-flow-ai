@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8133",
+    "data": "2020-08-18",
+    "cliente": "Marazzi e figli",
+    "piva": "75976042193",
+    "indirizzo": "Contrada Moccia, 46 10048, Garino (TO)",
+    "totale": 1387.52,
+    "iva": "22%"
+  }
+}

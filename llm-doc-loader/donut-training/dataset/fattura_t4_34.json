@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4979",
+    "data": "2024-08-02",
+    "cliente": "Navone, Romano e Leonetti s.r.l.",
+    "piva": "12946907190",
+    "indirizzo": "Viale Elladio, 5 Appartamento 62 87075, Trebisacce (CS)",
+    "totale": 539.25,
+    "iva": "22%"
+  }
+}

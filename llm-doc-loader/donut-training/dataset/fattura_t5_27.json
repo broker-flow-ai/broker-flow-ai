@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8727",
+    "data": "2024-01-31",
+    "cliente": "Cicala-Prada SPA",
+    "piva": "26660633313",
+    "indirizzo": "Rotonda Bottaro, 1 Appartamento 54 20872, Colnago (MB)",
+    "totale": 1945.42,
+    "iva": "22%"
+  }
+}

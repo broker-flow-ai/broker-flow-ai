@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6910",
+    "data": "2020-06-09",
+    "cliente": "Mascagni-Vattimo SPA",
+    "piva": "45629547494",
+    "indirizzo": "Borgo Giacconi, 969 36073, Cereda (VI)",
+    "totale": 1616.22,
+    "iva": "22%"
+  }
+}

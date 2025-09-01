@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8109",
+    "data": "2021-05-20",
+    "cliente": "Stein-Praga SPA",
+    "piva": "38233729405",
+    "indirizzo": "Via Michela, 343 Appartamento 27 28075, Grignasco (NO)",
+    "totale": 214.61,
+    "iva": "22%"
+  }
+}

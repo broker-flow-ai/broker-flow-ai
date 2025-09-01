@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2985",
+    "data": "2023-10-02",
+    "cliente": "Bataglia Group",
+    "piva": "92611929451",
+    "indirizzo": "Borgo Ignazio, 79 Appartamento 36 75027, San Giorgio Lucano (MT)",
+    "totale": 706.39,
+    "iva": "22%"
+  }
+}

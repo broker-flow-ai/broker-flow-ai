@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2167",
+    "data": "2023-07-02",
+    "cliente": "Torlonia-Soffici s.r.l.",
+    "piva": "83579930243",
+    "indirizzo": "Incrocio Gelsomina, 80 87074, Rocca Imperiale (CS)",
+    "totale": 643.36,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5820",
+    "data": "2023-09-25",
+    "cliente": "Cafarchia, Luciani e Pigafetta e figli",
+    "piva": "35601331938",
+    "indirizzo": "Via Bottigliero, 44 90135, Palermo (PA)",
+    "totale": 1078.69,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2086",
+    "data": "2020-03-27",
+    "cliente": "Samele, Lippomano e Battelli Group",
+    "piva": "27561837578",
+    "indirizzo": "Stretto Tafuri, 362 26835, Crespiatica (LO)",
+    "totale": 526.04,
+    "iva": "22%"
+  }
+}

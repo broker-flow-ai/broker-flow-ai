@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6878",
+    "data": "2022-04-28",
+    "cliente": "Caironi e figli",
+    "piva": "39621394711",
+    "indirizzo": "Vicolo Virgilio, 74 95022, San Nicolo' (CT)",
+    "totale": 444.57,
+    "iva": "22%"
+  }
+}

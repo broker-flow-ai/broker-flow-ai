@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6191",
+    "data": "2021-01-12",
+    "cliente": "Rubbia, Combi e Canali SPA",
+    "piva": "97759495014",
+    "indirizzo": "Via Pininfarina, 53 92015, Raffadali (AG)",
+    "totale": 1163.81,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6619",
+    "data": "2025-07-26",
+    "cliente": "Bartoli-Mondadori Group",
+    "piva": "38499487957",
+    "indirizzo": "Vicolo Paganini, 325 Piano 9 86044, Colletorto (CB)",
+    "totale": 470.41,
+    "iva": "22%"
+  }
+}

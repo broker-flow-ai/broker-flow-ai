@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7472",
+    "data": "2021-11-25",
+    "cliente": "Bramante Group",
+    "piva": "83466730283",
+    "indirizzo": "Contrada Callegaro, 77 Piano 6 03044, Pacitti (FR)",
+    "totale": 174.0,
+    "iva": "22%"
+  }
+}

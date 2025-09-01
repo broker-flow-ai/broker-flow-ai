@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8116",
+    "data": "2021-03-13",
+    "cliente": "Porcellato, Fattori e Fioravanti s.r.l.",
+    "piva": "7184931432",
+    "indirizzo": "Borgo Florio, 4 Appartamento 2 40048, San Benedetto Val Di Sambro (BO)",
+    "totale": 663.87,
+    "iva": "22%"
+  }
+}

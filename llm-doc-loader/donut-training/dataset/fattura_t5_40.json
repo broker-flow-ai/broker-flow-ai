@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4272",
+    "data": "2024-06-20",
+    "cliente": "Sansoni s.r.l.",
+    "piva": "71678833711",
+    "indirizzo": "Strada Bruno, 72 Piano 1 07032, Nulvi (SS)",
+    "totale": 711.99,
+    "iva": "22%"
+  }
+}

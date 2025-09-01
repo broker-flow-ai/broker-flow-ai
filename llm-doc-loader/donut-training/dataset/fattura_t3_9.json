@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3098",
+    "data": "2025-06-25",
+    "cliente": "Tron-Dellucci s.r.l.",
+    "piva": "6263403094",
+    "indirizzo": "Via Majewski, 319 16163, Genova (GE)",
+    "totale": 1319.78,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8261",
+    "data": "2023-09-07",
+    "cliente": "Tornatore e figli",
+    "piva": "94289490326",
+    "indirizzo": "Via Cuda, 33 Piano 9 37050, Belfiore (VR)",
+    "totale": 741.63,
+    "iva": "22%"
+  }
+}

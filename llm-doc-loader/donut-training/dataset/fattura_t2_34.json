@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9668",
+    "data": "2020-09-29",
+    "cliente": "Bazzi, Foa e Garibaldi s.r.l.",
+    "piva": "62907396515",
+    "indirizzo": "Strada Lisa, 20 84131, Mercatello Di Salerno (SA)",
+    "totale": 1161.92,
+    "iva": "22%"
+  }
+}

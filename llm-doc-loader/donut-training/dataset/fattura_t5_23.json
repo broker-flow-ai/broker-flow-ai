@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5431",
+    "data": "2020-02-03",
+    "cliente": "Barese-Abate SPA",
+    "piva": "40457147637",
+    "indirizzo": "Via Sauro, 738 Appartamento 23 70042, Mola Di Bari (BA)",
+    "totale": 1319.5,
+    "iva": "22%"
+  }
+}

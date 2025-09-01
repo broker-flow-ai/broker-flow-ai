@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7884",
+    "data": "2023-09-17",
+    "cliente": "Maderno, Nitti e Bonino Group",
+    "piva": "30492394258",
+    "indirizzo": "Borgo Pignatti, 6 Piano 7 02025, Castelmareri (RI)",
+    "totale": 760.75,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8377",
+    "data": "2024-11-24",
+    "cliente": "Manacorda-Ponti Group",
+    "piva": "36781789257",
+    "indirizzo": "Strada Vigliotti, 10 21043, Gornate Superiore (VA)",
+    "totale": 999.27,
+    "iva": "22%"
+  }
+}

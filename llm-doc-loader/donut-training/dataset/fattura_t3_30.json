@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6618",
+    "data": "2022-05-18",
+    "cliente": "Calgari SPA",
+    "piva": "45274924509",
+    "indirizzo": "Canale Argan, 58 Piano 7 74011, Marina Di Castellaneta (TA)",
+    "totale": 1766.86,
+    "iva": "22%"
+  }
+}

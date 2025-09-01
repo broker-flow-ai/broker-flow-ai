@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6187",
+    "data": "2023-12-08",
+    "cliente": "Naccari, Udinese e Anguissola e figli",
+    "piva": "27172540222",
+    "indirizzo": "Borgo Gremese, 24 88065, Guardavalle (CZ)",
+    "totale": 69.22,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4423",
+    "data": "2025-07-26",
+    "cliente": "Pedersoli-Pinamonte e figli",
+    "piva": "43879715854",
+    "indirizzo": "Incrocio Tasca, 396 86087, Rionero Sannitico (IS)",
+    "totale": 211.44,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5637",
+    "data": "2022-07-11",
+    "cliente": "Carullo-Marazzi e figli",
+    "piva": "87146792122",
+    "indirizzo": "Incrocio Atenulf, 542 Appartamento 24 95045, Misterbianco (CT)",
+    "totale": 752.12,
+    "iva": "22%"
+  }
+}

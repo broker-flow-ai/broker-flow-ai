@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9211",
+    "data": "2022-08-20",
+    "cliente": "Ravaglioli s.r.l.",
+    "piva": "62790171200",
+    "indirizzo": "Borgo Martino, 92 Piano 7 18023, Cosio Di Arroscia (IM)",
+    "totale": 728.13,
+    "iva": "22%"
+  }
+}

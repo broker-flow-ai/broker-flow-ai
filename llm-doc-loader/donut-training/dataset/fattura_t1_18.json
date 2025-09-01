@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5109",
+    "data": "2021-09-03",
+    "cliente": "Vivaldi, Segrè e Bajardi e figli",
+    "piva": "88940406154",
+    "indirizzo": "Rotonda Orlando, 996 Piano 6 00063, Campagnano Di Roma (RM)",
+    "totale": 1724.96,
+    "iva": "22%"
+  }
+}

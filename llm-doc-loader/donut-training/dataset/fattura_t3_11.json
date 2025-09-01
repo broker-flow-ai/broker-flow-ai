@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6261",
+    "data": "2024-06-26",
+    "cliente": "Pellegrini-Bevilacqua Group",
+    "piva": "20472178085",
+    "indirizzo": "Strada Grimani, 348 87028, Praia A Mare (CS)",
+    "totale": 355.96,
+    "iva": "22%"
+  }
+}

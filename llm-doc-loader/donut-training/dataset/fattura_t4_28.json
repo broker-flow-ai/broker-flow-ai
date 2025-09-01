@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9356",
+    "data": "2022-03-08",
+    "cliente": "Mantegna Group",
+    "piva": "348774807",
+    "indirizzo": "Vicolo Gioffre, 9 Piano 4 32037, Mis (BL)",
+    "totale": 256.34,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6676",
+    "data": "2020-04-26",
+    "cliente": "Silvestri-Sordi e figli",
+    "piva": "7355941596",
+    "indirizzo": "Viale Durante, 74 Appartamento 7 67010, Barete (AQ)",
+    "totale": 762.96,
+    "iva": "22%"
+  }
+}

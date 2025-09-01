@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4171",
+    "data": "2023-12-05",
+    "cliente": "Draghi-Guarana SPA",
+    "piva": "45078088674",
+    "indirizzo": "Canale Gustavo, 113 Piano 7 80145, Scampia (NA)",
+    "totale": 1576.35,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2170",
+    "data": "2022-04-16",
+    "cliente": "Vanvitelli-Passalacqua SPA",
+    "piva": "61121846630",
+    "indirizzo": "Strada Travaglia, 26 Appartamento 16 21036, Gemonio (VA)",
+    "totale": 478.1,
+    "iva": "22%"
+  }
+}

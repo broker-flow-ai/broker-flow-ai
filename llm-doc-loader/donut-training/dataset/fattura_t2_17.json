@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6771",
+    "data": "2021-03-11",
+    "cliente": "Monti, Surian e Zeffirelli s.r.l.",
+    "piva": "70816657701",
+    "indirizzo": "Incrocio Gozzano, 19 20022, Castano Primo (MI)",
+    "totale": 1645.38,
+    "iva": "22%"
+  }
+}

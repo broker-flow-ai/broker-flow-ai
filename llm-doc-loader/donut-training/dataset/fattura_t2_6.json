@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4802",
+    "data": "2025-07-27",
+    "cliente": "Foà, Gagliardi e Petruzzi Group",
+    "piva": "52041705858",
+    "indirizzo": "Via Turati, 0 Appartamento 68 28816, Intragna (VB)",
+    "totale": 1161.27,
+    "iva": "22%"
+  }
+}

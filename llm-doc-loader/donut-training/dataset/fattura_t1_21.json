@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9122",
+    "data": "2025-07-23",
+    "cliente": "Scaduto-Tremonti SPA",
+    "piva": "58822227707",
+    "indirizzo": "Piazza Susanna, 7 38073, Stravino (TN)",
+    "totale": 250.28,
+    "iva": "22%"
+  }
+}

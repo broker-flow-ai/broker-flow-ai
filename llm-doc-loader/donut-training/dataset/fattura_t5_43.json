@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5211",
+    "data": "2021-04-26",
+    "cliente": "Trillini, Bragaglia e Farnese e figli",
+    "piva": "3924605316",
+    "indirizzo": "Strada Prodi, 44 43012, Fontanellato (PR)",
+    "totale": 665.09,
+    "iva": "22%"
+  }
+}

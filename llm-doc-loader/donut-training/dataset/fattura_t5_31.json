@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8657",
+    "data": "2022-10-29",
+    "cliente": "Peano-Gelli e figli",
+    "piva": "2660655228",
+    "indirizzo": "Piazza Pennetta, 20 38073, Cavedine (TN)",
+    "totale": 1522.74,
+    "iva": "22%"
+  }
+}

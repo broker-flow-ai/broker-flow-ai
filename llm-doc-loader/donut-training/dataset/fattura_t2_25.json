@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8054",
+    "data": "2023-08-12",
+    "cliente": "Niggli, Morricone e Toselli Group",
+    "piva": "76450525037",
+    "indirizzo": "Strada Marissa, 99 55013, Lammari (LU)",
+    "totale": 1175.35,
+    "iva": "22%"
+  }
+}

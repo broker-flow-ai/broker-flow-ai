@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1675",
+    "data": "2022-04-05",
+    "cliente": "Stein, Giannone e Ginesio e figli",
+    "piva": "70752706385",
+    "indirizzo": "Contrada Fittipaldi, 753 28021, Borgomanero (NO)",
+    "totale": 62.19,
+    "iva": "22%"
+  }
+}

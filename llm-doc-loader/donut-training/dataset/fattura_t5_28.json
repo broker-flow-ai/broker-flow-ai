@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8942",
+    "data": "2024-11-07",
+    "cliente": "Visconti-Filzi Group",
+    "piva": "14557659908",
+    "indirizzo": "Incrocio Pininfarina, 38 Appartamento 5 43016, Zibello (PR)",
+    "totale": 736.25,
+    "iva": "22%"
+  }
+}

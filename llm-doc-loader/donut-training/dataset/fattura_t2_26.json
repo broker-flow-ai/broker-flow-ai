@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5178",
+    "data": "2022-08-13",
+    "cliente": "Pometta Group",
+    "piva": "14455871234",
+    "indirizzo": "Piazza Gino, 16 53035, Monteriggioni (SI)",
+    "totale": 1669.67,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8459",
+    "data": "2020-11-22",
+    "cliente": "Oliboni-Veltroni s.r.l.",
+    "piva": "58649332374",
+    "indirizzo": "Contrada Enrico, 121 40043, Lama Di Reno (BO)",
+    "totale": 183.67,
+    "iva": "22%"
+  }
+}

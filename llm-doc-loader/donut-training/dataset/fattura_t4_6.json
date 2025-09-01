@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9636",
+    "data": "2024-11-06",
+    "cliente": "Prati-Nievo SPA",
+    "piva": "70189389207",
+    "indirizzo": "Contrada Ludovica, 28 81013, Villa Santa Croce (CE)",
+    "totale": 1058.55,
+    "iva": "22%"
+  }
+}

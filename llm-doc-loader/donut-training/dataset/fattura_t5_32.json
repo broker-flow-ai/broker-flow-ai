@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3289",
+    "data": "2021-05-16",
+    "cliente": "Cibin, Gagliardi e Pacillo s.r.l.",
+    "piva": "4100157796",
+    "indirizzo": "Borgo Venturi, 94 47861, Casteldelci (RN)",
+    "totale": 482.44,
+    "iva": "22%"
+  }
+}

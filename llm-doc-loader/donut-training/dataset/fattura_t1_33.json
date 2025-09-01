@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4705",
+    "data": "2021-07-10",
+    "cliente": "Battisti, Squarcione e Cossiga e figli",
+    "piva": "70690112369",
+    "indirizzo": "Rotonda Adele, 63 37050, Roverchiaretta (VR)",
+    "totale": 822.86,
+    "iva": "22%"
+  }
+}

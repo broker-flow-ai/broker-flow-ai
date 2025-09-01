@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1577",
+    "data": "2023-01-09",
+    "cliente": "Impastato-Vento e figli",
+    "piva": "87454903155",
+    "indirizzo": "Rotonda Antonia, 7 Appartamento 22 89045, Mammola (RC)",
+    "totale": 286.11,
+    "iva": "22%"
+  }
+}

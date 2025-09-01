@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5955",
+    "data": "2022-09-03",
+    "cliente": "Zaguri Group",
+    "piva": "92223876719",
+    "indirizzo": "Via Durante, 24 Appartamento 4 44023, Lagosanto (FE)",
+    "totale": 1020.02,
+    "iva": "22%"
+  }
+}

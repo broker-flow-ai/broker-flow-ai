@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3328",
+    "data": "2020-09-22",
+    "cliente": "Ferragamo s.r.l.",
+    "piva": "28322782249",
+    "indirizzo": "Rotonda Rizzoli, 3 89842, Calimera Calabra (VV)",
+    "totale": 1811.79,
+    "iva": "22%"
+  }
+}

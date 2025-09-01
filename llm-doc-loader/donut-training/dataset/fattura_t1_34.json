@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4404",
+    "data": "2024-11-30",
+    "cliente": "Sordi SPA",
+    "piva": "12929552998",
+    "indirizzo": "Canale Luzi, 1 00068, Rignano Flaminio (RM)",
+    "totale": 449.81,
+    "iva": "22%"
+  }
+}

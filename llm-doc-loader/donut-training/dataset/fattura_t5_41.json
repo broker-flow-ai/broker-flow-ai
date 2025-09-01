@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9849",
+    "data": "2022-06-14",
+    "cliente": "Ferrata, Abatantuono e Barbarigo s.r.l.",
+    "piva": "43881093341",
+    "indirizzo": "Borgo Lolita, 87 Piano 2 37135, Verona (VR)",
+    "totale": 542.32,
+    "iva": "22%"
+  }
+}

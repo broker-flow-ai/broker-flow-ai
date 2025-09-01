@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8163",
+    "data": "2025-07-14",
+    "cliente": "Bocca e figli",
+    "piva": "44550187565",
+    "indirizzo": "Stretto Zaguri, 47 22046, Merone (CO)",
+    "totale": 1612.24,
+    "iva": "22%"
+  }
+}

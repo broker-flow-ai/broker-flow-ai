@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2934",
+    "data": "2020-05-19",
+    "cliente": "Carpaccio s.r.l.",
+    "piva": "54610287369",
+    "indirizzo": "Piazza Giacinto, 812 80032, Casamarciano (NA)",
+    "totale": 699.54,
+    "iva": "22%"
+  }
+}

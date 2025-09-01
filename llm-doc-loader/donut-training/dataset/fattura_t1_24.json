@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9614",
+    "data": "2024-09-20",
+    "cliente": "Marenzio, Tarantino e Garrone e figli",
+    "piva": "89530622727",
+    "indirizzo": "Contrada Bergoglio, 80 Appartamento 19 23016, Mantello (SO)",
+    "totale": 105.69,
+    "iva": "22%"
+  }
+}

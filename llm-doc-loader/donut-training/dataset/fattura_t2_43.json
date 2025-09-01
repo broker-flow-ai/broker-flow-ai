@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2850",
+    "data": "2025-03-06",
+    "cliente": "Medici, Segrè e Salvemini Group",
+    "piva": "70222375088",
+    "indirizzo": "Via Cocci, 61 Appartamento 81 12078, Ormea (CN)",
+    "totale": 1225.64,
+    "iva": "22%"
+  }
+}

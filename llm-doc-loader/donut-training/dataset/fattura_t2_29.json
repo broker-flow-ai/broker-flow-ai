@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9730",
+    "data": "2022-10-28",
+    "cliente": "Taliercio, Gulotta e Moccia Group",
+    "piva": "92628276721",
+    "indirizzo": "Rotonda Marangoni, 7 32028, Sant'Antonio Tortal (BL)",
+    "totale": 1757.2,
+    "iva": "22%"
+  }
+}

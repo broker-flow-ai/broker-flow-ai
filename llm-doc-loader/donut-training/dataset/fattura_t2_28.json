@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6349",
+    "data": "2022-04-09",
+    "cliente": "Maffei s.r.l.",
+    "piva": "33016309080",
+    "indirizzo": "Contrada Civaschi, 99 Piano 0 42042, Fabbrico (RE)",
+    "totale": 552.22,
+    "iva": "22%"
+  }
+}

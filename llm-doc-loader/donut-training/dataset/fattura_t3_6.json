@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3861",
+    "data": "2024-02-29",
+    "cliente": "Castioni-Zichichi Group",
+    "piva": "21895084111",
+    "indirizzo": "Canale Romiti, 5 13021, Alagna Valsesia (VC)",
+    "totale": 173.81,
+    "iva": "22%"
+  }
+}

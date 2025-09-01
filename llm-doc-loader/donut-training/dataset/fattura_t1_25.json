@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "1168",
+    "data": "2023-11-20",
+    "cliente": "Ligorio, Salvini e Paltrinieri Group",
+    "piva": "10974786970",
+    "indirizzo": "Via Orsini, 14 89134, Pellaro (RC)",
+    "totale": 1116.75,
+    "iva": "22%"
+  }
+}

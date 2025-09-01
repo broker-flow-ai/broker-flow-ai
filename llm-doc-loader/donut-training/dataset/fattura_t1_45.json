@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5113",
+    "data": "2025-03-12",
+    "cliente": "Petralli, Comisso e Cantimori SPA",
+    "piva": "67404910513",
+    "indirizzo": "Viale Treves, 25 28821, Cannero Riviera (VB)",
+    "totale": 1902.5,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8677",
+    "data": "2022-11-11",
+    "cliente": "Scarpa, Maffei e Burcardo s.r.l.",
+    "piva": "3624503918",
+    "indirizzo": "Contrada Correr, 650 Piano 4 30014, San Pietro (VE)",
+    "totale": 1487.44,
+    "iva": "22%"
+  }
+}

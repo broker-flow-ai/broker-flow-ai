@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5688",
+    "data": "2020-11-13",
+    "cliente": "Pozzecco, Iadanza e Tutino Group",
+    "piva": "69812436312",
+    "indirizzo": "Borgo Nico, 366 Piano 5 74028, Sava (TA)",
+    "totale": 381.12,
+    "iva": "22%"
+  }
+}

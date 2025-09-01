@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3751",
+    "data": "2021-05-30",
+    "cliente": "Zanichelli-Telesio e figli",
+    "piva": "79792768088",
+    "indirizzo": "Incrocio Bonomo, 746 58012, Giglio Campese (GR)",
+    "totale": 867.68,
+    "iva": "22%"
+  }
+}

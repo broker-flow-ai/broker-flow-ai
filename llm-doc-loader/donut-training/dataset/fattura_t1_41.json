@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9587",
+    "data": "2021-02-15",
+    "cliente": "Marenzio, Squarcione e Govoni e figli",
+    "piva": "94168036723",
+    "indirizzo": "Contrada Allegra, 961 Piano 9 21044, Cavaria Con Premezzo (VA)",
+    "totale": 1404.3,
+    "iva": "22%"
+  }
+}

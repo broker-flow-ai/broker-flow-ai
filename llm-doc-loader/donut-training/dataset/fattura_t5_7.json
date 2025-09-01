@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "8969",
+    "data": "2022-12-27",
+    "cliente": "Mazzocchi, Zanzi e Priuli Group",
+    "piva": "25818101945",
+    "indirizzo": "Incrocio Gilardoni, 360 Appartamento 0 27049, Zenevredo (PV)",
+    "totale": 1246.0,
+    "iva": "22%"
+  }
+}

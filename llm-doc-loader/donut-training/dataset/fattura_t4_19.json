@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7949",
+    "data": "2022-03-01",
+    "cliente": "Canevascini Group",
+    "piva": "32376444559",
+    "indirizzo": "Viale Gioachino, 58 Piano 8 03010, Torre Cajetani (FR)",
+    "totale": 274.14,
+    "iva": "22%"
+  }
+}

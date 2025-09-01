@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "5083",
+    "data": "2021-09-21",
+    "cliente": "Carosone Group",
+    "piva": "2853779625",
+    "indirizzo": "Vicolo Lina, 3 12065, Perno (CN)",
+    "totale": 1423.57,
+    "iva": "22%"
+  }
+}

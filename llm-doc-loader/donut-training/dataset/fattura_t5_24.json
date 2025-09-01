@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6959",
+    "data": "2022-10-30",
+    "cliente": "Roncalli SPA",
+    "piva": "19731541724",
+    "indirizzo": "Piazza Camilla, 68 61028, Sassocorvaro (PU)",
+    "totale": 1092.64,
+    "iva": "22%"
+  }
+}

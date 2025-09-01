@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7078",
+    "data": "2022-09-15",
+    "cliente": "Udinesi, Galilei e Carriera SPA",
+    "piva": "85570723627",
+    "indirizzo": "Vicolo Rosa, 85 Appartamento 3 97010, Giarratana (RG)",
+    "totale": 1969.0,
+    "iva": "22%"
+  }
+}

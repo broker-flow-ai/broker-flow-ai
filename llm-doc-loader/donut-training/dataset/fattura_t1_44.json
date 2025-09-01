@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2153",
+    "data": "2020-05-27",
+    "cliente": "Federici, Bova e Zoppetto s.r.l.",
+    "piva": "32161008655",
+    "indirizzo": "Via Amalia, 480 Appartamento 5 47034, Selbagnone (FC)",
+    "totale": 524.46,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7730",
+    "data": "2023-07-18",
+    "cliente": "Notarbartolo e figli",
+    "piva": "53345734119",
+    "indirizzo": "Via Patrizia, 60 Appartamento 7 63823, Lapedona (FM)",
+    "totale": 1609.27,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7274",
+    "data": "2021-03-07",
+    "cliente": "Condoleo, Paoletti e Battisti s.r.l.",
+    "piva": "9966501026",
+    "indirizzo": "Incrocio Morandi, 61 Piano 7 95124, Catania (CT)",
+    "totale": 334.43,
+    "iva": "22%"
+  }
+}

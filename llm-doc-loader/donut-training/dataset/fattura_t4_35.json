@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2068",
+    "data": "2020-06-05",
+    "cliente": "Giammusso, Merisi e Giannuzzi SPA",
+    "piva": "52856523037",
+    "indirizzo": "Via Micheletto, 595 Appartamento 64 09014, Carloforte (SU)",
+    "totale": 1625.39,
+    "iva": "22%"
+  }
+}

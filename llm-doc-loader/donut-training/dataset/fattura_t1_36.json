@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4854",
+    "data": "2022-01-07",
+    "cliente": "Soprano s.r.l.",
+    "piva": "22691514548",
+    "indirizzo": "Incrocio Paoletta, 68 64031, Arsita (TE)",
+    "totale": 90.18,
+    "iva": "22%"
+  }
+}

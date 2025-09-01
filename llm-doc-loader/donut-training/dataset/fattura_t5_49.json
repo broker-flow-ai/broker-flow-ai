@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9846",
+    "data": "2024-04-28",
+    "cliente": "Varano e figli",
+    "piva": "86874233867",
+    "indirizzo": "Rotonda Vincenzo, 97 65121, Pescara (PE)",
+    "totale": 720.45,
+    "iva": "22%"
+  }
+}

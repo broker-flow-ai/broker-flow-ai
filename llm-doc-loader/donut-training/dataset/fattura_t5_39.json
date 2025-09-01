@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9166",
+    "data": "2020-02-03",
+    "cliente": "Amato-Satriani s.r.l.",
+    "piva": "47576481712",
+    "indirizzo": "Stretto Scarpa, 637 85035, Noepoli (PZ)",
+    "totale": 1400.09,
+    "iva": "22%"
+  }
+}

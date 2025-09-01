@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4004",
+    "data": "2025-01-10",
+    "cliente": "Mantegazza e figli",
+    "piva": "84067879858",
+    "indirizzo": "Stretto Letta, 65 55060, Massa Macinaia (LU)",
+    "totale": 1064.21,
+    "iva": "22%"
+  }
+}

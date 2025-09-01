@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7077",
+    "data": "2023-12-08",
+    "cliente": "Antonetti-Terragni SPA",
+    "piva": "94507886325",
+    "indirizzo": "Incrocio Liliana, 161 Piano 7 62017, Porto Recanati (MC)",
+    "totale": 711.83,
+    "iva": "22%"
+  }
+}

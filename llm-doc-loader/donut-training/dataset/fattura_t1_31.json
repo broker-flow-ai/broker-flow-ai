@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4757",
+    "data": "2022-02-15",
+    "cliente": "Piccio-Castioni s.r.l.",
+    "piva": "16741535878",
+    "indirizzo": "Vicolo Salvemini, 4 54011, Pallerone (MS)",
+    "totale": 567.69,
+    "iva": "22%"
+  }
+}

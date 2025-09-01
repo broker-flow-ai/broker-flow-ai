@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3665",
+    "data": "2025-05-09",
+    "cliente": "Barzini-Chiappetta Group",
+    "piva": "55196874611",
+    "indirizzo": "Vicolo Almagià, 672 Appartamento 76 84066, Rodio (SA)",
+    "totale": 269.54,
+    "iva": "22%"
+  }
+}

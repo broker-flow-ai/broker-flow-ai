@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3329",
+    "data": "2021-03-07",
+    "cliente": "Barcella, Impastato e Lattuada Group",
+    "piva": "95221226226",
+    "indirizzo": "Borgo Galtarossa, 10 Piano 9 14042, Rocchetta Palafea (AT)",
+    "totale": 230.15,
+    "iva": "22%"
+  }
+}

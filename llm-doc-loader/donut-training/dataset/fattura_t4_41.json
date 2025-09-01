@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9675",
+    "data": "2021-12-28",
+    "cliente": "Gabrieli-Leone Group",
+    "piva": "52330535240",
+    "indirizzo": "Via Piazzi, 418 Appartamento 8 15063, Cassano Spinola (AL)",
+    "totale": 886.11,
+    "iva": "22%"
+  }
+}

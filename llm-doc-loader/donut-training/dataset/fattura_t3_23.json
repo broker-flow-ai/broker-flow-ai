@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2907",
+    "data": "2024-11-19",
+    "cliente": "Moccia, Detti e Giulietti s.r.l.",
+    "piva": "16727684160",
+    "indirizzo": "Stretto Toninelli, 20 35030, Baone (PD)",
+    "totale": 1731.48,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "7012",
+    "data": "2023-11-19",
+    "cliente": "Pacelli-Tornatore s.r.l.",
+    "piva": "13257811823",
+    "indirizzo": "Stretto Gianfrancesco, 21 21044, Cavaria Con Premezzo (VA)",
+    "totale": 1908.9,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "2443",
+    "data": "2025-07-30",
+    "cliente": "Puglisi, Vittadello e Orsini s.r.l.",
+    "piva": "25494141656",
+    "indirizzo": "Piazza Matteo, 88 05034, Ferentillo (TR)",
+    "totale": 1187.89,
+    "iva": "22%"
+  }
+}

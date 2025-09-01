@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "3041",
+    "data": "2021-04-16",
+    "cliente": "Pennetta-Mozart Group",
+    "piva": "74314783062",
+    "indirizzo": "Borgo Pierina, 21 Piano 2 10030, Vische (TO)",
+    "totale": 1077.52,
+    "iva": "22%"
+  }
+}

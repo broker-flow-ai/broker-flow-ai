@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4333",
+    "data": "2023-02-17",
+    "cliente": "Semitecolo-Ruffini Group",
+    "piva": "16928149413",
+    "indirizzo": "Piazza Raffaellino, 84 01012, Vico Matrino (VT)",
+    "totale": 942.02,
+    "iva": "22%"
+  }
+}

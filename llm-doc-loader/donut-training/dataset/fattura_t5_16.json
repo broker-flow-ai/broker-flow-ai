@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6565",
+    "data": "2020-01-27",
+    "cliente": "Lopresti, Montecchi e Majewski e figli",
+    "piva": "56808378006",
+    "indirizzo": "Strada Serafina, 983 98030, Mongiuffi Melia (ME)",
+    "totale": 625.32,
+    "iva": "22%"
+  }
+}

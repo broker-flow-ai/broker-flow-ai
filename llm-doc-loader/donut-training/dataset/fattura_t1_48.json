@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "6547",
+    "data": "2021-01-26",
+    "cliente": "Scarpetta e figli",
+    "piva": "99323632591",
+    "indirizzo": "Viale Garrone, 63 Piano 4 23037, Madonna Di Tirano (SO)",
+    "totale": 1726.44,
+    "iva": "22%"
+  }
+}

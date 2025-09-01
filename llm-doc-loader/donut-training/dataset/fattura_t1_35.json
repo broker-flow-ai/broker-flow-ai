@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4938",
+    "data": "2023-07-11",
+    "cliente": "Papetti, Giannone e Pulci SPA",
+    "piva": "42455009577",
+    "indirizzo": "Incrocio Iannelli, 86 63851, Ortezzano (FM)",
+    "totale": 1792.24,
+    "iva": "22%"
+  }
+}

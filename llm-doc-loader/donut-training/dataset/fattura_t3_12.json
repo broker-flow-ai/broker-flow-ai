@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9648",
+    "data": "2024-02-03",
+    "cliente": "Quasimodo-Proietti Group",
+    "piva": "24827106499",
+    "indirizzo": "Incrocio Sandra, 66 Piano 6 57023, San Pietro In Palazzi (LI)",
+    "totale": 672.12,
+    "iva": "22%"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4437",
+    "data": "2021-08-08",
+    "cliente": "Marrone e figli",
+    "piva": "27437895868",
+    "indirizzo": "Viale Corbo, 42 14016, Tigliole (AT)",
+    "totale": 1076.2,
+    "iva": "22%"
+  }
+}

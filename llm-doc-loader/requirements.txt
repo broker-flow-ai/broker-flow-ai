@@ -1,0 +1,15 @@
+paddlepaddle
+paddleocr
+torch
+torchvision
+transformers
+accelerate
+pillow
+opencv-python
+huggingface_hub
+fastapi
+uvicorn
+python-multipart
+protobuf==3.20.*
+openai
+python-stdnum

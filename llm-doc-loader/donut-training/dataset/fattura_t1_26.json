@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "4179",
+    "data": "2023-07-28",
+    "cliente": "Ferrazzi-Ferrari s.r.l.",
+    "piva": "72949718379",
+    "indirizzo": "Stretto Amalia, 449 Appartamento 51 28075, Grignasco (NO)",
+    "totale": 316.6,
+    "iva": "22%"
+  }
+}

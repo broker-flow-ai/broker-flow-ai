@@ -1,0 +1,12 @@
+{
+  "doc_type": "fattura",
+  "metadata": {
+    "numero_fattura": "9427",
+    "data": "2024-10-03",
+    "cliente": "Verri-Ferrabosco SPA",
+    "piva": "16058435083",
+    "indirizzo": "Stretto Elvira, 59 Piano 9 00175, Roma (RM)",
+    "totale": 1432.05,
+    "iva": "22%"
+  }
+}
