@@ -177,10 +177,9 @@ Distribuito sotto licenza MIT. Vedi `LICENSE` per maggiori informazioni.
 
 ## 📞 Contatti
 
-- **Website**: https://brokerflow.ai
-- **Email**: info@brokerflow.ai
-- **Twitter**: [@BrokerFlowAI](https://twitter.com/BrokerFlowAI)
-- **LinkedIn**: [BrokerFlow AI](https://linkedin.com/company/brokerflow-ai)
+- **Website**: [BrokerFlow AI intro](https://antoniotrento.net/portfolio/broker-flow-ai/)
+- **Twitter**: [@lantoniotrento](https://x.com/lantoniotrento)
+- **LinkedIn**: [BrokerFlow AI](https://it.linkedin.com/in/antoniotrento)
 
 ## 🙏 Ringraziamenti
 
