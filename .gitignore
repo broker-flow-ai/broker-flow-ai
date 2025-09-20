@@ -1,3 +1,47 @@
-brokerflow-env
-__pycache__
-*.log
+# File di ambiente - NON COMMETTERE MAI QUESTI FILE
+.env
+*.env
+
+# Copie e backup
+*.copy
+* - Copia/
+* - Copia.txt
+
+# Log e output generati
+logs/
+output/
+inbox/
+compilance/out/
+
+# Cache di Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# File di virtual environment
+venv/
+virtualenv/
+env/
+ENV/
+
+# File specifici del sistema operativo
+.DS_Store
+Thumbs.db
+
+# File di configurazione degli IDE
+.idea/
+.vscode/
+*.swp
+
+# Pacchetti e dipendenze
+node_modules/
+/dist
+
+# Archivi e file compilati
+*.zip
+*.tar.gz
+
+# File di testing e coverage
+.pytest_cache/
+.coverage
+htmlcov/
